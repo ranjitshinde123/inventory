@@ -1,0 +1,73 @@
+{% extends "base.html" %}
+{% load static %}
+
+{% block content %}
+
+
+    <div class="row" style="margin:10px 0px 50px 0px;font-family:'Alkalami'">
+        <div class="col-md-3" >
+            <a href="{% url 'addnoncategory' %}" class="btn btn-lg btn-block btn-huge"
+               style="border-radius: 25px; width:85%; margin:auto;background-color:#4B9FE1; color:white">Category</a>
+        </div>
+        <div class="col-md-3">
+            <a href="{% url 'addnonsubcategory' %}" class="btn btn-lg btn-block btn-huge"
+               style="border-radius: 25px; width:85%; margin:auto;background-color:#4B9FE1; color:white">Sub Category</a>
+        </div>
+        <div class="col-md-3">
+            <a href="{% url 'addnondescription' %}" class="btn btn-dark btn-lg btn-block btn-huge"
+               style="border-radius: 25px; width:85%; margin:auto; background-color:#4B9FE1; color:white; border:none">Description</a>
+        </div>
+        <div class="col-md-3">
+            <a href="{% url 'new-supplier' %}" class="btn btn-dark btn-lg btn-block btn-huge"
+               style="border-radius: 25px; width:85%; margin:auto;background-color:#4B9FE1; color:white; border:none">Supplier</a>
+        </div>
+    </div>
+
+ <div class="card text-left">
+      <div class="card-header" style="background-color:#01345B">
+        <div class="row" style="color: white; font-style: bold; font-size: 3.5rem">
+        <div class="col-md-8" style="font-family: 'Alkalami'" >Add Category</div>
+        </div>
+      </div>
+    <br><!-- Log on to codeastro.com for more projects -->
+     <div class="card-body" style="font-family: 'Alkalami';">
+
+
+    <form method="post" class="panel panel-default">
+
+        {% csrf_token %}
+        {{ form.non_field_errors }}
+
+<!--        <div class="panel-heading panel-heading-text">Category Details</div>-->
+        <div class="panel-body">
+
+            {{ form.category.errors }}
+            <div class="panel-body">
+            {{ form.category.errors }}
+            <div class="form-row">
+                <div class="form-group col-md-12">
+                    <label  class="panel-body-text" style="font-family: 'Alkalami'">Category:</label>
+                    {{ form.category}}
+                </div>
+            </div>
+            </div>
+        </div>
+        <br>
+
+
+                <div class="align-middle" style="font-family:'Alkalami'">
+                    <button type="submit" class="btn btn-info">Submit</button>
+                    <a href="{% url 'master' %}" class="btn center btn-secondary">Go Back</a>
+
+                </div>
+    </form>
+ </div>
+ </div>
+ {% if error == "no" %}
+     <script>
+     alert('category added successfully');
+     window.location=('{% url 'addnoncategory' %}');
+</script>
+     {% endif %}
+
+{% endblock content %}

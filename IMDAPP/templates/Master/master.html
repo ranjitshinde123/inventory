@@ -1,0 +1,75 @@
+{% extends "base.html" %}
+{% load static %}
+{% block title %} Home {% endblock title %}
+{% block content %}
+
+<meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+
+<div class="card text-left" style="font-family:'Alkalami'">
+      <div class="card-header" style="background-color:#01345B">
+        <div class="row no-gutters" style="color: white; font-style: bold; font-size: 3.5rem;">
+            <div class="col-md-12" style="font-family: 'Alkalami';">Master Page</div>
+            <h5>Add Category , Sub-Category , Description and Suppliers</h5>
+        </div>
+      </div>
+
+    <div>
+
+        <div class="card-body" style="font-family: 'Alkalami'">
+        </div>
+
+
+        <div>
+            <h1 style="color: black;font-family: 'Alkalami'; text-align : center ">Consumable Items</h1>
+        </div>
+    <div class="row" style="margin:10px 0px 50px 0px;font-family:'Alkalami'">
+
+        <div class="col-md-3" >
+            <a href="{% url 'addcategory' %}" class="btn btn-lg btn-block btn-huge"
+               style="border-radius: 25px; width:85%; margin:auto;background-color:#4B9FE1; color:white">Category</a>
+        </div>
+
+        <div class="col-md-3">
+            <a href="{% url 'addsubcategory' %}" class="btn btn-lg btn-block btn-huge"
+               style="border-radius: 25px; width:85%; margin:auto;background-color:#4B9FE1; color:white">Sub Category</a>
+        </div>
+        <div class="col-md-3">
+            <a href="{% url 'adddescription' %}" class="btn btn-dark btn-lg btn-block btn-huge"
+               style="border-radius: 25px; width:85%; margin:auto; background-color:#4B9FE1; color:white; border:none">Description</a>
+        </div>
+        <div class="col-md-3">
+            <a href="{% url 'new-consumer' %}" class="btn btn-dark btn-lg btn-block btn-huge"
+               style="border-radius: 25px; width:85%; margin:auto;background-color:#4B9FE1; color:white; border:none">Consumer</a>
+        </div>
+    </div>
+
+
+        <div>
+            <h1 style="color: black;font-family: 'Alkalami'; text-align : center ">Non-Consumable Items</h1>
+        </div>
+    <div class="row" style="margin:10px 0px 50px 0px;font-family:'Alkalami'">
+
+        <div class="col-md-3" >
+            <a href="{% url 'addnoncategory' %}" class="btn btn-lg btn-block btn-huge"
+               style="border-radius: 25px; width:85%; margin:auto;background-color:#28559A; color:white">Category</a>
+        </div>
+
+        <div class="col-md-3">
+            <a href="{% url 'addnonsubcategory' %}" class="btn btn-lg btn-block btn-huge"
+               style="border-radius: 25px; width:85%; margin:auto;background-color:#28559A; color:white">Sub Category</a>
+        </div>
+        <div class="col-md-3">
+            <a href="{% url 'addnondescription' %}" class="btn btn-dark btn-lg btn-block btn-huge"
+               style="border-radius: 25px; width:85%; margin:auto; background-color:#28559A; color:white; border:none">Description</a>
+        </div>
+        <div class="col-md-3">
+            <a href="{% url 'new-supplier' %}" class="btn btn-dark btn-lg btn-block btn-huge"
+               style="border-radius: 25px; width:85%; margin:auto;background-color:#28559A; color:white; border:none">Supplier</a>
+        </div>
+    </div>
+
+
+    </div>
+</div>
+
+{% endblock content %}
