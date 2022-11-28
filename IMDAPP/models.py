@@ -27,17 +27,13 @@ class trs(models.Model):
 
 
 class Category(models.Model):
-    id=models.IntegerField(primary_key=True)
     category=models.CharField(max_length=255)
 
     def __str__(self):
         return self.category
 
-    class Meta:
-        db_table='Category'
 
 class Subcategory(models.Model):
-    id=models.IntegerField(primary_key=True)
     subcategory=models.CharField(max_length=255)
     category = models.ForeignKey(Category, on_delete=models.CASCADE)
     is_consumable=models.BooleanField(default=False)
@@ -48,12 +44,9 @@ class Subcategory(models.Model):
     def __str__(self):
         return self.subcategory
 
-    class Meta:
-        db_table='Subcategory'
 
 
 class Description(models.Model):
-    id=models.IntegerField(primary_key=True)
     category = models.ForeignKey(Category, on_delete=models.CASCADE)
     subcategory = models.ForeignKey(Subcategory, on_delete=models.CASCADE)
     description=models.TextField(max_length=255)
@@ -61,8 +54,6 @@ class Description(models.Model):
     def __str__(self):
         return self.description
 
-    class Meta:
-        db_table='Description'
 
 
 
@@ -80,8 +71,7 @@ class Supplier(models.Model):
     def __str__(self):
         return str(self.name)
 
-    class Meta:
-        db_table = 'Supplier'
+
 
 
 class Consumer(models.Model):
@@ -103,8 +93,7 @@ class Consumer(models.Model):
     def __str__(self):
         return str(self.name)
 
-    class Meta:
-        db_table = 'Consumer'
+
 
 class Stock(models.Model):
 
@@ -160,28 +149,22 @@ class Stock(models.Model):
 
 
 class NonCategory(models.Model):
-    id=models.IntegerField(primary_key=True)
     category=models.CharField(max_length=255)
     def __str__(self):
         return self.category
 
-    class Meta:
-        db_table='NonCategory'
 
 class NonSubcategory(models.Model):
-    id=models.IntegerField(primary_key=True)
     subcategory=models.CharField(max_length=255)
     category = models.ForeignKey(NonCategory, on_delete=models.CASCADE)
     is_consumable=models.BooleanField(default=False)
     def __str__(self):
         return self.subcategory
 
-    class Meta:
-        db_table='NonSubcategory'
+
 
 
 class NonDescription(models.Model):
-    id=models.IntegerField(primary_key=True)
     category = models.ForeignKey(NonCategory, on_delete=models.CASCADE)
     subcategory = models.ForeignKey(NonSubcategory, on_delete=models.CASCADE)
     description=models.TextField(max_length=255)
@@ -189,8 +172,7 @@ class NonDescription(models.Model):
     def __str__(self):
         return self.description
 
-    class Meta:
-        db_table='NonDescription'
+
 
 
 

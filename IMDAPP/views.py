@@ -1085,8 +1085,18 @@ class NonStockView(View):
 from django.shortcuts import render
 
 # Create your views here.
+#
+# def addcategory(request):
+#     if request.method == 'POST':
+#         form = CategoryForm(request.POST)
+#
+#         if form.is_valid():
+#             form.save()
+#             return render(request, 'Master/addcategory.html')
+#     form = CategoryForm()
+#     return render(request, 'Master/addcategory.html', {'form': form})
 def addcategory(request):
-    form=CategoryForm(request.POST or None)
+    form=CategoryForm(request.POST)
     try:
         error = "no"
         if form.is_valid():
@@ -1104,7 +1114,7 @@ def addsubcategory(request):
         error = "no"
         if form.is_valid():
             form.save()
-            # return redirect('inventory')
+            # return redirect('addsubcategory')
         else:
             error = "yes"
     except:
@@ -1124,6 +1134,17 @@ def adddescription(request):
     except:
         error = "yes"
     return render(request, "Master/adddescription.html", locals())
+
+#
+# def addnoncategory(request):
+#     if request.method == 'POST':
+#         form = NonCategoryForm(request.POST)
+#
+#         if form.is_valid():
+#             form.save()
+#             return render(request, 'Master/addnoncategory.html')
+#     form = NonCategoryForm()
+#     return render(request, 'Master/addnoncategory.html', {'form': form})
 
 def addnoncategory(request):
     form=NonCategoryForm(request.POST or None)
