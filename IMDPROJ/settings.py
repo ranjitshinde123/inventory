@@ -10,7 +10,7 @@ https://docs.djangoproject.com/en/4.1/topics/settings/
 For the full list of settings and their values, see
 https://docs.djangoproject.com/en/4.1/ref/settings/
 """
-
+import dj_database_url
 import os
 from pathlib import Path
 
@@ -88,7 +88,7 @@ WSGI_APPLICATION = 'IMDPROJ.wsgi.application'
 
 DATABASES = {
     'default': {
-        'ENGINE': 'django.db.backends.postgresql',
+        'ENGINE': 'django.db.backends.postgresql-psycopg2',
         'NAME': 'rootdata',
         'USER': 'root12',
         'PASSWORD': 'root@123',
@@ -162,3 +162,5 @@ LOGIN_REQUIRED_IGNORE_VIEW_NAMES = [                    # urls ignored by the lo
 DEFAULT_AUTO_FIELD='django.db.models.BigAutoField'
 STATICFILES_STORAGE = 'whitenoise.storage.CompressedManifestStaticFilesStorage'
 
+db_from_env = dj_database_url.config(conn_max_age=500)
+DATABASES['default'].update(db_from_env)
