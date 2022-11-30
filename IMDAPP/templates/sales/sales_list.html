@@ -5,50 +5,52 @@
 
 {% block title %} Sales List {% endblock title %}
 
-
 {% block content %}
 <div class="card text-left">
           <div class="card-header" style="background-color:#01345B">
             <div class="row" style="color: white; font-style: bold; font-size: 3.5rem">
-            <div class="col-md-8" style="font-family: 'Alkalami'" >Outward List</div>
+            <div class="col-md-8" style="font-family: 'Alkalami'" >Outward List(Consumable)</div>
             <div class="col-md-4">
                 <div style="float:right; margin-top:8%;font-family:'Alkalami'"> <a class="btn btn-info" href="{% url 'new-sale' %}">Sale New Stock</a> </div>
             </div>
             </div>
           </div>
-    </div>
-    
-<!--    <div class="row" style="color: #575757; font-style: bold; font-size: 3rem;">-->
-<!--        <div class="col-md-8">Sales List</div>-->
-<!--        <div class="col-md-4">               -->
-<!--            <div style="float:right;"> <a class="btn btn-success" href="{% url 'new-sale' %}">New Outgoing Stock</a> </div>-->
-<!--        </div>-->
-<!--    </div>-->
-<!--    -->
+                  <div class="card-body" style="font-family: 'Alkalami'">
 <br>
-<br>
+
 <div class="form-group" style="font-family:'Alkalami'">
     <input id="myInput" type="text" class="search form-control"  placeholder="Search">
 </div>
-    <br>
 
- <table class="table table-css table-bordered table-hover" style="font-family:'Alkalami'" id="myTable" onkeyup="myFunction()">
+<div style="overflow-y:auto; overflow-x:auto; font-family:'Alkalami'" >
+    <style>
+#myTable th {
+  padding-top: 12px;
+  padding-bottom: 12px;
+  text-align: middle;
+  background-color: #343a40;
+  color: white;
+  border-color:#454d55;
+
+}
+</style>
+ <table class=" table-bordered table-hover" style="font-family:'Alkalami'" id="myTable" onkeyup="myFunction()">
             
         <thead class="thead-dark align-middle">
-            <tr><!-- Log on to codeastro.com for more projects -->
-                <th width="5%">Bill No.</th>
-                <th width="5">Date</th>
-                <th width="5%">Customer Name</th>
+            <tr >
+                <th width="3%" >Bill No.</th>
+                <th width="17">Date</th>
+                <th width="10%">Customer Name</th>
                 <th width="5%">Address</th>
-                <th width="5%">Email</th>
+                <th width="10%">Email</th>
                 <th width="5%">Category</th>
-                <th width="5%">Subcategory</th>
+                <th width="10%">Subcategory</th>
                 <th width="5%">Quantity</th>
                 <th width="5%">Total</th>
                 <th width="5%">Issued To</th>
                 <th width="5%">Label Code</th>
                 <th width="5%">Mode_Of_delevery</th>
-                <th width="5%">Description</th>
+                <th width="10%">Description</th>
                 <th width="5%">Action</th>
             </tr>
         </thead>
@@ -78,6 +80,9 @@
         </tbody>
 
     </table>
+</div>
+                  </div>
+          </div>
 
     <div class="align-middle"><!-- Log on to codeastro.com for more projects -->
         {% if is_paginated %}
@@ -102,6 +107,7 @@
 
         {% endif %}
     </div>
+    <br>
  <div style="font-family:'Alkalami'">
         <a href="{% url 'home' %}" class="btn btn-secondary">Back To Home</a>
     </div>
@@ -127,5 +133,6 @@ $(document).ready(function(){
   });
 });
 </script>
+
 
 {% endblock content %}

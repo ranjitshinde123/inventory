@@ -52,18 +52,10 @@ class StockForm(forms.ModelForm):
     class Meta:
         model = Stock
         fields = ['name','category','subcategory','description','quantity','unit','Mode_of_delivery','condition','label_code']
-        # widgets = {
-        #     'description': forms.Textarea(
-        #         attrs={
-        #             'class': 'textinput form-control',
-        #             'rows': '2'
-        #         }
-        #     )
-        # }
+
 class NonStockForm(forms.ModelForm):
     def __init__(self, *args, **kwargs):
             super().__init__(*args, **kwargs)
-            # self.fields['subcategory'].queryset = Subcategory.objects.none()
 
 
             if 'category' in self.data:
@@ -75,8 +67,7 @@ class NonStockForm(forms.ModelForm):
                     pass  # invalid input from the client; ignore and fallback to empty City queryset
             elif self.instance.pk:
                 pass
-                # self.fields['subcategory'].queryset = self.instance.category.subcategory_set.order_by('subcategory')
-            # self.fields['description'].queryset = Description.objects.none()
+
 
             if 'subcategory' in self.data:
                 try:
@@ -88,7 +79,6 @@ class NonStockForm(forms.ModelForm):
                     pass  # invalid input from the client; ignore and fallback to empty City queryset
             elif self.instance.pk:
                 pass
-                # self.fields['description'].queryset = self.instance.subcategory.description_set.order_by('description')
             self.fields['name'].widget.attrs.update({'class': 'textinput form-control'})
             self.fields['category'].widget.attrs.update({'class': 'textinput form-control'})
             self.fields['subcategory'].widget.attrs.update({'class': 'textinput form-control'})
@@ -105,14 +95,7 @@ class NonStockForm(forms.ModelForm):
     class Meta:
         model = NonStock
         fields = ['name','category','subcategory','description','quantity','unit','Mode_of_delivery','condition','label_code']
-        # widgets = {
-        #     'description': forms.Textarea(
-        #         attrs={
-        #             'class': 'textinput form-control',
-        #             'rows': '2'
-        #         }
-        #     )
-        # }
+
 
 
 # form used to select a supplier
@@ -231,7 +214,6 @@ class ConsumerForm(forms.ModelForm):
 class SaleForm(forms.ModelForm):
     def __init__(self, *args, **kwargs):
         super().__init__(*args, **kwargs)
-        # self.fields['subcategory'].queryset = Subcategory.objects.none()
 
         if 'category' in self.data:
             try:
@@ -242,9 +224,7 @@ class SaleForm(forms.ModelForm):
                 pass  # invalid input from the client; ignore and fallback to empty City queryset
         elif self.instance.pk:
             pass
-            # self.fields['subcategory'].queryset = self.instance.category.subcategory_set.order_by('subcategory')
 
-        # self.fields['description'].queryset = Description.objects.none()
         if 'subcategory' in self.data:
             try:
                 subcategory_id = int(self.data.get('subcategory'))
@@ -255,7 +235,6 @@ class SaleForm(forms.ModelForm):
                 pass  # invalid input from the client; ignore and fallback to empty City queryset
         elif self.instance.pk:
             pass
-            # self.fields['description'].queryset = self.instance.subcategory.description_set.order_by('description')
         self.fields['name'].widget.attrs.update({'class': 'textinput form-control', 'pattern' : '[a-zA-Z\s]{1,50}', 'title' : 'Alphabets and Spaces only', 'required': 'true'})
         self.fields['phone'].widget.attrs.update({'class': 'textinput form-control', 'maxlength': '10', 'pattern' : '[0-9]{10}', 'title' : 'Numbers only', 'required': 'true'})
         self.fields['email'].widget.attrs.update({'class': 'textinput form-control'})
@@ -274,14 +253,7 @@ class SaleForm(forms.ModelForm):
     class Meta:
         model = SaleBill
         fields = ['name', 'phone', 'email','address','issued_to','category','subcategory','Mode_of_delivery','label_code','description','gstin']
-        # widgets = {
-        #     'address' : forms.Textarea(
-        #         attrs = {
-        #             'class' : 'textinput form-control',
-        #             'rows'  : '2'
-        #         }
-        #     )
-        # }
+
 
 
 
@@ -312,7 +284,6 @@ class SaleDetailsForm(forms.ModelForm):
 class NonSaleForm(forms.ModelForm):
     def __init__(self, *args, **kwargs):
         super().__init__(*args, **kwargs)
-        # self.fields['subcategory'].queryset = NonSubcategory.objects.none()
 
         if 'category' in self.data:
             try:
@@ -324,7 +295,6 @@ class NonSaleForm(forms.ModelForm):
         elif self.instance.pk:
             self.fields['subcategory'].queryset = self.instance.category.subcategory_set.order_by('subcategory')
 
-        # self.fields['description'].queryset = NonDescription.objects.none()
         if 'subcategory' in self.data:
             try:
                 subcategory_id = int(self.data.get('subcategory'))
@@ -354,14 +324,7 @@ class NonSaleForm(forms.ModelForm):
     class Meta:
         model = NonSaleBill
         fields = ['name', 'phone', 'email','address','issued_to','category','subcategory','Mode_of_delivery','label_code','description','gstin']
-        # widgets = {
-        #     'address' : forms.Textarea(
-        #         attrs = {
-        #             'class' : 'textinput form-control',
-        #             'rows'  : '2'
-        #         }
-        #     )
-        # }
+
 
 
 #
@@ -436,10 +399,6 @@ class NonCategoryForm(forms.ModelForm):
     def __init__(self, *args, **kwargs):
         super().__init__(*args, **kwargs)
         self.fields['category'].widget.attrs.update({'class': 'textinput form-control'})
-        # self.fields['subcategory'].widget.attrs.update({'class': 'textinput form-control', 'pattern' : '[a-zA-Z\s]{1,50}', 'title' : 'Alphabets and Spaces only', 'required': 'true'})
-        # self.fields['description'].widget.attrs.update({'class': 'textinput form-control', 'pattern' : '[a-zA-Z\s]{1,50}', 'title' : 'Alphabets and Spaces only', 'required': 'true'})
-
-
 
     class Meta:
         model = NonCategory

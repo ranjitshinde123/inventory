@@ -13,7 +13,6 @@
             <div class="btn-group" style="font-family:'Alkalami'">
             <button type="button" class="btn dropdown-toggle" style="background-color:#d3dfe9;font-weight : bold"  data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">Quick Acess</button>
             <div class="dropdown-menu dropdown-menu dropdown-menu-lg-right" style="background-color:rgb(241 249 255)" style="font-family:'Alkalami'">
-<!--                    <a class="dropdown-item" href="{% url 'purchases-list' %}">Inward List &raquo;</a>-->
                     <a class="dropdown-item" href="#">Inward List &raquo;</a>
                         <ul>
                             <li>
@@ -26,14 +25,14 @@
                         </ul>
                     <a class="dropdown-item" href="{% url 'suppliers-list' %}">Suppliers</a>
                     <a class="dropdown-item" href="{% url 'consumer-list' %}">Consumers</a>
-                    <a class="dropdown-item" href="{% url 'sales-list' %}">Outward List &raquo;</a>
+                    <a class="dropdown-item "  href="#">Outward List &raquo;</a>
                         <ul>
                             <li>
-                            <a class="dropdown-item" href="{% url 'inventory' %}">Consumables Items</a>
+                            <a class="dropdown-item" href="{% url 'sales-list' %}">Consumables Items</a>
                             </li>
 
                             <li>
-                            <a class="dropdown-item" href="{% url 'nonconsumable' %}">Non-Consumable Items</a>
+                            <a class="dropdown-item" href="{% url 'nonsales-list' %}">Non-Consumable Items</a>
                             </li>
                         </ul>
             </div>
@@ -51,7 +50,7 @@
                 {% if not forloop.first %}
                     <br><div style="border-bottom: 0.5px solid #4e6570"></div><br>
                 {% endif %}
-                <div class="row" style="font-family: 'Alkalami'">   <!-- Log on to codeastro.com for more projects -->
+                <div class="row" style="font-family: 'Alkalami'">
                     <div class="col-md-9" style="font-family:'Alkalami'">
                         Bill No: #{{ item.billno }} <br>
                         Inward by :<b>{{ item.consumer.name }}</b> <br>
@@ -91,7 +90,7 @@
                 {% if not forloop.first %}
                     <br><div style="border-bottom: 0.5px solid #4e6570"></div><br>
                 {% endif %}
-                <div class="row" style="font-family: 'Alkalami'">   <!-- Log on to codeastro.com for more projects -->
+                <div class="row" style="font-family: 'Alkalami'">
                     <div class="col-md-9">
                         Bill No: #{{ item.billno }} <br>
                         Outward by <b>{{ item.name }}</b> <br>
@@ -126,36 +125,9 @@
 
 
 </div>
-    <!-- Loading Chart JS -->
+
     <script src="{% static 'js/Chart.min.js' %}"></script>
-    <script>
-        Chart.defaults.global.defaultFontColor = '#3c3c3c';
 
-        //configuration for the bar graph
-        var barConfig = {
-            type: 'bar',
-            data: {
-                datasets: [{
-                    backgroundColor: '#1a79a5',
-                    label: 'Stock in Inventory',
-                    data: {{ data|safe }},
-                }],
-                labels: {{ labels|safe }}
-            },
-            options: {
-                responsive: true,
-                maintainAspectRatio: false,
-            },
-        };
-
-
-        //runs all charts on loading the webpage
-        window.onload = function() {
-            var ctx = document.getElementById('bar-graph').getContext('2d');
-            window.BarStock = new Chart(ctx, barConfig);
-        };
-
-    </script>
 
 {% endblock content %}
 

@@ -17,15 +17,7 @@
             </div>
           </div>
     </div>
-<!--    <div class="row" style="color: #575757; font-style: bold; font-size: 3rem;">-->
-<!--        <div class="col-md-8">Purchases List</div>-->
-<!--        <div class="col-md-4">            &lt;!&ndash; Log on to codeastro.com for more projects &ndash;&gt;   -->
-<!--            <div style="float:right;"> <a class="btn btn-success" href="{% url 'select-supplier' %}">New Incoming Stock</a> </div>-->
-<!--        </div>-->
-<!--    </div>-->
-
     <br>
-
     <table class="table table-css table-hover table-bordered" style="font-family:'Alkalami'">
 
         <thead class="thead-dark align-middle">
@@ -43,7 +35,6 @@
         </thead>
 
 {% if bills %}
-
         <tbody>         
             {% for purchase in bills %}
             <tr>
@@ -88,12 +79,11 @@
 
 {% else %}
 
-        <tbody></tbody>  <!-- Log on to codeastro.com for more projects --> 
+        <tbody></tbody>
     </table>
 
     <br><br><br><br><br><br><br><br>
-    <div style="color: #575757; font-style: bold; font-size: 1.5rem; text-align: center;">The records are empty. Please try adding some.</div>
-<!-- Log on to codeastro.com for more projects -->
+    <div style="color: #575757; font-style: bold; font-size: 1.5rem; text-align: center;font-family:'Alkalami'">The records are empty. Please try adding some.</div>
 {% endif %}
 
 {% endblock content %}

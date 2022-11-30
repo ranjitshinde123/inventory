@@ -35,12 +35,12 @@
               <thead class="thead-dark align-middle">
             <tr><!-- Log on to codeastro.com for more projects -->
                 <th width="10%">Bill No.</th>
-                <th width="15%">Date</th>
-                <th width="15%">Description Of Stores</th>
-                <th width="10%">Quantity</th>
-                <th width="10%">For</th>
+                <th width="20%">Date</th>
+                <th width="30%">Description Of Stores</th>
+                <th width="15%">Quantity</th>
+                <th width="15%">For</th>
                 <th width="15%">Required By</th>
-                <th width="25%">Actions</th>
+                <th width="10%">Actions</th>
             </tr>
         </thead>
 
@@ -59,8 +59,9 @@
                 <td class="align-middle">{% for item in sale.get_items_list %} {{ sale.name }} <br> {% endfor %}</td>
 
                 <td class="align-middle">
-                    <a href="{% url 'sale-bill' sale.billno %}" class="btn btn-info btn-sm">View</a>
-                    <a href="{% url 'delete-sale' sale.pk %}" class="btn btn-danger btn-sm">Delete</a></tr>
+                    <a href="{% url 'sale-bill' sale.billno %}" class="btn btn-secondary btn-sm">View</a>
+                                        <a href="{% url 'delete-sale' sale.pk %}" class="btn btn-danger btn-sm">Delete</a>
+
             {% endfor %}
         </tbody>
           </table>

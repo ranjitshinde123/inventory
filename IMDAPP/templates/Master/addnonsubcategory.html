@@ -18,7 +18,7 @@
         </div>
         <div class="col-md-3">
             <a href="{% url 'new-supplier' %}" class="btn btn-dark btn-lg btn-block btn-huge"
-               style="border-radius: 25px; width:85%; margin:auto;background-color:#4B9FE1; color:white; border:none">Supplier</a>
+               style="border-radius: 25px; width:85%; margin:auto;background-color:#4B9FE1; color:white; border:none">Consumer</a>
         </div>
     </div>
 
@@ -36,19 +36,18 @@
         {% csrf_token %}
         {{ form.non_field_errors }}
 
-<!--        <div class="panel-heading panel-heading-text">Category Details</div>-->
-            <div class="panel-body">
+        <div class="panel-body">
 
             {{ form.subcategory.errors }}
             <div class="panel-body">
             {{ form.category.errors }}
+            <div class="form-row">
                 <div class="form-group col-md-12">
                     <label  class="panel-body-text" style="font-family: 'Alkalami'">Category:</label>
                     {{ form.category}}
                 </div>
             </div>
             </div>
-
 
             <div class="form-row">
                 <div class="form-group col-md-12">
@@ -57,6 +56,7 @@
                 </div>
             </div>
 
+            </div>
 
         <br>
 
@@ -67,8 +67,6 @@
 
                 </div>
     </form>
-
-
  </div>
  </div>
  {% if error == "no" %}

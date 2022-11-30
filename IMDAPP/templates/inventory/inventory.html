@@ -11,23 +11,31 @@
     <div class="card text-left">
           <div class="card-header" style="background-color:#01345B">
             <div class="row" style="color: white; font-style: bold; font-size: 3.5rem">
-            <div class="col-md-8" style="font-family: 'Alkalami'" >Consumable List</div>
+            <div class="col-md-8" style="font-family: 'Alkalami'" >Inward List(Consumable)</div>
             <div class="col-md-4">
                 <div style="float:right; margin-top:8%;font-family:'Alkalami'"> <a class="btn btn-info" href="{% url 'new-stock' %}">Add New Stock</a> </div>
             </div>
             </div>
           </div>
-    </div>
+         <div class="card-body" style="font-family: 'Alkalami'">
+<br>
+<div class="form-group" style="font-family:'Alkalami'">
+    <input id="myInput" type="text" class="search form-control"  placeholder="Search">
+</div>
 
+<div style="overflow-y:auto; overflow-x:auto; font-family:'Alkalami'" ><style>
+#myTable th {
+  padding-top: 12px;
+  padding-bottom: 12px;
+  text-align: middle;
+  background-color: #343a40;
+  color: white;
+  border-color:#454d55;
 
-    <div style="border-bottom: 1px solid white;"></div>
+}
+</style>
 
-    <br>
-
-    <div class="form-group" style="font-family:'Alkalami'">
-        <input id="myInput" type="text" class="search form-control"  placeholder="Search">
-    </div>
-    <table class="table table-css table-bordered table-hover" style="font-family:'Alkalami'" id="myTable" onkeyup="myFunction()">
+    <table class=" table-bordered table-hover" style="font-family:'Alkalami'" id="myTable" onkeyup="myFunction()">
         <br>
 
         <thead class="thead-dark align-middle">
@@ -73,6 +81,9 @@
         </tbody>
 
     </table>
+</div>
+         </div>
+    </div>
 
     <div class="align-middle">
         {% if is_paginated %}
@@ -97,6 +108,7 @@
 
         {% endif %}
     </div>
+<br>
 
     <div style="font-family:'Alkalami'">
         <a href="{% url 'home' %}" class="btn btn-secondary">Back To Home</a>
@@ -106,10 +118,7 @@
 
         <tbody></tbody>
     </table><!-- Log on to codeastro.com for more projects -->
-<!--    <div >-->
-<!--                <a href="{% url 'stockre' %}" class="btn btn-secondary">Export CSV</a>-->
 
-<!--    </div>-->
 
     <br><br><br><br><br><br><br><br>
     <div style="color: #575757; font-style: bold; font-size: 1.5rem; text-align: center;">The records are empty. Please try adding some.</div>

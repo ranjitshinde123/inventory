@@ -1,4 +1,2 @@
 
-web: gunicorn Demo.wsgi:application --log-file - --log-level debug
-python manage.py collectstatic --noinput
-manage.py migrate
+web: gunicorn IMDPROJ.wsgi:application --log-file -

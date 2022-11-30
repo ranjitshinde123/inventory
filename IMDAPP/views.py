@@ -1,19 +1,16 @@
 import json
-
-
 from django.core.exceptions import ObjectDoesNotExist, MultipleObjectsReturned
 from django.shortcuts import render
-
-# Create your views here.
 from django.db.models import Q
 from django.http import HttpResponse, JsonResponse
-
 import csv
-
 from django.shortcuts import render, redirect, get_object_or_404
-
 from django_filters.views import FilterView
+from django.contrib.messages.views import SuccessMessageMixin
+from django.contrib import messages
+from django.core.paginator import Paginator, EmptyPage, PageNotAnInteger
 import datetime
+
 from django.views.generic import (
     View,
     ListView,
@@ -21,38 +18,31 @@ from django.views.generic import (
     UpdateView,
     DeleteView
 )
-from django.contrib.messages.views import SuccessMessageMixin
-from django.contrib import messages
-from django.core.paginator import Paginator, EmptyPage, PageNotAnInteger
-
 from .filters import StockFilter
 from .models import (
     PurchaseBill,
-    Supplier,
     PurchaseItem,
     PurchaseBillDetails,
     SaleBill,
     SaleItem,
     SaleBillDetails, Stock, NonStock, Subcategory, Description, NonSubcategory, NonDescription, NonPurchaseBill,
-    NonPurchaseBillDetails, NonPurchaseItem, Supplier, NonSaleBill, NonSaleItem, NonSaleBillDetails, Category, Consumer,
+    NonPurchaseBillDetails, NonPurchaseItem, Supplier, NonSaleBill, NonSaleItem, NonSaleBillDetails, Consumer,
     trs
 )
 from .forms import (
     StockForm,
-    SelectSupplierForm,
     PurchaseItemFormset,
     PurchaseDetailsForm,
-    SupplierForm,
     SaleForm,
     SaleItemFormset,
     SaleDetailsForm, SubcategoryForm, CategoryForm, DescriptionForm, NonDescriptionForm, NonCategoryForm,
-    NonSubcategoryForm, NonStockForm, NonPurchaseItemFormset, SelectSupplierForm, SupplierForm, SelectConsumerForm,
+    NonSubcategoryForm, NonStockForm, NonPurchaseItemFormset, SelectSupplierForm, SelectConsumerForm,
     SupplierForm,
     NonPurchaseDetailsForm, NonSaleForm, NonSaleItemFormset, NonSaleDetailsForm, ConsumerForm,
 
 )
 
-
+# Create your views here
 class ConsumerListView(ListView):
     model = Consumer
     template_name = "suppliers/consumer_list.html"
@@ -243,56 +233,6 @@ class SelectConsumerView(View):
 
 
 
-# used to generate a bill object and save items
-# class PurchaseCreateView(View):
-#     template_name = 'purchases/new_purchase.html'
-#
-#     def get(self, request, pk):
-#         formset = PurchaseItemFormset(request.GET or None)  # renders an empty formset
-#         supplierobj = get_object_or_404(Supplier, pk=pk)  # gets the supplier object
-#         context = {
-#             'formset': formset,
-#             'supplier': supplierobj,
-#         }  # sends the supplier and formset as context
-#         return render(request, self.template_name, context)
-#
-#     def post(self, request, pk):
-#         formset = PurchaseItemFormset(request.POST)  # recieves a post method for the formset
-#         supplierobj = get_object_or_404(Supplier, pk=pk)  # gets the supplier object
-#         if formset.is_valid():
-#             # saves bill
-#             billobj = PurchaseBill(
-#                 supplier=supplierobj)  # a new object of class 'PurchaseBill' is created with supplier field set to 'supplierobj'
-#             billobj.save()  # saves object into the db
-#             # create bill details object
-#             billdetailsobj = PurchaseBillDetails(billno=billobj)
-#             billdetailsobj.save()
-#             for form in formset:  # for loop to save each individual form as its own object
-#                 # false saves the item and links bill to the item
-#                 billitem = form.save(commit=False)
-#                 billitem.billno = billobj  # links the bill object to the items
-#                 # gets the stock item
-#                 stock = get_object_or_404(Stock, name=billitem.stock.name)
-#                 # subcategory/stock = get_object_or_404(Stock/Purchase, name=billitem.purchaser/stock.name)       # gets the item
-#
-#                 # gets the item
-#                 # calculates the total price
-#                 billitem.totalprice = billitem.perprice * billitem.quantity
-#                 # updates quantity in stock db
-#                 stock.quantity += billitem.quantity  # updates quantity
-#                 # purchase/stock.quantity += billitem.quantity                              # updates quantity
-#                 # saves bill item and stock
-#                 stock.save()
-#                 # purchase/stock.save()
-#                 billitem.save()
-#             messages.success(request, "Purchased items have been registered successfully")
-#             return redirect('purchase-bill', billno=billobj.billno)
-#         formset = PurchaseItemFormset(request.GET or None)
-#         context = {
-#             'formset': formset,
-#             'supplier': supplierobj
-#         }
-#         return render(request, self.template_name, context)
 
 
 # used to delete a bill object
@@ -325,17 +265,14 @@ class PurchaseCreateView(View):
                 # gets the stock item
                 stock = get_object_or_404(Stock, pk=pk)
 
-                # subcategory/stock = get_object_or_404(Stock/Purchase, name=billitem.purchaser/stock.name)       # gets the item
 
                 # gets the item
                 # calculates the total price
                 billitem.totalprice = billitem.perprice * billitem.quantity
                 # updates quantity in stock db
                 stock.quantity += billitem.quantity  # updates quantity
-                # purchase/stock.quantity += billitem.quantity                              # updates quantity
                 # saves bill item and stock
                 stock.save()
-                # purchase/stock.save()
                 billitem.save()
             messages.success(request, "Purchased items have been registered successfully")
             return redirect('purchase-bill', billno=billobj.billno)
@@ -345,8 +282,6 @@ class PurchaseCreateView(View):
             'supplier': consumerobj
         }
         return render(request, self.template_name, context)
-
-
 
 
 
@@ -362,9 +297,7 @@ class PurchaseDeleteView(SuccessMessageMixin, DeleteView):
         items = PurchaseItem.objects.filter(billno=self.object.billno)
         for item in items:
             stock = get_object_or_404(Stock, name=item.stock.name)
-            # subcategory/stock = get_object_or_404(/Purchase/Stock, name=item.subcategory/stock.name)
             if stock.is_deleted == False:
-                # if subcategory/stock.is_deleted == False:
                 stock.quantity -= item.quantity
                 stock.save()
         messages.success(self.request, "Purchase bill has been deleted successfully")
@@ -427,17 +360,14 @@ class NonPurchaseCreateView(View):
                 billitem.billno = billobj  # links the bill object to the items
                 # gets the stock item
                 nonstock = get_object_or_404(NonStock,pk=pk)
-                # subcategory/stock = get_object_or_404(Stock/Purchase, name=billitem.purchaser/stock.name)       # gets the item
 
                 # gets the item
                 # calculates the total price
                 billitem.totalprice = billitem.perprice * billitem.quantity
                 # updates quantity in stock db
                 nonstock.quantity += billitem.quantity  # updates quantity
-                # purchase/stock.quantity += billitem.quantity                              # updates quantity
                 # saves bill item and stock
                 nonstock.save()
-                # purchase/stock.save()
                 billitem.save()
             messages.success(request, "Purchased items have been registered successfully")
             return redirect('nonpurchase-bill', billno=billobj.billno)
@@ -462,27 +392,12 @@ class NonPurchaseDeleteView(SuccessMessageMixin, DeleteView):
         items = NonPurchaseItem.objects.filter(billno=self.object.billno)
         for item in items:
             nonstock = get_object_or_404(NonStock, name=item.nonstock.name)
-            # subcategory/stock = get_object_or_404(/Purchase/Stock, name=item.subcategory/stock.name)
             if nonstock.is_deleted == False:
-                # if subcategory/stock.is_deleted == False:
                 nonstock.quantity -= item.quantity
                 nonstock.save()
         messages.success(self.request, "Purchase bill has been deleted successfully")
         return super(NonPurchaseDeleteView, self).delete(*args, **kwargs)
 
-
-
-# stock report
-
-def showresult(request):
-    if request.method == "POST":
-        fromdate = datetime.datetime.strptime(request.POST.get('fromdate'), '%Y-%m-%d')
-        todate = datetime.datetime.strptime(request.POST.get('todate'), '%Y-%m-%d')
-        bills = SaleBill.objects.filter(Q(time__gte=fromdate) & Q(time__lte=todate))
-        return render(request, 'sales/stockreport.html', {"bills": bills})
-    else:
-        bills = SaleBill.objects.all()
-        return render(request, 'sales/stockreport.html', {"bills": bills})
 
 def outwardslip(request):
     if request.method == "POST":
@@ -582,42 +497,6 @@ def outwardnonexport_csv(request):
         writer.writerow([x.billno.billno, x.billno.name, x.nonstock,x.nonstock.description,x.billno.issued_to, x.quantity, x.totalprice, x.billno.time])
     return response
 
-
-# #
-# def showresult(request,week,month,year):
-#     if request.method == "POST":
-#         fromdate = datetime.datetime.strptime(request.POST.get('fromdate'), '%Y-%m-%d')
-#         todate = datetime.datetime.strptime(request.POST.get('todate'), '%Y-%m-%d')
-#         bills = SaleBill.objects.filter(Q(time__gte=fromdate) & Q(time__lte=todate))
-#         return render(request, 'sales/stockreport.html', {"bills": bills})
-#     else:
-#         bills = SaleBill.objects.all()
-#         return render(request, 'sales/stockreport.html', {"bills": bills})
-
-
-# class StockReportView(ListView):
-# model = SaleBill
-# template_name = "sales/stockreport.html"
-# context_object_name = 'bills'
-# ordering = ['time']
-# paginate_by = 10
-
-#
-# def post(self,request):
-#     form = SaleBill(request)
-#
-#     context = {'form': form}
-#     if request.method == "POST":
-#         queryset = SaleBill.objects.all()
-#         fromdate = request.query_params.get('start_date', None)
-#         todate = request.query_params.get('end_date', None)
-#         if fromdate and todate:
-#             queryset = queryset.filter(date__range=[fromdate, todate])
-#             print(queryset)
-#         return render(request, "sales/stockreport.html", queryset)
-#     return render(request, "sales/stockreport.html", context)
-#
-#
 
 
 # shows the list of bills of all sales
@@ -785,7 +664,6 @@ class NonSaleCreateView(View):
                     nonstock = get_object_or_404(NonStock, subcategory=billitem.nonstock.subcategory)
                     print(id)
 
-                    # stock = get_object_or_404(Stock, name=billitem.stock.name)
                     # calculates the total price
                     billitem.totalprice = billitem.perprice * billitem.quantity
                     # updates quantity in stock db
@@ -873,18 +751,6 @@ class PurchaseBillView(View):
         form = PurchaseDetailsForm(request.POST)
         if form.is_valid():
             billdetailsobj = PurchaseBillDetails.objects.get(billno=billno)
-
-            # billdetailsobj.eway = request.POST.get("eway")
-            # billdetailsobj.veh = request.POST.get("veh")
-            # billdetailsobj.destination = request.POST.get("destination")
-            # billdetailsobj.po = request.POST.get("po")
-            # billdetailsobj.cgst = request.POST.get("cgst")
-            # billdetailsobj.sgst = request.POST.get("sgst")
-            # billdetailsobj.igst = request.POST.get("igst")
-            # billdetailsobj.cess = request.POST.get("cess")
-            # billdetailsobj.tcs = request.POST.get("tcs")
-            # billdetailsobj.total = request.POST.get("total")
-
             billdetailsobj.save()
             messages.success(request, "Bill details have been modified successfully")
         context = {
@@ -915,17 +781,6 @@ class NonPurchaseBillView(View):
         form = NonPurchaseDetailsForm(request.POST)
         if form.is_valid():
             billdetailsobj = NonPurchaseBillDetails.objects.get(billno=billno)
-
-            # billdetailsobj.eway = request.POST.get("eway")
-            # billdetailsobj.veh = request.POST.get("veh")
-            # billdetailsobj.destination = request.POST.get("destination")
-            # billdetailsobj.po = request.POST.get("po")
-            # billdetailsobj.cgst = request.POST.get("cgst")
-            # billdetailsobj.sgst = request.POST.get("sgst")
-            # billdetailsobj.igst = request.POST.get("igst")
-            # billdetailsobj.cess = request.POST.get("cess")
-            # billdetailsobj.tcs = request.POST.get("tcs")
-            # billdetailsobj.total = request.POST.get("total")
 
             billdetailsobj.save()
             messages.success(request, "Bill details have been modified successfully")
@@ -1070,8 +925,6 @@ class NonStockDeleteView(View):  # view class to delete stock
 class NonStockView(View):
     def get(self, request, name):
         stockobj = get_object_or_404(NonStock, name=name)
-        # stock = Stock.objects.get(stock=stockobj)
-
         context = {
             'stock': stockobj,
         }
@@ -1081,27 +934,12 @@ class NonStockView(View):
 
 
 
-
-from django.shortcuts import render
-
-# Create your views here.
-#
-# def addcategory(request):
-#     if request.method == 'POST':
-#         form = CategoryForm(request.POST)
-#
-#         if form.is_valid():
-#             form.save()
-#             return render(request, 'Master/addcategory.html')
-#     form = CategoryForm()
-#     return render(request, 'Master/addcategory.html', {'form': form})
 def addcategory(request):
     form=CategoryForm(request.POST)
     try:
         error = "no"
         if form.is_valid():
             form.save()
-            # return redirect('inventory')
         else:
             error = "yes"
     except:
@@ -1114,7 +952,6 @@ def addsubcategory(request):
         error = "no"
         if form.is_valid():
             form.save()
-            # return redirect('addsubcategory')
         else:
             error = "yes"
     except:
@@ -1128,23 +965,11 @@ def adddescription(request):
         error = "no"
         if form.is_valid():
             form.save()
-            # return redirect('inventory')
         else:
             error = "yes"
     except:
         error = "yes"
     return render(request, "Master/adddescription.html", locals())
-
-#
-# def addnoncategory(request):
-#     if request.method == 'POST':
-#         form = NonCategoryForm(request.POST)
-#
-#         if form.is_valid():
-#             form.save()
-#             return render(request, 'Master/addnoncategory.html')
-#     form = NonCategoryForm()
-#     return render(request, 'Master/addnoncategory.html', {'form': form})
 
 def addnoncategory(request):
     form=NonCategoryForm(request.POST or None)
@@ -1179,7 +1004,6 @@ def addnondescription(request):
         error = "no"
         if form.is_valid():
             form.save()
-            # return redirect('inventory')
         else:
             error = "yes"
     except:
@@ -1195,7 +1019,6 @@ def master(request):
 def subcategorys(request):
     data = json.loads(request.body)
     category_id=data['id']
-    # cities = City.objects.filter(country__id=data['name'])
     subcategorys = Subcategory.objects.filter(category_id=category_id)
     return JsonResponse(list(subcategorys.values("id","subcategory")), safe=False)
 
@@ -1203,7 +1026,6 @@ def subcategorys(request):
 def descriptions(request):
     data = json.loads(request.body)
     subcategory_id=data['id']
-    # cities = City.objects.filter(country__id=data['name'])
     descriptions = Description.objects.filter(subcategory_id=subcategory_id)
     return JsonResponse(list(descriptions.values("id","description")), safe=False)
 
@@ -1212,7 +1034,6 @@ def descriptions(request):
 def nonsubcategorys(request):
     data = json.loads(request.body)
     category_id=data['id']
-    # cities = City.objects.filter(country__id=data['name'])
     subcategorys = NonSubcategory.objects.filter(category_id=category_id)
     return JsonResponse(list(subcategorys.values("id","subcategory")), safe=False)
 
@@ -1220,7 +1041,6 @@ def nonsubcategorys(request):
 def nondescriptions(request):
     data = json.loads(request.body)
     subcategory_id=data['id']
-    # cities = City.objects.filter(country__id=data['name'])
     descriptions = NonDescription.objects.filter(subcategory_id=subcategory_id)
     return JsonResponse(list(descriptions.values("id","description")), safe=False)
 

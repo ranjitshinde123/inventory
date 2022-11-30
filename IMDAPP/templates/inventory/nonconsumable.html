@@ -11,18 +11,26 @@
     <div class="card text-left">
           <div class="card-header" style="background-color:#01345B">
             <div class="row" style="color: white; font-style: bold; font-size: 3.5rem">
-            <div class="col-md-8" style="font-family: 'Alkalami'" >NonConsumable List</div>
+            <div class="col-md-8" style="font-family: 'Alkalami'" > Inward List(NonConsumable)</div>
             <div class="col-md-4">
                 <div style="float:right; margin-top:8%;font-family:'Alkalami'"> <a class="btn btn-info" href="{% url 'new-nonstock' %}">Add New Stock</a> </div>
             </div>
             </div>
           </div>
-    </div>
+  <div class="card-body" style="font-family: 'Alkalami'">
+<br>
 
+<div style="overflow-y:auto; overflow-x:auto; font-family:'Alkalami'" ><style>
+#myTable th {
+  padding-top: 12px;
+  padding-bottom: 12px;
+  text-align: middle;
+  background-color: #343a40;
+  color: white;
+  border-color:#454d55;
 
-    <div style="border-bottom: 1px solid white;"></div>
-
-    <br>
+}
+</style>
 
     <div class="form-group" style="font-family:'Alkalami'">
         <input id="myInput" type="text" class="search form-control"  placeholder="Search">
@@ -36,12 +44,12 @@
                 <th width="9%">Category</th>
                 <th width="8%">Sub Category</th>
                 <th width="5%">Quantity Received</th>
-                <th width="5%">Description</th>
-                <th width="5%">Received From</th>
+                <th width="20%">Description</th>
+                <th width="10%">Received From</th>
                 <th width="5%">Condition</th>
                 <th width="8%">Label-code</th>
-                <th width="5%">Mode Of Delivery</th>
-                <th width="25%">Actions</th>
+                <th width="10%">Mode Of Delivery</th>
+                <th width="12%">Actions</th>
             </tr>
         </thead>
 
@@ -73,6 +81,9 @@
         </tbody>
 
     </table>
+</div>
+  </div>
+    </div>
 
     <div class="align-middle">
         {% if is_paginated %}
@@ -97,6 +108,7 @@
 
         {% endif %}
     </div>
+<br>
 
  <div style="font-family:'Alkalami'">
         <a href="{% url 'home' %}" class="btn btn-secondary">Back To Home</a>

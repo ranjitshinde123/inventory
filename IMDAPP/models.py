@@ -1,6 +1,4 @@
-from django.db import models
 
-# Create your models here.
 from django.db import models
 
 # Create your models here.
@@ -143,9 +141,7 @@ class Stock(models.Model):
     def __str__(self):
         return str(self.subcategory)
 
-#noncpnsumable
-
-
+#nonconsumable
 
 
 class NonCategory(models.Model):
@@ -162,8 +158,6 @@ class NonSubcategory(models.Model):
         return self.subcategory
 
 
-
-
 class NonDescription(models.Model):
     category = models.ForeignKey(NonCategory, on_delete=models.CASCADE)
     subcategory = models.ForeignKey(NonSubcategory, on_delete=models.CASCADE)
@@ -171,12 +165,6 @@ class NonDescription(models.Model):
 
     def __str__(self):
         return self.description
-
-
-
-
-
-
 
 
 class NonStock(models.Model):
@@ -338,10 +326,7 @@ class NonSaleBill(models.Model):
     label_code = models.CharField(max_length=20, default="")
     issued_to = models.CharField(max_length=50)
     gstin = models.CharField(max_length=15, unique=True)
-    # condition = models.CharField(max_length=50, choices=CONDITION)
     is_deleted=models.BooleanField(default=False)
-
-
 
 
     def __str__(self):
@@ -371,13 +356,8 @@ class NonSaleItem(models.Model):
     perprice = models.IntegerField(default=1)
     totalprice = models.IntegerField(default=1)
 
-    # def __str__(self):
-    #     return "Bill no: " + str(self.billno.billno) + ", Item = " + self.stock.name
     def __str__(self):
         return "Bill no: " + str(self.billno.billno)
-
-        # return  "Bill no: " + str(self.billno.billno),"Stock Name: " + str(self.stock.subcategory)
-
 
 
 
@@ -389,8 +369,6 @@ class NonSaleBillDetails(models.Model):
 
     def __str__(self):
         return "Bill no: " + str(self.billno.billno)
-
-
 
 
 
@@ -421,17 +399,11 @@ class SaleBill(models.Model):
     label_code = models.CharField(max_length=20, default="")
     issued_to = models.CharField(max_length=50)
     gstin = models.CharField(max_length=15, unique=True)
-
-    # condition = models.CharField(max_length=50, choices=CONDITION)
     is_deleted=models.BooleanField(default=False)
-
-
 
 
     def __str__(self):
         return str(self.name)
-
-
 
     def __str__(self):
         return "Bill no: " + str(self.billno)
@@ -455,13 +427,8 @@ class SaleItem(models.Model):
     perprice = models.IntegerField(default=1)
     totalprice = models.IntegerField(default=1)
 
-    # def __str__(self):
-    #     return "Bill no: " + str(self.billno.billno) + ", Item = " + self.stock.name
     def __str__(self):
         return "Bill no: " + str(self.billno.billno)
-
-        # return  "Bill no: " + str(self.billno.billno),"Stock Name: " + str(self.stock.subcategory)
-
 
 
 
