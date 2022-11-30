@@ -30,7 +30,7 @@ SECRET_KEY = 'django-insecure-9(qoxn594k57a^ie(rt225liumt$(7_r2^ej2fbj*q#zgybt0s
 DEBUG = True
 
 ALLOWED_HOSTS = ['*']
-CSRF_TRUSTED_ORIGINS = ['*']
+CSRF_TRUSTED_ORIGINS = ['imdproject.up.railway.app']
 
 
 
