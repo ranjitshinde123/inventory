@@ -88,7 +88,7 @@ WSGI_APPLICATION = 'IMDPROJ.wsgi.application'
 
 DATABASES = {
     'default': {
-        'ENGINE': 'django.db.backends.postgresql_psycopg2',
+        'ENGINE': 'django.db.backends.postgresql',
         'NAME': 'rootdata',
         'USER': 'root12',
         'PASSWORD': 'root@123',
