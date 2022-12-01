@@ -816,7 +816,7 @@ class StockCreateView(SuccessMessageMixin, CreateView):
     def get_context_data(self, **kwargs):  # used to send additional context
         context = super().get_context_data(**kwargs)
         context["title"] = 'New Stock'
-        context["savebtn"] = 'Add to Inventory'
+        context["savebtn"] = 'Add To Stock'
 
         return context
 
@@ -885,7 +885,7 @@ class NonStockCreateView(SuccessMessageMixin, CreateView):
     def get_context_data(self, **kwargs):  # used to send additional context
         context = super().get_context_data(**kwargs)
         context["title"] = 'New Stock'
-        context["savebtn"] = 'Add to Inventory'
+        context["savebtn"] = 'Add To Stock'
 
         return context
 

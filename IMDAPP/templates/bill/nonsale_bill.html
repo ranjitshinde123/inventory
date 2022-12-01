@@ -44,7 +44,7 @@
 
                                     <tr>
                                         <td class="inner-box" style="width: 10%; font-weight: bold;">&nbsp;NAME OF SUPPLIER</td>
-                                        <td class="inner-box" style="width: 10%; font-weight: bold;">&nbsp;GSTIN No</td>
+                                        <td class="inner-box" style="width: 10%; font-weight: bold;">&nbsp;GSTIN NO</td>
                                         <td class="inner-box" style="width: 10%; font-weight: bold;">&nbsp;INVOICE NO</td>
                                         <td class="inner-box" style="width: 15%;">&nbsp;{{ bill.billno }}</td>
                                     </tr>
@@ -79,8 +79,8 @@
                                             <td class="inner-box" style="width: 30%;">&nbsp; {{ item.nonstock.subcategory }}</td>
                                             <td class="inner-box" style="width: 30%;">&nbsp; {{ bill.issued_to }}</td>
                                             <td class="inner-box" style="width: 12%;">&nbsp; {{ item.quantity }}</td>
-                                            <td class="inner-box" style="width: 12%;">&nbsp; {{ item.perprice }}</td>
-                                            <td class="inner-box" style="width: 12%;">&nbsp;{{ item.totalprice }}</td>
+                                            <td class="inner-box" style="width: 12%;">&nbsp; ₹{{ item.perprice }}</td>
+                                            <td class="inner-box" style="width: 12%;">&nbsp;₹{{ item.totalprice }}</td>
                                         </tr>
                                     {% endfor %}
                                 </tbody>

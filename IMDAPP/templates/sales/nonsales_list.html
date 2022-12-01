@@ -10,9 +10,9 @@
 <div class="card text-left">
           <div class="card-header" style="background-color:#01345B">
             <div class="row" style="color: white; font-style: bold; font-size: 3.5rem">
-            <div class="col-md-8" style="font-family: 'Alkalami'" >Outward List(NonConsumable)</div>
+            <div class="col-md-8" style="font-family: 'Alkalami'" >Outward List(Non-Consumable)</div>
             <div class="col-md-4">
-                <div style="float:right; margin-top:8%;font-family:'Alkalami'"> <a class="btn btn-info" href="{% url 'new-nonsale' %}">Sale New Stock</a> </div>
+                <div style="float:right; margin-top:8%;font-family:'Alkalami'"> <a class="btn btn-info" href="{% url 'new-nonsale' %}">Add New Stock</a> </div>
             </div>
             </div>
           </div>
@@ -88,6 +88,11 @@
 
 <br>
 <br>
+ <div style="font-family:'Alkalami'">
+        <a href="{% url 'home' %}" class="btn btn-secondary">Back To Home</a>
+    </div>
+<br>
+
     <div class="align-middle"><!-- Log on to codeastro.com for more projects -->
         {% if is_paginated %}
 
@@ -113,9 +118,7 @@
     </div>
 <br>
 
- <div style="font-family:'Alkalami'">
-        <a href="{% url 'home' %}" class="btn btn-secondary">Back To Home</a>
-    </div>
+
 {% else %}
 
         <tbody></tbody>  <!-- Log on to codeastro.com for more projects --> 

@@ -56,7 +56,7 @@
                         Inward by :<b>{{ item.consumer.name }}</b> <br>
                         <small><i>{{ item.time.date }}</i></small>
                     </div>
-                    <div class="col-md-2" style="font-family:'Alkalami'"> <br>₹{{ item.get_total_price }} <br> <a href="{% url 'purchase-bill' item.billno %}">View Bill</a> </div>
+                    <div class="col-md-2" style="font-family:'Alkalami'"> <br>₹ {{ item.get_total_price }} <br> <a href="{% url 'purchase-bill' item.billno %}">View Bill</a> </div>
                 </div>
             {% endfor %}
         </div>
