@@ -15,7 +15,7 @@ class trs(models.Model):
     iss_srs=models.IntegerField()
     trs_type=models.IntegerField()
     qty_trs=models.DecimalField(blank=True, null=True, max_digits=20,  decimal_places=10)
-    balance=models.IntegerField()
+    balance=models.DecimalField(blank=True, null=True, max_digits=20,  decimal_places=10)
 
     def __str__(self):
         return self.kdno
