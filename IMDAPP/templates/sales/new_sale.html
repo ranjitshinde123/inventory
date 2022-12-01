@@ -182,8 +182,7 @@
     <script type="text/javascript" src="{% static 'js/jquery-3.2.1.slim.min.js' %}"></script>
     <script type="text/javascript" src="{% static 'js/dialogbox.js' %}"></script>
     <script type="text/javascript">
-
-        //creates custom alert object
+     //creates custom alert object
         var custom_alert = new custom_alert();
 
         function updateElementIndex(el, prefix, ndx) {
@@ -285,7 +284,6 @@
                             //Sets quantity to 0 as failsafe for when the total no of item forms are 1
                             element.parents('.form-row').find('.quantity').val(0);
                             deleteForm('form', element);
-                        } else {
                         } else {
                             element.parents('.form-row').find('.quantity').val(squantity-1);
                             quantity = squantity - 1;
