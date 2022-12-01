@@ -14,7 +14,7 @@ class trs(models.Model):
     unit_cost=models.CharField(max_length=255)
     iss_srs=models.IntegerField()
     trs_type=models.IntegerField()
-    qty_trs=models.IntegerField()
+    qty_trs=models.DecimalField(blank=True, null=True, max_digits=20,  decimal_places=10)
     balance=models.IntegerField()
 
     def __str__(self):
