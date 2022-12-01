@@ -20,7 +20,7 @@
                             </li>
 
                             <li>
-                            <a class="dropdown-item" href="{% url 'nonconsumable' %}">Non-Consumable Items</a>
+                            <a class="dropdown-item" href="{% url 'nonconsumable' %}">Non-Consumables Items</a>
                             </li>
                         </ul>
                     <a class="dropdown-item" href="{% url 'suppliers-list' %}">Suppliers</a>
@@ -32,7 +32,7 @@
                             </li>
 
                             <li>
-                            <a class="dropdown-item" href="{% url 'nonsales-list' %}">Non-Consumable Items</a>
+                            <a class="dropdown-item" href="{% url 'nonsales-list' %}">Non-Consumables Items</a>
                             </li>
                         </ul>
             </div>
@@ -62,7 +62,7 @@
         </div>
 
         <div class="col-md-6">
-            <div style="font-family:'Alkalami';color: #28559A; font-style: bold; text-align:center; font-size: 30px; border-bottom: 2px solid #4e6570">Recent Inward(Nonconsumable)</div><br>
+            <div style="font-family:'Alkalami';color: #28559A; font-style: bold; text-align:center; font-size: 30px; border-bottom: 2px solid #4e6570">Recent Inward(NonConsumable)</div><br>
             {% for item in nonpurchases %}
                 {% if not forloop.first %}
                     <br><div style="border-bottom: 0.5px solid #4e6570 "></div><br>
