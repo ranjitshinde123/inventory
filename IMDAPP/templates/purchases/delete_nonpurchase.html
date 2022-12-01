@@ -1,7 +1,7 @@
 {% extends "base.html" %}
 
 
-{% block title %} Delete Purchase {% endblock title %}
+{% block title %} Delete Inward {% endblock title %}
 
 
 {% block content %}
@@ -11,8 +11,8 @@
         {% csrf_token %}
         
         <fieldset class="form-group" style="font-family: 'Alkalami'">
-            <div style="color:#575757; font-style: bold; font-size: 3rem; border-bottom: 1px solid white;">Delete Purchase Bill</div> <br>
-            <h2 style="color:#575757;">Are you sure you want to delete the Purchase Bill No: {{ object.billno }}?</h2>
+            <div style="color:#575757; font-style: bold; font-size: 3rem; border-bottom: 1px solid white;">Delete Inward Bill</div> <br>
+            <h2 style="color:#575757;">Are you sure you want to delete the Inward Bill No: {{ object.billno }}?</h2>
         </fieldset>
 
         <div class="form-group" style="font-family: 'Alkalami'">

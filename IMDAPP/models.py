@@ -108,20 +108,21 @@ class Stock(models.Model):
     ]
 
     STATUS_UNIT = [
-        ('Mtr', 'Mtr'),
-        ('Cm', 'Cm'),
-        ('Mm', 'Mm'),
-        ('Kg', 'Kg'),
-        ('Gm', 'Gm'),
-        ('Ltr', 'Ltr'),
-        ('SqMtr', 'SqMtr'),
-        ('SqCm', 'SqCm'),
-        ('CuM', 'CuM'),
-        ('Ream', 'Ream'),
-        ('Doz', 'Doz'),
-        ('Pkts', 'Pkts'),
-        ('Pairs', 'Pairs'),
-        ('Rolls', 'Rolls'),
+        ('mtr', 'mtr'),
+        ('cm', 'cm'),
+        ('mm', 'mm'),
+        ('kg', 'kg'),
+        ('gm', 'gm'),
+        ('ltr', 'ltr'),
+        ('sqmtr', 'sqmtr'),
+        ('sqcm', 'sqcm'),
+        ('cum', 'cum'),
+        ('ream', 'ream'),
+        ('doz', 'doz'),
+        ('pkts', 'pkts'),
+        ('pairs', 'pairs'),
+        ('rolls', 'rolls'),
+        ('inches', 'inches'),
     ]
 
 
@@ -181,30 +182,11 @@ class NonStock(models.Model):
 
     ]
 
-    STATUS_UNIT = [
-        ('Mtr', 'Mtr'),
-        ('Cm', 'Cm'),
-        ('Mm', 'Mm'),
-        ('Kg', 'Kg'),
-        ('Gm', 'Gm'),
-        ('Ltr', 'Ltr'),
-        ('SqMtr', 'SqMtr'),
-        ('SqCm', 'SqCm'),
-        ('CuM', 'CuM'),
-        ('Ream', 'Ream'),
-        ('Doz', 'Doz'),
-        ('Pkts', 'Pkts'),
-        ('Pairs', 'Pairs'),
-        ('Rolls', 'Rolls'),
-    ]
-
-
 
     category=models.ForeignKey(NonCategory,on_delete=models.CASCADE)
     subcategory=models.ForeignKey(NonSubcategory,on_delete=models.CASCADE)
     description=models.ForeignKey(NonDescription,on_delete=models.CASCADE)
     name=models.ForeignKey(Supplier,on_delete=models.CASCADE)
-    unit = models.CharField(max_length=50, choices=STATUS_UNIT)
     id = models.AutoField(primary_key=True)
     quantity = models.IntegerField(default=1)
     Mode_of_delivery = models.CharField(max_length=50, choices=MODE_OF_DELIVERY)  # received by

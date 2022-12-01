@@ -65,7 +65,7 @@
             <div style="font-family:'Alkalami';color: #28559A; font-style: bold; text-align:center; font-size: 30px; border-bottom: 2px solid #4e6570">Recent Inward(NonConsumable)</div><br>
             {% for item in nonpurchases %}
                 {% if not forloop.first %}
-                    <br><div style="border-bottom: 0.5px solid #4e6570 "></div><br>
+                    <br><div style="border-bottom: 0.5px solid #4e6570;font-family:'Alkalami'"></div><br>
                 {% endif %}
                 <div class="row">
                     <div class="col-md-9" style="font-family:'Alkalami'">
@@ -91,7 +91,7 @@
                     <br><div style="border-bottom: 0.5px solid #4e6570"></div><br>
                 {% endif %}
                 <div class="row" style="font-family: 'Alkalami'">
-                    <div class="col-md-9">
+                    <div class="col-md-9" style="font-family:'Alkalami'">
                         Bill No: #{{ item.billno }} <br>
                         Outward by <b>{{ item.name }}</b> <br>
                         <small><i>{{ item.time.date }}</i></small>

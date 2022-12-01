@@ -84,7 +84,6 @@ class NonStockForm(forms.ModelForm):
             self.fields['subcategory'].widget.attrs.update({'class': 'textinput form-control'})
             self.fields['description'].widget.attrs.update({'class': 'textinput form-control'})
             self.fields['quantity'].widget.attrs.update({'class': 'textinput form-control', 'min': '0'})
-            self.fields['unit'].widget.attrs.update({'class': 'textinput form-control'})
             self.fields['Mode_of_delivery'].widget.attrs.update({'class': 'textinput form-control'})
             self.fields['condition'].widget.attrs.update({'class': 'textinput form-control'})
             self.fields['label_code'].widget.attrs.update({'class': 'textinput form-control'})
@@ -94,7 +93,7 @@ class NonStockForm(forms.ModelForm):
 
     class Meta:
         model = NonStock
-        fields = ['name','category','subcategory','description','quantity','unit','Mode_of_delivery','condition','label_code']
+        fields = ['name','category','subcategory','description','quantity','Mode_of_delivery','condition','label_code']
 
 
 
