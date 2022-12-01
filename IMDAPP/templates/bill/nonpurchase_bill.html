@@ -2,7 +2,7 @@
 {% load static %}
 
 
-{% block title %} Purchases Bill No : {{ bill.billno }}{% endblock title %}
+{% block title %} Inward Bill No : {{ bill.billno }}{% endblock title %}
 
 
 {% block content %}
@@ -23,14 +23,14 @@
                     <tbody>
                         
                         <tr style="height: 1px;">
-                            <td> <p style="text-align: center;margin-top:2rem">NONCONSUMABLE INVOICE</p> </td>
+                            <td> <p style="text-align: center;margin-top:2rem">NON-CONSUMABLE INVOICE</p> </td>
                         </tr>
                         
                         <tr style="text-align: center;">
                             <td >
                                 <span style="font-size: 1.5rem;"> India Meteorological Department</span> <br>
                                 <span><img src="https://internal.imd.gov.in/section/satmet/lightning/logof.png" style="height:7rem"></span> <br>
-                                <span style="font-weight: bold;font-size: 1rem;"></span> Shivajinagar,Pune<br>
+                                <span style="font-weight: bold;font-size: 1rem;"></span> Shivaji Nagar,Pune<br>
                                 <span style="font-weight: bold;font-size: 1rem;"></span> Ministry of Earth Sciences<br>
                                 <span>E-mail : mr.ranalkar@imd.gov.in</span> <br><br>
                             </td>
@@ -65,9 +65,9 @@
                                 <tbody>
                                     <tr>
                                         <td class="inner-box" style="width: 05%; font-weight: bold; text-align: center;">&nbsp;SL</td>
-                                        <td class="inner-box" style="width: 30%; font-weight: bold; text-align: center;">Item</td>
+                                        <td class="inner-box" style="width: 30%; font-weight: bold; text-align: center;">ITEM</td>
                                         <td class="inner-box" style="width: 12%; font-weight: bold; text-align: center;">QTY </td>
-                                        <td class="inner-box" style="width: 12%; font-weight: bold; text-align: center;">Per Quantity</td>
+                                        <td class="inner-box" style="width: 12%; font-weight: bold; text-align: center;">PER QUANTITY</td>
                                         <td class="inner-box" style="width: 12%; font-weight: bold; text-align: center;">AMOUNT </td>
 
                                     {% for item in items %}
