@@ -130,6 +130,11 @@ $(document).ready(function(){
   });
 });
 </script>
-
+{% if error == "yes" %}
+<script>
+alert('Please select date');
+window.location=('{% url 'inwardslip' %}');
+</script>
+{% endif %}
 
 {% endblock content %}
