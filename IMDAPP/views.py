@@ -95,7 +95,7 @@ class ConsumerDeleteView(View):
         consumer = get_object_or_404(Consumer, pk=pk)
         consumer.is_deleted = True
         consumer.save()
-        messages.success(request, self.success_message)
+        messages.danger(request, self.success_message)
         return redirect('consumer-list')
 
 
@@ -155,7 +155,7 @@ class SupplierUpdateView(SuccessMessageMixin, UpdateView):
     model = Supplier
     form_class = SupplierForm
     success_url = '/inventory/suppliers'
-    success_message = "Supplier details updated successfully"
+    warning_message = "Supplier details updated successfully"
     template_name = "suppliers/edit_supplier.html"
 
     def get_context_data(self, **kwargs):
@@ -179,7 +179,7 @@ class SupplierDeleteView(View):
         supplier = get_object_or_404(Supplier, pk=pk)
         supplier.is_deleted = True
         supplier.save()
-        messages.success(request, self.success_message)
+        messages.danger(request, self.success_message)
         return redirect('suppliers-list')
 
 
