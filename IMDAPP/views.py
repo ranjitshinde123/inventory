@@ -413,7 +413,7 @@ def outwardslip(request):
             return render(request, 'sales/outwardslip.html', {"bills": bills})
     except:
         error="yes"
-    return render(request, 'sales/outwardslip.html',locals())
+    return render(request, 'sales/outwardslip.html',{"bills": bills},locals())
 
 
 def nonoutwardslip(request):
