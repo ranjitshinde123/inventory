@@ -55,7 +55,7 @@ class ConsumerCreateView(SuccessMessageMixin, CreateView):
     model = Consumer
     form_class = ConsumerForm
     success_url = '/inventory/consumers'
-    success_message = "consumer has been created successfully"
+    success_message = "Consumer added successfully"
     template_name = "suppliers/edit_consumer.html"
 
     def get_context_data(self, **kwargs):
@@ -71,7 +71,7 @@ class ConsumerUpdateView(SuccessMessageMixin, UpdateView):
     model = Consumer
     form_class = ConsumerForm
     success_url = '/inventory/consumers'
-    success_message = "Consumer details has been updated successfully"
+    success_message = "Consumer details updated successfully"
     template_name = "suppliers/edit_consumer.html"
 
     def get_context_data(self, **kwargs):
@@ -85,7 +85,7 @@ class ConsumerUpdateView(SuccessMessageMixin, UpdateView):
 # used to delete a supplier
 class ConsumerDeleteView(View):
     template_name = "suppliers/delete_consumer.html"
-    success_message = "Consumer has been deleted successfully"
+    success_message = "Consumer deleted successfully"
 
     def get(self, request, pk):
         consumer = get_object_or_404(Consumer, pk=pk)
@@ -139,7 +139,7 @@ class SupplierCreateView(SuccessMessageMixin, CreateView):
     model = Supplier
     form_class = SupplierForm
     success_url = '/inventory/suppliers'
-    success_message = "Supplier has been created successfully"
+    success_message = "Supplier added successfully"
     template_name = "suppliers/edit_supplier.html"
 
     def get_context_data(self, **kwargs):
@@ -155,7 +155,7 @@ class SupplierUpdateView(SuccessMessageMixin, UpdateView):
     model = Supplier
     form_class = SupplierForm
     success_url = '/inventory/suppliers'
-    success_message = "Supplier details has been updated successfully"
+    success_message = "Supplier details updated successfully"
     template_name = "suppliers/edit_supplier.html"
 
     def get_context_data(self, **kwargs):
@@ -169,7 +169,7 @@ class SupplierUpdateView(SuccessMessageMixin, UpdateView):
 # used to delete a supplier
 class SupplierDeleteView(View):
     template_name = "suppliers/delete_supplier.html"
-    success_message = "Supplier has been deleted successfully"
+    success_message = "Supplier deleted successfully"
 
     def get(self, request, pk):
         supplier = get_object_or_404(Supplier, pk=pk)
@@ -274,7 +274,7 @@ class PurchaseCreateView(View):
                 # saves bill item and stock
                 stock.save()
                 billitem.save()
-            messages.success(request, "Purchased items have been registered successfully")
+            messages.success(request, "Purchased items added successfully")
             return redirect('purchase-bill', billno=billobj.billno)
         formset = PurchaseItemFormset(request.GET or None)
         context = {
@@ -300,7 +300,7 @@ class PurchaseDeleteView(SuccessMessageMixin, DeleteView):
             if stock.is_deleted == False:
                 stock.quantity -= item.quantity
                 stock.save()
-        messages.success(self.request, "Purchase bill has been deleted successfully")
+        messages.success(self.request, "Purchase bill deleted successfully")
         return super(PurchaseDeleteView, self).delete(*args, **kwargs)
 
 
@@ -369,7 +369,7 @@ class NonPurchaseCreateView(View):
                 # saves bill item and stock
                 nonstock.save()
                 billitem.save()
-            messages.success(request, "Purchased items have been registered successfully")
+            messages.success(request, "Purchased items added successfully")
             return redirect('nonpurchase-bill', billno=billobj.billno)
         formset = NonPurchaseItemFormset(request.GET or None)
         context = {
@@ -395,7 +395,7 @@ class NonPurchaseDeleteView(SuccessMessageMixin, DeleteView):
             if nonstock.is_deleted == False:
                 nonstock.quantity -= item.quantity
                 nonstock.save()
-        messages.success(self.request, "Purchase bill has been deleted successfully")
+        messages.success(self.request, "Purchase bill deleted successfully")
         return super(NonPurchaseDeleteView, self).delete(*args, **kwargs)
 
 
@@ -592,7 +592,7 @@ class SaleCreateView(View):
 
 
 
-            messages.success(request, "Sold items have been registered successfully")
+            messages.success(request, "Sold items added successfully")
             return redirect('sale-bill', billno=billobj.billno)
         form = SaleForm(request.GET or None)
         formset = SaleItemFormset(request.GET or None)
@@ -616,7 +616,7 @@ class SaleDeleteView(SuccessMessageMixin, DeleteView):
             if stock.is_deleted == False:
                 stock.quantity += item.quantity
                 stock.save()
-        messages.success(self.request, "Sale bill has been deleted successfully")
+        messages.success(self.request, "Sale bill deleted successfully")
         return super(SaleDeleteView, self).delete(*args, **kwargs)
 
 class SaleBillView(View):
@@ -638,7 +638,7 @@ class SaleBillView(View):
         if form.is_valid():
             billdetailsobj = SaleBillDetails.objects.get(billno=billno)
             billdetailsobj.save()
-            messages.success(request, "Bill details have been modified successfully")
+            messages.success(request, "Bill details updated successfully")
         context = {
             'bill': SaleBill.objects.get(billno=billno),
             'items': SaleItem.objects.filter(billno=billno),
@@ -706,7 +706,7 @@ class NonSaleCreateView(View):
 
             except (ObjectDoesNotExist, MultipleObjectsReturned):
                 pass
-            messages.success(request, "Sold items have been registered successfully")
+            messages.success(request, "Sold items added successfully")
             return redirect('nonsale-bill', billno=billobj.billno)
         form = NonSaleForm(request.GET or None)
         formset = NonSaleItemFormset(request.GET or None)
@@ -730,7 +730,7 @@ class NonSaleDeleteView(SuccessMessageMixin, DeleteView):
             if nonstock.is_deleted == False:
                 nonstock.quantity += item.quantity
                 nonstock.save()
-        messages.success(self.request, "Sale bill has been deleted successfully")
+        messages.success(self.request, "Sale bill deleted successfully")
         return super(NonSaleDeleteView, self).delete(*args, **kwargs)
 
 class NonSaleBillView(View):
@@ -752,7 +752,7 @@ class NonSaleBillView(View):
         if form.is_valid():
             billdetailsobj = NonSaleBillDetails.objects.get(billno=billno)
             billdetailsobj.save()
-            messages.success(request, "Bill details have been modified successfully")
+            messages.success(request, "Bill details updated successfully")
         context = {
             'bill': NonSaleBill.objects.get(billno=billno),
             'items': NonSaleItem.objects.filter(billno=billno),
@@ -783,7 +783,7 @@ class PurchaseBillView(View):
         if form.is_valid():
             billdetailsobj = PurchaseBillDetails.objects.get(billno=billno)
             billdetailsobj.save()
-            messages.success(request, "Bill details have been modified successfully")
+            messages.success(request, "Bill details updated successfully")
         context = {
             'bill': PurchaseBill.objects.get(billno=billno),
             'items': PurchaseItem.objects.filter(billno=billno),
@@ -814,7 +814,7 @@ class NonPurchaseBillView(View):
             billdetailsobj = NonPurchaseBillDetails.objects.get(billno=billno)
 
             billdetailsobj.save()
-            messages.success(request, "Bill details have been modified successfully")
+            messages.success(request, "Bill details updated successfully")
         context = {
             'bill': NonPurchaseBill.objects.get(billno=billno),
             'items': NonPurchaseItem.objects.filter(billno=billno),
@@ -842,7 +842,7 @@ class StockCreateView(SuccessMessageMixin, CreateView):
     form_class = StockForm
     template_name = "inventory/edit_stock.html"
     success_url = '/inventory'
-    success_message = "Stock has been created successfully"
+    success_message = "Stock added successfully"
 
     def get_context_data(self, **kwargs):  # used to send additional context
         context = super().get_context_data(**kwargs)
@@ -857,7 +857,7 @@ class StockUpdateView(SuccessMessageMixin, UpdateView):  # updateview class to e
     form_class = StockForm  # setting 'StockForm' form as form
     template_name = "inventory/edit_stock.html"  # 'edit_stock.html' used as the template
     success_url = '/inventory'  # redirects to 'inventory' page in the url after submitting the form
-    success_message = "Stock has been updated successfully"  # displays message when form is submitted
+    success_message = "Stock updated successfully"  # displays message when form is submitted
 
     def get_context_data(self, **kwargs):  # used to send additional context
         context = super().get_context_data(**kwargs)
@@ -870,7 +870,7 @@ class StockUpdateView(SuccessMessageMixin, UpdateView):  # updateview class to e
 
 class StockDeleteView(View):  # view class to delete stock
     template_name = "inventory/delete_stock.html"  # 'delete_stock.html' used as the template
-    success_message = "Stock has been deleted successfully"  # displays message when form is submitted
+    success_message = "Stock deleted successfully"  # displays message when form is submitted
 
     def get(self, request, pk):
         stock = get_object_or_404(Stock, pk=pk)
@@ -911,7 +911,7 @@ class NonStockCreateView(SuccessMessageMixin, CreateView):
     form_class = NonStockForm
     template_name = "inventory/edit_nonstock.html"
     success_url = '/inventory/nonconsumable'
-    success_message = "Stock has been created successfully"
+    success_message = "Stock added successfully"
 
     def get_context_data(self, **kwargs):  # used to send additional context
         context = super().get_context_data(**kwargs)
@@ -926,7 +926,7 @@ class NonStockUpdateView(SuccessMessageMixin, UpdateView):  # updateview class t
     form_class = NonStockForm  # setting 'StockForm' form as form
     template_name = "inventory/edit_nonstock.html"  # 'edit_stock.html' used as the template
     success_url = '/inventory/nonconsumable'  # redirects to 'inventory' page in the url after submitting the form
-    success_message = "Stock has been updated successfully"  # displays message when form is submitted
+    success_message = "Stock updated successfully"  # displays message when form is submitted
 
     def get_context_data(self, **kwargs):  # used to send additional context
         context = super().get_context_data(**kwargs)
@@ -939,7 +939,7 @@ class NonStockUpdateView(SuccessMessageMixin, UpdateView):  # updateview class t
 
 class NonStockDeleteView(View):  # view class to delete stock
     template_name = "inventory/delete_nonstock.html"  # 'delete_stock.html' used as the template
-    success_message = "Stock has been deleted successfully"  # displays message when form is submitted
+    success_message = "Stock deleted successfully"  # displays message when form is submitted
 
     def get(self, request, pk):
         nonstock = get_object_or_404(NonStock, pk=pk)

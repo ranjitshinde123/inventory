@@ -121,5 +121,10 @@ $(document).ready(function(){
   });
 });
 </script>
-
+{% if error == "yes" %}
+<script>
+alert('Please Select Date');
+window.location=('{% url 'outwardslip' %}');
+</script>
+{% endif %}
 {% endblock content %}

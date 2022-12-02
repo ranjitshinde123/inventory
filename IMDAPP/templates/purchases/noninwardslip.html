@@ -130,5 +130,12 @@ $(document).ready(function(){
   });
 });
 </script>
+</script>
+{% if error == "yes" %}
+<script>
+alert('Please Select Date');
+window.location=('{% url 'noninwardslip' %}');
+</script>
+{% endif %}
 
 {% endblock content %}
