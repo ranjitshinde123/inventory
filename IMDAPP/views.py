@@ -400,47 +400,78 @@ class NonPurchaseDeleteView(SuccessMessageMixin, DeleteView):
 
 
 def outwardslip(request):
-    if request.method == "POST":
-        fromdate = datetime.datetime.strptime(request.POST.get('fromdate'), '%Y-%m-%d')
-        todate = datetime.datetime.strptime(request.POST.get('todate'), '%Y-%m-%d')
-        bills = SaleBill.objects.filter(Q(time__gte=fromdate) & Q(time__lte=todate))
-        return render(request, 'sales/outwardslip.html', {"bills": bills})
-    else:
-        bills = SaleBill.objects.all()
-        return render(request, 'sales/outwardslip.html', {"bills": bills})
+    try:
+        error="no"
+        if request.method == "POST":
+            fromdate = datetime.datetime.strptime(request.POST.get('fromdate'), '%Y-%m-%d')
+            todate = datetime.datetime.strptime(request.POST.get('todate'), '%Y-%m-%d')
+            bills = SaleBill.objects.filter(Q(time__gte=fromdate) & Q(time__lte=todate))
+            return render(request, 'sales/outwardslip.html', {"bills": bills})
+        else:
+            error="yes"
+            bills = SaleBill.objects.all()
+            return render(request, 'sales/outwardslip.html', {"bills": bills})
+    except:
+        error="yes"
+    return render(request, 'sales/outwardslip.html',locals())
+
 
 def nonoutwardslip(request):
-    if request.method == "POST":
-        fromdate = datetime.datetime.strptime(request.POST.get('fromdate'), '%Y-%m-%d')
-        todate = datetime.datetime.strptime(request.POST.get('todate'), '%Y-%m-%d')
-        bills = NonSaleBill.objects.filter(Q(time__gte=fromdate) & Q(time__lte=todate))
-        return render(request, 'sales/nonoutward_slip.html', {"bills": bills})
-    else:
-        bills = NonSaleBill.objects.all()
-        return render(request, 'sales/nonoutward_slip.html', {"bills": bills})
+    try:
+        error="no"
+        if request.method == "POST":
+            fromdate = datetime.datetime.strptime(request.POST.get('fromdate'), '%Y-%m-%d')
+            todate = datetime.datetime.strptime(request.POST.get('todate'), '%Y-%m-%d')
+            bills = NonSaleBill.objects.filter(Q(time__gte=fromdate) & Q(time__lte=todate))
+            return render(request, 'sales/nonoutward_slip.html', {"bills": bills})
+        else:
+            error="yes"
+            bills = NonSaleBill.objects.all()
+            return render(request, 'sales/nonoutward_slip.html', {"bills": bills})
+    except:
+        error="yes"
+    return render(request, 'sales/nonoutward_slip.html',locals())
+
 
 
 
 
 def inwardslip(request):
-    if request.method == "POST":
-        fromdate = datetime.datetime.strptime(request.POST.get('fromdate'), '%Y-%m-%d')
-        todate = datetime.datetime.strptime(request.POST.get('todate'), '%Y-%m-%d')
-        bills = PurchaseBill.objects.filter(Q(time__gte=fromdate) & Q(time__lte=todate))
-        return render(request, 'purchases/inwardslip.html', {"bills": bills})
-    else:
-        bills = PurchaseBill.objects.all()
-        return render(request, 'purchases/inwardslip.html', {"bills": bills})
+    try:
+        error="no"
+        if request.method == "POST":
+            fromdate = datetime.datetime.strptime(request.POST.get('fromdate'), '%Y-%m-%d')
+            todate = datetime.datetime.strptime(request.POST.get('todate'), '%Y-%m-%d')
+            bills = PurchaseBill.objects.filter(Q(time__gte=fromdate) & Q(time__lte=todate))
+            return render(request, 'purchases/inwardslip.html', {"bills": bills})
+        else:
+            error="yes"
+            bills = PurchaseBill.objects.all()
+            return render(request, 'purchases/inwardslip.html', {"bills": bills})
+
+    except:
+        error="yes"
+    return render(request, 'purchases/inwardslip.html',locals())
+
+
+
+
 
 def noninwardslip(request):
-    if request.method == "POST":
-        fromdate = datetime.datetime.strptime(request.POST.get('fromdate'), '%Y-%m-%d')
-        todate = datetime.datetime.strptime(request.POST.get('todate'), '%Y-%m-%d')
-        bills = NonPurchaseBill.objects.filter(Q(time__gte=fromdate) & Q(time__lte=todate))
-        return render(request, 'purchases/noninwardslip.html', {"bills": bills})
-    else:
-        bills = NonPurchaseBill.objects.all()
-        return render(request, 'purchases/noninwardslip.html', {"bills": bills})
+    try:
+        error="no"
+        if request.method == "POST":
+            fromdate = datetime.datetime.strptime(request.POST.get('fromdate'), '%Y-%m-%d')
+            todate = datetime.datetime.strptime(request.POST.get('todate'), '%Y-%m-%d')
+            bills = NonPurchaseBill.objects.filter(Q(time__gte=fromdate) & Q(time__lte=todate))
+            return render(request, 'purchases/noninwardslip.html', {"bills": bills})
+        else:
+            error = "yes"
+            bills = NonPurchaseBill.objects.all()
+            return render(request, 'purchases/noninwardslip.html', {"bills": bills})
+    except:
+        error="yes"
+    return render(request, 'purchases/noninwardslip.html',locals())
 
 
 ##inward
