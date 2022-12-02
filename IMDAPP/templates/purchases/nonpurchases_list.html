@@ -16,8 +16,13 @@
             </div>
             </div>
           </div>
-    </div>
+          <div class="card-body" style="font-family: 'Alkalami'">
 
+<br>
+
+<div class="form-group" style="font-family:'Alkalami'">
+    <input id="myInput" type="text" class="search form-control"  placeholder="Search">
+</div>
 
     <br>
 <div style="overflow-y:auto; overflow-x:auto; font-family:'Alkalami'" ><style>
@@ -32,7 +37,7 @@
 }
 </style>
 
-    <table class=" table-hover table-bordered" style="font-family:'Alkalami'">
+    <table class=" table-hover table-bordered" style="font-family:'Alkalami'"  id="myTable" onkeyup="myFunction()">
 
         <thead class="thead-dark align-middle">
             <tr>
@@ -78,6 +83,8 @@
 
     </table>
 </div>
+          </div>
+</div>
 <br>
 <br>
     <div class="align-middle">
@@ -112,5 +119,16 @@
     <br><br><br><br><br><br><br><br>
     <div style="color: #575757; font-style: bold; font-size: 1.5rem; text-align: center;font-family:'Alkalami'">The records are empty. Please try adding some.</div>
 {% endif %}
+<script src="https://ajax.googleapis.com/ajax/libs/jquery/3.6.0/jquery.min.js"></script>
+<script>
+$(document).ready(function(){
+  $("#myInput").on("keyup", function() {
+    var value = $(this).val().toLowerCase();
+    $("#myTable tr").filter(function() {
+      $(this).toggle($(this).text().toLowerCase().indexOf(value) > -1)
+    });
+  });
+});
+</script>
 
 {% endblock content %}
