@@ -9,14 +9,18 @@
   <div class="card text-left">
       <div class="card-header" style="background-color:#01345B">
         <div class="row" style="color: white; font-style: bold; font-size: 3.5rem">
-        <div class="col-md-8" style="font-family: 'Alkalami'" >Non-Consumable Items</div>
+        <div class="col-md-8" style="font-family: 'Alkalami'" >Inward Items</div>
        <div class="col-md-4">
-            <div style="float:right; margin-top:8%;font-family:'Alkalami'"> <a class="btn  btn-info" href="{% url 'new-supplier' %}">New Supplier</a> </div>
+            <div style="float:right; margin-top:8%"> <a class="btn  btn-info" href="{% url 'new-consumer' %}">New Supplier</a> </div>
             </div>
     </div>
       </div>
       <div class="card-body" style="font-family: 'Alkalami'">
-        <br>
+
+<!--    <div style="color:#575757; font-style: bold; font-size: 3rem; border-bottom: 1px solid white;">New Purchase</div>-->
+
+        <br><!-- Log on to codeastro.com for more projects -->
+
         <div class="panel panel-default">
             <div class="panel-heading panel-heading-text">Supplier Details</div>
             <div class="panel-body">
@@ -31,11 +35,13 @@
                         <label for="id_phone" class="panel-body-text">Phone No:</label>
                         <input type="text" class="form-control textinput" id="id_phone" value="{{ supplier.phone }}" disabled>
                     </div>
-                      <div class="form-group col-md-6">
+                    <div class="form-group col-md-6">
                         <label for="id_gstin" class="panel-body-text">GSTIN No:</label>
-                        <input type="text" class="form-control textinput" id="id_gstin" value="{{ supplier.gstin }}" disabled>
+                        <input type="gstin" class="form-control textinput" id="id_gstin" value="{{ supplier.gstin }}" disabled>
                     </div>
-            </div>
+                </div>
+
+            </div><!-- Log on to codeastro.com for more projects -->
         </div>
 
         <br>
@@ -45,9 +51,9 @@
             {% csrf_token %}
             {{ formset.management_form }}
 
-            <div class="panel-heading panel-heading-text">Stock Details</div>
+            <div class="panel-heading panel-heading-text">Product Details</div>
 
-                <div id="nonstockitem">
+                <div id="stockitem">
                     <div class="panel-body">
                     {% for form in formset %}
                         <div class="row form-row">
@@ -82,21 +88,22 @@
                 </div>
 
 
-            <br>
+            <br><!-- Log on to codeastro.com for more projects -->
 
             <div class="align-middle">
-                <button type="submit" class="btn btn-info">Add to Purchase</button>
+                <button type="submit" class="btn btn-info">Add to Purchases</button>
                 <a href="{% url 'select-supplier' %}" class="btn btn-danger">Go Back</a>
+                <a href="{% url 'nonpurchases-list' %}" class="btn btn-secondary">Cancel</a>
             </div>
-
 
         </form>
 
     </div>
-      </div>
-
+  </div>
+    <!-- Custom JS to add and remove item forms --><!-- Log on to codeastro.com for more projects -->
     <script type="text/javascript" src="{% static 'js/jquery-3.2.1.slim.min.js' %}"></script>
     <script type="text/javascript" src="{% static 'js/dialogbox.js' %}"></script>
+<!--    <script src="script.js"></script>-->
     <script type="text/javascript">
 
         //creates custom alert object
@@ -183,5 +190,11 @@
         });
 
     </script>
-  </div>
+
 {% endblock content %}
+
+
+
+
+
+

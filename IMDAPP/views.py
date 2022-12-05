@@ -236,6 +236,8 @@ class SelectConsumerView(View):
 
 
 # used to delete a bill object
+
+
 class PurchaseCreateView(View):
     template_name = 'purchases/new_purchase.html'
 
@@ -265,23 +267,72 @@ class PurchaseCreateView(View):
                 # gets the stock item
                 stock = get_object_or_404(Stock, pk=pk)
 
+                # subcategory/stock = get_object_or_404(Stock/Purchase, name=billitem.purchaser/stock.name)       # gets the item
+
                 # gets the item
                 # calculates the total price
                 billitem.totalprice = billitem.perprice * billitem.quantity
                 # updates quantity in stock db
-                stock.quantity += billitem.quantity
-                # updates quantity
+                stock.quantity += billitem.quantity  # updates quantity
+                # purchase/stock.quantity += billitem.quantity                              # updates quantity
                 # saves bill item and stock
                 stock.save()
+                # purchase/stock.save()
                 billitem.save()
             messages.success(request, "Purchased items added successfully")
             return redirect('purchase-bill', billno=billobj.billno)
         formset = PurchaseItemFormset(request.GET or None)
         context = {
             'formset': formset,
-            'supplier': consumerobj
+            'consumer': consumerobj
         }
         return render(request, self.template_name, context)
+# class PurchaseCreateView(View):
+#     template_name = 'purchases/new_purchase.html'
+#
+#     def get(self, request, pk):
+#         formset = PurchaseItemFormset(request.GET or None)  # renders an empty formset
+#         consumerobj = get_object_or_404(Consumer, pk=pk)  # gets the supplier object
+#         context = {
+#             'formset': formset,
+#             'consumer': consumerobj,
+#         }  # sends the supplier and formset as context
+#         return render(request, self.template_name, context)
+#
+#     def post(self, request, pk):
+#         formset = PurchaseItemFormset(request.POST)  # recieves a post method for the formset
+#         consumerobj = get_object_or_404(Consumer, pk=pk)  # gets the supplier object
+#         if formset.is_valid():
+#             # saves bill
+#             billobj = PurchaseBill(consumer=consumerobj)  # a new object of class 'PurchaseBill' is created with supplier field set to 'supplierobj'
+#             billobj.save()  # saves object into the db
+#             # create bill details object
+#             billdetailsobj = PurchaseBillDetails(billno=billobj)
+#             billdetailsobj.save()
+#             for form in formset:  # for loop to save each individual form as its own object
+#                 # false saves the item and links bill to the item
+#                 billitem = form.save(commit=False)
+#                 billitem.billno = billobj  # links the bill object to the items
+#                 # gets the stock item
+#                 stock = get_object_or_404(Stock, pk=pk)
+#
+#                 # gets the item
+#                 # calculates the total price
+#                 billitem.totalprice = billitem.perprice * billitem.quantity
+#                 # updates quantity in stock db
+#                 stock.quantity += billitem.quantity
+#                 # updates quantity
+#                 # saves bill item and stock
+#                 stock.save()
+#                 billitem.save()
+#             messages.success(request, "Purchased items added successfully")
+#             return redirect('purchase-bill', billno=billobj.billno)
+#         formset = PurchaseItemFormset(request.GET or None)
+#         context = {
+#             'formset': formset,
+#             'supplier': consumerobj
+#         }
+#         return render(request, self.template_name, context)
 
 
 
@@ -399,6 +450,7 @@ class NonPurchaseDeleteView(SuccessMessageMixin, DeleteView):
         return super(NonPurchaseDeleteView, self).delete(*args, **kwargs)
 
 
+
 def outwardslip(request):
     try:
         error="no"
@@ -453,7 +505,15 @@ def inwardslip(request):
         error="yes"
     return render(request, 'purchases/inwardslip.html',locals())
 
-
+def inwardslip(request):
+    if request.method == "POST":
+        fromdate = datetime.datetime.strptime(request.POST.get('fromdate'), '%Y-%m-%d')
+        todate = datetime.datetime.strptime(request.POST.get('todate'), '%Y-%m-%d')
+        bills = PurchaseBill.objects.filter(Q(time__gte=fromdate) & Q(time__lte=todate))
+        return render(request, 'purchases/inwardslip.html', {"bills": bills})
+    else:
+        bills = PurchaseBill.objects.all()
+        return render(request, 'purchases/inwardslip.html', {"bills": bills})
 
 
 
@@ -472,8 +532,6 @@ def noninwardslip(request):
     except:
         error="yes"
     return render(request, 'purchases/noninwardslip.html',locals())
-
-
 ##inward
 def export_csv(request):
     response = HttpResponse(content_type='text/csv')
