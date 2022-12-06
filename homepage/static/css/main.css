@@ -131,6 +131,9 @@ color:black;
   color: #313131;
 }
 
+.table-bordered td{
+    border:1px solid black;
+}
 /* .btn-primary {
   border: none;
   color: white;
