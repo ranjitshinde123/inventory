@@ -22,7 +22,7 @@
     <input id="myInput" type="text" class="search form-control"  placeholder="Search">
 </div>
 
-<form  action="{% url 'inwardslip' %}" method="POST">
+<form method="post" action="{% url 'inwardslip' %}" >
         {% csrf_token %}
     <div style="font-family:'Alkalami'">
         From: <input type="date" name="fromdate">

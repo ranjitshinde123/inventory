@@ -57,7 +57,7 @@ class Description(models.Model):
 
 
 class Supplier(models.Model):
-    id = models.AutoField(primary_key=True)
+    id=models.AutoField(primary_key=True)
     name=models.CharField(max_length=255)
     phone = models.CharField(max_length=12)
     address = models.TextField()
@@ -73,13 +73,14 @@ class Supplier(models.Model):
 
 
 class Consumer(models.Model):
+    id=models.AutoField(primary_key=True)
+
     STATUS_CHOICES=[
         ('FS','FS'),
         ('LB','LB'),
         ('MI','MI'),
         ('PS','PS'),
     ]
-    id = models.AutoField(primary_key=True)
     U_Type=models.CharField(max_length=50,choices=STATUS_CHOICES)
     name=models.CharField(max_length=255)
     phone = models.CharField(max_length=12 ,default="")

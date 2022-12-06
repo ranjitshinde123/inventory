@@ -92,7 +92,7 @@ class ConsumerDeleteView(View):
         return render(request, self.template_name, {'object': consumer})
 
     def post(self, request, pk):
-        consumer = get_object_or_404(Consumer, pk=pk)
+        consumer = get_object_or_404(Consumer, pk=pk).delete()
         consumer.is_deleted = True
         consumer.save()
         messages.success(request, self.success_message)
@@ -240,7 +240,6 @@ class SelectConsumerView(View):
 
 class PurchaseCreateView(View):
     template_name = 'purchases/new_purchase.html'
-
     def get(self, request, pk):
         formset = PurchaseItemFormset(request.GET or None)  # renders an empty formset
         consumerobj = get_object_or_404(Consumer, pk=pk)  # gets the supplier object
@@ -249,9 +248,8 @@ class PurchaseCreateView(View):
             'consumer': consumerobj,
         }  # sends the supplier and formset as context
         return render(request, self.template_name, context)
-
     def post(self, request, pk):
-        formset = PurchaseItemFormset(request.POST)  # recieves a post method for the formset
+        formset = PurchaseItemFormset(request.POST or None)  # recieves a post method for the formset
         consumerobj = get_object_or_404(Consumer, pk=pk)  # gets the supplier object
         if formset.is_valid():
             # saves bill
@@ -265,7 +263,7 @@ class PurchaseCreateView(View):
                 billitem = form.save(commit=False)
                 billitem.billno = billobj  # links the bill object to the items
                 # gets the stock item
-                stock = get_object_or_404(Stock, pk=pk)
+                stock = get_object_or_404(Stock, id=billitem.stock.id)
 
                 # subcategory/stock = get_object_or_404(Stock/Purchase, name=billitem.purchaser/stock.name)       # gets the item
 
@@ -287,54 +285,6 @@ class PurchaseCreateView(View):
             'consumer': consumerobj
         }
         return render(request, self.template_name, context)
-# class PurchaseCreateView(View):
-#     template_name = 'purchases/new_purchase.html'
-#
-#     def get(self, request, pk):
-#         formset = PurchaseItemFormset(request.GET or None)  # renders an empty formset
-#         consumerobj = get_object_or_404(Consumer, pk=pk)  # gets the supplier object
-#         context = {
-#             'formset': formset,
-#             'consumer': consumerobj,
-#         }  # sends the supplier and formset as context
-#         return render(request, self.template_name, context)
-#
-#     def post(self, request, pk):
-#         formset = PurchaseItemFormset(request.POST)  # recieves a post method for the formset
-#         consumerobj = get_object_or_404(Consumer, pk=pk)  # gets the supplier object
-#         if formset.is_valid():
-#             # saves bill
-#             billobj = PurchaseBill(consumer=consumerobj)  # a new object of class 'PurchaseBill' is created with supplier field set to 'supplierobj'
-#             billobj.save()  # saves object into the db
-#             # create bill details object
-#             billdetailsobj = PurchaseBillDetails(billno=billobj)
-#             billdetailsobj.save()
-#             for form in formset:  # for loop to save each individual form as its own object
-#                 # false saves the item and links bill to the item
-#                 billitem = form.save(commit=False)
-#                 billitem.billno = billobj  # links the bill object to the items
-#                 # gets the stock item
-#                 stock = get_object_or_404(Stock, pk=pk)
-#
-#                 # gets the item
-#                 # calculates the total price
-#                 billitem.totalprice = billitem.perprice * billitem.quantity
-#                 # updates quantity in stock db
-#                 stock.quantity += billitem.quantity
-#                 # updates quantity
-#                 # saves bill item and stock
-#                 stock.save()
-#                 billitem.save()
-#             messages.success(request, "Purchased items added successfully")
-#             return redirect('purchase-bill', billno=billobj.billno)
-#         formset = PurchaseItemFormset(request.GET or None)
-#         context = {
-#             'formset': formset,
-#             'supplier': consumerobj
-#         }
-#         return render(request, self.template_name, context)
-
-
 
 
 
@@ -396,7 +346,7 @@ class NonPurchaseCreateView(View):
         return render(request, self.template_name, context)
 
     def post(self, request, pk):
-        formset = NonPurchaseItemFormset(request.POST)  # recieves a post method for the formset
+        formset = NonPurchaseItemFormset(request.POST or None)  # recieves a post method for the formset
         supplierobj = get_object_or_404(Supplier, pk=pk)  # gets the supplier object
         if formset.is_valid():
             # saves bill
@@ -410,7 +360,7 @@ class NonPurchaseCreateView(View):
                 billitem = form.save(commit=False)
                 billitem.billno = billobj  # links the bill object to the items
                 # gets the stock item
-                nonstock = get_object_or_404(NonStock,pk=pk)
+                nonstock = get_object_or_404(NonStock,id=billitem.nonstock.id)
 
                 # gets the item
                 # calculates the total price
@@ -449,50 +399,81 @@ class NonPurchaseDeleteView(SuccessMessageMixin, DeleteView):
         messages.success(self.request, "Purchase bill deleted successfully")
         return super(NonPurchaseDeleteView, self).delete(*args, **kwargs)
 
-
+#OutwardSlip(consumable,Non-consumable)
 
 def outwardslip(request):
-    if request.method == "POST":
-        fromdate = datetime.datetime.strptime(request.POST.get('fromdate'), '%Y-%m-%d')
-        todate = datetime.datetime.strptime(request.POST.get('todate'), '%Y-%m-%d')
-        bills = SaleBill.objects.filter(Q(time__gte=fromdate) & Q(time__lte=todate))
-        return render(request, 'sales/outwardslip.html', {"bills": bills})
-    else:
-        bills = SaleBill.objects.all()
-        return render(request, 'sales/outwardslip.html', {"bills": bills})
+    try:
+        error="no"
+        if request.method == "POST":
+            fromdate = datetime.datetime.strptime(request.POST.get('fromdate'), '%Y-%m-%d')
+            todate = datetime.datetime.strptime(request.POST.get('todate'), '%Y-%m-%d')
+            bills = SaleBill.objects.filter(Q(time__gte=fromdate) & Q(time__lte=todate))
+            return render(request, 'sales/outwardslip.html', {"bills": bills})
+        else:
+            error="yes"
+            bills = SaleBill.objects.all()
+            return render(request, 'sales/outwardslip.html', {"bills": bills})
+    except:
+        error="yes"
+    return render(request, 'sales/outwardslip.html',{"bills": bills},locals())
+
 
 def nonoutwardslip(request):
-    if request.method == "POST":
-        fromdate = datetime.datetime.strptime(request.POST.get('fromdate'), '%Y-%m-%d')
-        todate = datetime.datetime.strptime(request.POST.get('todate'), '%Y-%m-%d')
-        bills = NonSaleBill.objects.filter(Q(time__gte=fromdate) & Q(time__lte=todate))
-        return render(request, 'sales/nonoutward_slip.html', {"bills": bills})
-    else:
-        bills = NonSaleBill.objects.all()
-        return render(request, 'sales/nonoutward_slip.html', {"bills": bills})
+    try:
+        error="no"
+        if request.method == "POST":
+            fromdate = datetime.datetime.strptime(request.POST.get('fromdate'), '%Y-%m-%d')
+            todate = datetime.datetime.strptime(request.POST.get('todate'), '%Y-%m-%d')
+            bills = NonSaleBill.objects.filter(Q(time__gte=fromdate) & Q(time__lte=todate))
+            return render(request, 'sales/nonoutward_slip.html', {"bills": bills})
+        else:
+            error="yes"
+            bills = NonSaleBill.objects.all()
+            return render(request, 'sales/nonoutward_slip.html', {"bills": bills})
+    except:
+        error="yes"
+    return render(request, 'sales/nonoutward_slip.html',locals())
 
 
+#inward Slip(consumable,Non-Consumable)
 
 
 def inwardslip(request):
-    if request.method == "POST":
-        fromdate = datetime.datetime.strptime(request.POST.get('fromdate'), '%Y-%m-%d')
-        todate = datetime.datetime.strptime(request.POST.get('todate'), '%Y-%m-%d')
-        bills = PurchaseBill.objects.filter(Q(time__gte=fromdate) & Q(time__lte=todate))
-        return render(request, 'purchases/inwardslip.html', {"bills": bills})
-    else:
-        bills = PurchaseBill.objects.all()
-        return render(request, 'purchases/inwardslip.html', {"bills": bills})
+    try:
+        error="no"
+        if request.method == "POST":
+            fromdate = datetime.datetime.strptime(request.POST.get('fromdate'), '%Y-%m-%d')
+            todate = datetime.datetime.strptime(request.POST.get('todate'), '%Y-%m-%d')
+            bills = PurchaseBill.objects.filter(Q(time__gte=fromdate) & Q(time__lte=todate))
+            return render(request, 'purchases/inwardslip.html', {"bills": bills})
+        else:
+            error="yes"
+            bills = PurchaseBill.objects.all()
+            return render(request, 'purchases/inwardslip.html', {"bills": bills})
+
+    except:
+        error="yes"
+    return render(request, 'purchases/inwardslip.html',locals())
+
+
 
 def noninwardslip(request):
-    if request.method == "POST":
-        fromdate = datetime.datetime.strptime(request.POST.get('fromdate'), '%Y-%m-%d')
-        todate = datetime.datetime.strptime(request.POST.get('todate'), '%Y-%m-%d')
-        bills = NonPurchaseBill.objects.filter(Q(time__gte=fromdate) & Q(time__lte=todate))
-        return render(request, 'purchases/noninwardslip.html', {"bills": bills})
-    else:
-        bills = NonPurchaseBill.objects.all()
-        return render(request, 'purchases/noninwardslip.html', {"bills": bills})
+    try:
+        error="no"
+        if request.method == "POST":
+            fromdate = datetime.datetime.strptime(request.POST.get('fromdate'), '%Y-%m-%d')
+            todate = datetime.datetime.strptime(request.POST.get('todate'), '%Y-%m-%d')
+            bills = NonPurchaseBill.objects.filter(Q(time__gte=fromdate) & Q(time__lte=todate))
+            return render(request, 'purchases/noninwardslip.html', {"bills": bills})
+        else:
+            error = "yes"
+            bills = NonPurchaseBill.objects.all()
+            return render(request, 'purchases/noninwardslip.html', {"bills": bills})
+    except:
+        error="yes"
+    return render(request, 'purchases/noninwardslip.html',locals())
+
+
 ##inward
 def export_csv(request):
     response = HttpResponse(content_type='text/csv')
