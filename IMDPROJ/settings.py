@@ -10,11 +10,13 @@ https://docs.djangoproject.com/en/4.1/topics/settings/
 For the full list of settings and their values, see
 https://docs.djangoproject.com/en/4.1/ref/settings/
 """
-import dj_database_url
+
 import os
 from pathlib import Path
 
 # Build paths inside the project like this: BASE_DIR / 'subdir'.
+import dj_database_url
+
 BASE_DIR = Path(__file__).resolve().parent.parent
 SETTING_PATH=os.path.dirname(os.path.dirname(__file__))
 # BASE_DIR = Path(__file__).resolve().parent.parent
@@ -161,6 +163,5 @@ LOGIN_REQUIRED_IGNORE_VIEW_NAMES = [                    # urls ignored by the lo
 # DEFAULT_AUTO_FIELD = 'django.db.models.BigAutoField'
 DEFAULT_AUTO_FIELD='django.db.models.BigAutoField'
 STATICFILES_STORAGE = 'whitenoise.storage.CompressedManifestStaticFilesStorage'
-
 db_from_env = dj_database_url.config(conn_max_age=500)
 DATABASES['default'].update(db_from_env)
