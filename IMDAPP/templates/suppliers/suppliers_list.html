@@ -69,6 +69,10 @@
         </div>
 </div>
 <br>
+<div style="font-family:'Alkalami'">
+        <a href="{% url 'home' %}" class="btn btn-secondary">Back To Home</a>
+    </div>
+<br>
     <div class="align-middle"><!-- Log on to codeastro.com for more projects -->
         {% if is_paginated %}
 
@@ -94,9 +98,7 @@
     </div>
 <br>
 
- <div style="font-family:'Alkalami'">
-        <a href="{% url 'home' %}" class="btn btn-secondary">Back To Home</a>
-    </div>
+
 {% else %}
 
         <tbody></tbody>   
