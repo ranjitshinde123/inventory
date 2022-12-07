@@ -27,7 +27,7 @@ from .models import (
     SaleItem,
     SaleBillDetails, Stock, NonStock, Subcategory, Description, NonSubcategory, NonDescription, NonPurchaseBill,
     NonPurchaseBillDetails, NonPurchaseItem, Supplier, NonSaleBill, NonSaleItem, NonSaleBillDetails, Consumer,
-    trs
+    trs, Category, NonCategory
 )
 from .forms import (
     StockForm,
@@ -969,8 +969,15 @@ def addcategory(request):
     try:
         error = "no"
         if form.is_valid():
+            category = form.cleaned_data['category']
+            if Category.objects.filter(category=category).exists():
+                messages.info(
+                    request, 'Category already exists! ')
+                return redirect('addcategory')
             form.save()
         else:
+            category = form.save(commit=False)
+            category.save()
             error = "yes"
     except:
         error = "yes"
@@ -1002,13 +1009,19 @@ def adddescription(request):
     return render(request, "Master/adddescription.html", locals())
 
 def addnoncategory(request):
-    form=NonCategoryForm(request.POST or None)
+    form=NonCategoryForm(request.POST)
     try:
         error = "no"
         if form.is_valid():
+            category = form.cleaned_data['category']
+            if NonCategory.objects.filter(category=category).exists():
+                messages.info(
+                    request, 'Category already exists! ')
+                return redirect('addnoncategory')
             form.save()
-            # return redirect('inventory')
         else:
+            category = form.save(commit=False)
+            category.save()
             error = "yes"
     except:
         error = "yes"

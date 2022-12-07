@@ -56,6 +56,12 @@ alert('Category Added Successfully');
 window.location=('{% url 'addcategory' %}');
 </script>
 {% endif %}
+{% if error == "yes" %}
+<script>
+alert('Category already exists!!');
+window.location=('{% url 'addcategory' %}';
+</script>
+{% endif %}
 
 
 

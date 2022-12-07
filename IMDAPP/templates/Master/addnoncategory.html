@@ -68,5 +68,11 @@
      window.location=('{% url 'addnoncategory' %}');
 </script>
      {% endif %}
+{% if error == "yes" %}
+<script>
+alert('Category already exists!!');
+window.location=('{% url 'addnoncategory' %}';
+</script>
+{% endif %}
 
 {% endblock content %}
