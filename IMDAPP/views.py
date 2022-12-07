@@ -64,6 +64,8 @@ class ConsumerCreateView(SuccessMessageMixin, CreateView):
         context["savebtn"] = 'Add Consumer'
         return context
 
+
+
     # used to update a supplier's info
 
 
