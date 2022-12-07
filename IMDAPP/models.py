@@ -72,6 +72,8 @@ class Supplier(models.Model):
 
 
 
+
+
 class Consumer(models.Model):
     id=models.AutoField(primary_key=True)
 
@@ -91,6 +93,7 @@ class Consumer(models.Model):
 
     def __str__(self):
         return str(self.name)
+
 
 
 

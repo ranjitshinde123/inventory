@@ -1,4 +1,5 @@
 from django import forms
+from django.core.exceptions import ValidationError
 from django.forms import formset_factory
 from .models import (
     Supplier,
@@ -184,8 +185,6 @@ class SupplierForm(forms.ModelForm):
                 }
             )
         }
-
-
 
 
 class ConsumerForm(forms.ModelForm):

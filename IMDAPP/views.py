@@ -2,7 +2,7 @@ import json
 from django.core.exceptions import ObjectDoesNotExist, MultipleObjectsReturned
 from django.shortcuts import render
 from django.db.models import Q
-from django.http import HttpResponse, JsonResponse
+from django.http import HttpResponse, JsonResponse, request
 import csv
 from django.shortcuts import render, redirect, get_object_or_404
 from django_filters.views import FilterView
@@ -63,9 +63,6 @@ class ConsumerCreateView(SuccessMessageMixin, CreateView):
         context["title"] = 'New Consumer'
         context["savebtn"] = 'Add Consumer'
         return context
-
-
-
     # used to update a supplier's info
 
 
@@ -94,7 +91,7 @@ class ConsumerDeleteView(View):
         return render(request, self.template_name, {'object': consumer})
 
     def post(self, request, pk):
-        consumer = get_object_or_404(Consumer, pk=pk).delete()
+        consumer = get_object_or_404(Consumer, pk=pk)
         consumer.is_deleted = True
         consumer.save()
         messages.success(request, self.success_message)
