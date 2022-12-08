@@ -309,7 +309,6 @@ class NonPurchaseView(ListView):
     template_name = "purchases/nonpurchases_list.html"
     context_object_name = 'bills'
     ordering = ['time']
-
     paginate_by = 10
 
 
@@ -453,8 +452,6 @@ def inwardslip(request):
     except:
         error="yes"
     return render(request, 'purchases/inwardslip.html',locals())
-
-
 
 def noninwardslip(request):
     try:

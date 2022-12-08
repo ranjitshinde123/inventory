@@ -42,7 +42,6 @@
                 <th width="15%">Date</th>
                 <th width="10%">Name</th>
                 <th width="7%">Address</th>
-<!--                <th width="9%">Email</th>-->
                 <th width="5%">Category</th>
                 <th width="10%">Sub-Category</th>
                 <th width="5%">Quantity</th>
@@ -64,7 +63,6 @@
                 <td class="align-middle">{{ sale.time.date }}</td>
                 <td class="align-middle"> {{ sale.name }} </td>
                 <td class="align-middle">{% for item in sale.get_items_list %} {{ sale.address }} <br> {% endfor %}</td>
-<!--                <td class="align-middle">{% for item in sale.get_items_list %} {{ sale.email }} <br> {% endfor %}</td>-->
                 <td class="align-middle">{% for item in sale.get_items_list %} {{ item.stock.category }} <br> {% endfor %}</td>
                 <td class="align-middle">{% for item in sale.get_items_list %} {{ item.stock.subcategory }} <br> {% endfor %}</td>
                 <td class="align-middle">{% for item in sale.get_items_list %} {{ item.quantity }} <br> {% endfor %}</td>
@@ -89,8 +87,9 @@
 
     </table>
 </div>
-                  </div>
-          </div>
+</div>
+</div>
+
 </div>
 <br>
 <br>
