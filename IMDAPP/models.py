@@ -59,7 +59,7 @@ class Description(models.Model):
 class Supplier(models.Model):
     id=models.AutoField(primary_key=True)
     name=models.CharField(max_length=255)
-    phone = models.CharField(max_length=12)
+    phone = models.CharField(max_length=12,unique=True)
     address = models.TextField()
     email = models.EmailField(max_length=100)
     gstin = models.CharField(max_length=15, unique=True)
@@ -68,10 +68,6 @@ class Supplier(models.Model):
 
     def __str__(self):
         return str(self.name)
-
-
-
-
 
 
 class Consumer(models.Model):
@@ -85,7 +81,7 @@ class Consumer(models.Model):
     ]
     U_Type=models.CharField(max_length=50,choices=STATUS_CHOICES)
     name=models.CharField(max_length=255)
-    phone = models.CharField(max_length=12 ,default="")
+    phone = models.CharField(max_length=12 ,unique=True)
     address = models.TextField()
     email = models.EmailField(max_length=100)
     gstin = models.CharField(max_length=15, unique=True)

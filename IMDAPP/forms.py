@@ -1,6 +1,9 @@
 from django import forms
 from django.core.exceptions import ValidationError
 from django.forms import formset_factory
+from django.http import request
+from pyexpat.errors import messages
+
 from .models import (
     Supplier,
     PurchaseBill,
@@ -52,6 +55,7 @@ class StockForm(forms.ModelForm):
 
     class Meta:
         model = Stock
+
         fields = ['name','category','subcategory','description','quantity','unit','Mode_of_delivery','condition','label_code']
 
 class NonStockForm(forms.ModelForm):
@@ -174,6 +178,8 @@ class SupplierForm(forms.ModelForm):
         self.fields['email'].widget.attrs.update({'class': 'textinput form-control'})
         self.fields['gstin'].widget.attrs.update({'class': 'textinput form-control', 'maxlength': '15', 'pattern': '[A-Z0-9]{15}','title': 'GSTIN Format Required'})
 
+
+
     class Meta:
         model = Supplier
         fields = ['name', 'phone', 'address', 'email','gstin']
@@ -185,6 +191,7 @@ class SupplierForm(forms.ModelForm):
                 }
             )
         }
+
 
 
 class ConsumerForm(forms.ModelForm):

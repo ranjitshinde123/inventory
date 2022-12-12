@@ -2,7 +2,7 @@ import json
 from django.core.exceptions import ObjectDoesNotExist, MultipleObjectsReturned
 from django.shortcuts import render
 from django.db.models import Q
-from django.http import HttpResponse, JsonResponse, request
+from django.http import HttpResponse, JsonResponse, request, Http404
 import csv
 from django.shortcuts import render, redirect, get_object_or_404
 from django_filters.views import FilterView
@@ -57,6 +57,14 @@ class ConsumerCreateView(SuccessMessageMixin, CreateView):
     success_url = '/inventory/consumers'
     success_message = "Consumer added successfully"
     template_name = "suppliers/edit_consumer.html"
+
+    def post(self, request, *args, **kwargs):
+        # super().post() maybe raise a ValidationError if it is failure to save
+        response = super().post(request, *args, **kwargs)
+        # the below code is optional. django has responsed another erorr message
+        if not self.object:
+            messages.info(request, 'Consumer already exists.')
+        return response
 
     def get_context_data(self, **kwargs):
         context = super().get_context_data(**kwargs)
@@ -141,11 +149,22 @@ class SupplierCreateView(SuccessMessageMixin, CreateView):
     success_message = "Supplier added successfully"
     template_name = "suppliers/edit_supplier.html"
 
+    def post(self, request, *args, **kwargs):
+        # super().post() maybe raise a ValidationError if it is failure to save
+        response = super().post(request, *args, **kwargs)
+        # the below code is optional. django has responsed another erorr message
+        if not self.object:
+            messages.info(request, 'Supplier already exist!!')
+        return response
+
     def get_context_data(self, **kwargs):
         context = super().get_context_data(**kwargs)
         context["title"] = 'New Supplier'
         context["savebtn"] = 'Add Supplier'
         return context
+
+
+
 
     # used to update a supplier's info
 
@@ -262,6 +281,7 @@ class PurchaseCreateView(View):
                 billitem = form.save(commit=False)
                 billitem.billno = billobj  # links the bill object to the items
                 # gets the stock item
+                # label_code = get_object_or_404(Stock,id=billitem.stock.label_code)
                 stock = get_object_or_404(Stock, id=billitem.stock.id)
 
                 # subcategory/stock = get_object_or_404(Stock/Purchase, name=billitem.purchaser/stock.name)       # gets the item
@@ -358,7 +378,7 @@ class NonPurchaseCreateView(View):
                 billitem = form.save(commit=False)
                 billitem.billno = billobj  # links the bill object to the items
                 # gets the stock item
-                nonstock = get_object_or_404(NonStock,id=billitem.nonstock.id)
+                nonstock = get_object_or_404(NonStock,id=billitem.nonstock.id,)
 
                 # gets the item
                 # calculates the total price
@@ -413,7 +433,7 @@ def outwardslip(request):
             return render(request, 'sales/outwardslip.html', {"bills": bills})
     except:
         error="yes"
-    return render(request, 'sales/outwardslip.html',{"bills": bills},locals())
+    return render(request, 'sales/outwardslip.html',locals())
 
 
 def nonoutwardslip(request):
@@ -436,6 +456,30 @@ def nonoutwardslip(request):
 #inward Slip(consumable,Non-Consumable)
 
 
+# def inwardslip(request):
+#     try:
+#         error="no"
+#         if request.method == "POST":
+#             fromdate = datetime.datetime.strptime(request.POST.get('fromdate'), '%Y-%m-%d')
+#             todate = datetime.datetime.strptime(request.POST.get('todate'), '%Y-%m-%d')
+#             bills = PurchaseBill.objects.filter(Q(time__gte=fromdate) & Q(time__lte=todate))
+#
+#
+#     try:
+#
+#         bills = paginator.page(page)
+#     except PageNotAnInteger:
+#         bills = paginator.page(1)
+#     except EmptyPage:
+#         bills = paginator.page(paginator.num_pages)
+#
+#     context = {
+#         'bills': bills,
+#     }
+#     return render(request, 'purchases/inwardslip.html', context)
+#
+
+
 def inwardslip(request):
     try:
         error="no"
@@ -452,6 +496,9 @@ def inwardslip(request):
     except:
         error="yes"
     return render(request, 'purchases/inwardslip.html',locals())
+
+
+
 
 def noninwardslip(request):
     try:
