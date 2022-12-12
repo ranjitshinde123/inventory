@@ -140,7 +140,7 @@ class Stock(models.Model):
     is_deleted = models.BooleanField(default=False)
 
     def __str__(self):
-        return str(self.subcategory)
+        return str(self.subcategory)+ ", Label Code = " + self.label_code
 
 #nonconsumable
 
@@ -195,7 +195,7 @@ class NonStock(models.Model):
     is_deleted = models.BooleanField(default=False)
 
     def __str__(self):
-        return str(self.subcategory)
+        return str(self.subcategory)  + ",Label Code= " + self.label_code
 
 
 class PurchaseBill(models.Model):

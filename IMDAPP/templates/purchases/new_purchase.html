@@ -58,7 +58,7 @@
                     {% for form in formset %}
                         <div class="row form-row">
                             <div class="form-group col-md-4">
-                                {{ form.stock.errors }}
+                                {{ form.stock.errors }}{{form.stock.lable_code}}
                                 <label class="panel-body-text">Stock:</label>
                                 {{ form.stock }}
                             </div><!-- Log on to codeastro.com for more projects -->

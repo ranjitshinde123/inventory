@@ -290,7 +290,7 @@ class PurchaseCreateView(View):
                 # calculates the total price
                 billitem.totalprice = billitem.perprice * billitem.quantity
                 # updates quantity in stock db
-                stock.quantity += billitem.quantity  # updates quantity
+                stock.quantity += billitem.quantity  # updates quantityv
                 # purchase/stock.quantity += billitem.quantity                              # updates quantity
                 # saves bill item and stock
                 stock.save()
