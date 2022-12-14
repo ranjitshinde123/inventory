@@ -2,7 +2,7 @@
 .sidebar-text:hover,
 .sidebar-text:focus {
   color:white;
-  font-size:1.3rem;
+  font-size:1.1rem;
   text-decoration: none;
   transition: all 0.3s;
 }
