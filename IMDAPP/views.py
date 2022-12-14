@@ -59,9 +59,7 @@ class ConsumerCreateView(SuccessMessageMixin, CreateView):
     template_name = "suppliers/edit_consumer.html"
 
     def post(self, request, *args, **kwargs):
-        # super().post() maybe raise a ValidationError if it is failure to save
         response = super().post(request, *args, **kwargs)
-        # the below code is optional. django has responsed another erorr message
         if not self.object:
             messages.info(request, 'Consumer already exists.')
         return response
