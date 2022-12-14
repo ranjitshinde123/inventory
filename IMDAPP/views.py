@@ -717,9 +717,12 @@ class NonSaleCreateView(View):
         }
         return render(request, self.template_name, context)
 
-    def post(self, request):
+    def post(self, request, *args, **kwargs):
         form = NonSaleForm(request.POST)
-        formset = NonSaleItemFormset(request.POST)  # recieves a post method for the formset
+        formset = NonSaleItemFormset(request.POST)
+        # gets the supplier object
+
+        # recieves a post method for the formset
         if form.is_valid() and formset.is_valid():
             # saves bill
             billobj = form.save(commit=False)
@@ -734,19 +737,20 @@ class NonSaleCreateView(View):
                     billitem.billno = billobj  # links the bill object to the items
                     # gets the stock item
                     nonstock = get_object_or_404(NonStock, subcategory=billitem.nonstock.subcategory)
-                    print(id)
+                    print(request.GET)
+                    # stock = get_object_or_404(Stock, name=billitem.stock.name
 
-                    # calculates the total price
                     billitem.totalprice = billitem.perprice * billitem.quantity
                     # updates quantity in stock db
                     nonstock.quantity -= billitem.quantity
                     # saves bill item and stock
+
                     nonstock.save()
                     billitem.save()
 
-
             except (ObjectDoesNotExist, MultipleObjectsReturned):
                 pass
+
             messages.success(request, "Sold items added successfully")
             return redirect('nonsale-bill', billno=billobj.billno)
         form = NonSaleForm(request.GET or None)
@@ -755,7 +759,7 @@ class NonSaleCreateView(View):
             'form': form,
             'formset': formset,
         }
-        return render(request, self.template_name, context)
+        return render(request, self.template_name, context, locals())
 
 
 class NonSaleDeleteView(SuccessMessageMixin, DeleteView):
