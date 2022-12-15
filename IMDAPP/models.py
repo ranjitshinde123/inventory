@@ -230,9 +230,9 @@ class PurchaseBillDetails(models.Model):
 class PurchaseItem(models.Model):
     billno = models.ForeignKey(PurchaseBill, on_delete=models.CASCADE, related_name='purchasebillno')
     stock = models.ForeignKey(Stock, on_delete=models.CASCADE, related_name='purchaseitem')
-    quantity = models.IntegerField(default=1)
-    perprice = models.IntegerField(default=1)
-    totalprice = models.IntegerField(default=1)
+    quantity = models.IntegerField(default="")
+    perprice = models.IntegerField(default="")
+    totalprice = models.IntegerField(default="")
     is_deleted=models.BooleanField(default=False)
 
     def __str__(self):
@@ -272,9 +272,9 @@ class NonPurchaseBillDetails(models.Model):
 class NonPurchaseItem(models.Model):
     billno = models.ForeignKey(NonPurchaseBill, on_delete=models.CASCADE, related_name='nonpurchasebillno')
     nonstock = models.ForeignKey(NonStock, on_delete=models.CASCADE, related_name='nonpurchaseitem')
-    quantity = models.IntegerField(default=1)
-    perprice = models.IntegerField(default=1)
-    totalprice = models.IntegerField(default=1)
+    quantity = models.IntegerField(default="")
+    perprice = models.IntegerField(default="")
+    totalprice = models.IntegerField(default="")
     is_deleted=models.BooleanField(default=False)
 
     def __str__(self):
@@ -405,9 +405,9 @@ class SaleBill(models.Model):
 class SaleItem(models.Model):
     billno = models.ForeignKey(SaleBill, on_delete=models.CASCADE, related_name='salebillno')
     stock = models.ForeignKey(Stock, on_delete=models.CASCADE, related_name='saleitem')
-    quantity = models.IntegerField(default=1)
-    perprice = models.IntegerField(default=1)
-    totalprice = models.IntegerField(default=1)
+    quantity = models.IntegerField(default="")
+    perprice = models.IntegerField(default="")
+    totalprice = models.IntegerField(default="")
 
     def __str__(self):
         return "Bill no: " + str(self.billno.billno)

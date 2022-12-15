@@ -18,7 +18,7 @@ from django.views.generic import (
     UpdateView,
     DeleteView
 )
-from .filters import StockFilter
+from .filters import StockFilter, NonStockFilter
 from .models import (
     PurchaseBill,
     PurchaseItem,
@@ -376,7 +376,7 @@ class NonPurchaseCreateView(View):
                 billitem = form.save(commit=False)
                 billitem.billno = billobj  # links the bill object to the items
                 # gets the stock item
-                nonstock = get_object_or_404(NonStock,id=billitem.nonstock.id,)
+                nonstock = get_object_or_404(NonStock,id=billitem.nonstock.id)
 
                 # gets the item
                 # calculates the total price
@@ -944,7 +944,7 @@ class StockView(View):
 
 
 class NonStockListView(FilterView):
-    filterset_class = StockFilter
+    filterset_class = NonStockFilter
     queryset = NonStock.objects.filter(is_deleted=False)
     template_name = 'inventory/nonconsumable.html'
     paginate_by = 10
