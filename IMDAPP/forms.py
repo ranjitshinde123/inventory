@@ -12,51 +12,101 @@ from .models import (
     SaleBill,
     SaleItem,
     SaleBillDetails, Stock, Category, Subcategory, Description, NonStock, NonDescription, NonSubcategory, NonCategory,
-    NonPurchaseBill, NonPurchaseBillDetails, NonPurchaseItem, Consumer, NonSaleBill, NonSaleBillDetails, NonSaleItem
+    NonPurchaseBill, NonPurchaseBillDetails, NonPurchaseItem, Consumer, NonSaleBill, NonSaleBillDetails, NonSaleItem,
+    InwardBillDetails, NonInwardBillDetails
 )
+# class StockForm(forms.ModelForm):
+#     def __init__(self, *args, **kwargs):
+#             super().__init__(*args, **kwargs)
+#             self.fields['subcategory'].queryset = Subcategory.objects.none()
+#
+#             if 'category' in self.data:
+#                 try:
+#                     category_id = int(self.data.get('category'))
+#                     self.fields['subcategory'].queryset = Subcategory.objects.filter(category_id=category_id).order_by(
+#                         'category')
+#                 except (ValueError, TypeError):
+#                     pass  # invalid input from the client; ignore and fallback to empty City queryset
+#             elif self.instance.pk:
+#                 self.fields['subcategory'].queryset = self.instance.category.subcategory_set.order_by('subcategory')
+#
+#             self.fields['description'].queryset = Description.objects.none()
+#             if 'subcategory' in self.data:
+#                 try:
+#                     subcategory_id = int(self.data.get('subcategory'))
+#                     self.fields['description'].queryset = Description.objects.filter(
+#                         subcategory_id=subcategory_id).order_by(
+#                         'subcategory')
+#                 except (ValueError, TypeError):
+#                     pass  # invalid input from the client; ignore and fallback to empty City queryset
+#             elif self.instance.pk:
+#                 self.fields['description'].queryset = self.instance.subcategory.description_set.order_by('description')
+#             self.fields['name'].widget.attrs.update({'class': 'textinput form-control', 'pattern' : '[a-zA-Z\s]{1,50}', 'title' : 'Alphabets and Spaces only'})
+#             self.fields['category'].widget.attrs.update({'class': 'textinput form-control'})
+#             self.fields['subcategory'].widget.attrs.update({'class': 'textinput form-control'})
+#             self.fields['description'].widget.attrs.update({'class': 'textinput form-control'})
+#             self.fields['quantity'].widget.attrs.update({'class': 'textinput form-control', 'min': '0'})
+#             self.fields['unit'].widget.attrs.update({'class': 'textinput form-control'})
+#             self.fields['Mode_of_delivery'].widget.attrs.update({'class': 'textinput form-control'})
+#             self.fields['condition'].widget.attrs.update({'class': 'textinput form-control'})
+#             self.fields['label_code'].widget.attrs.update({'class': 'textinput form-control'})
+#
+#
+#
+#
+#     class Meta:
+#         model = Stock
+#
+#         fields = ['name','category','subcategory','description','quantity','unit','Mode_of_delivery','condition','label_code']
+
 class StockForm(forms.ModelForm):
     def __init__(self, *args, **kwargs):
-            super().__init__(*args, **kwargs)
-            self.fields['subcategory'].queryset = Subcategory.objects.none()
+        super().__init__(*args, **kwargs)
+        self.fields['subcategory'].queryset = Subcategory.objects.none()
 
-            if 'category' in self.data:
-                try:
-                    category_id = int(self.data.get('category'))
-                    self.fields['subcategory'].queryset = Subcategory.objects.filter(category_id=category_id).order_by(
-                        'category')
-                except (ValueError, TypeError):
-                    pass  # invalid input from the client; ignore and fallback to empty City queryset
-            elif self.instance.pk:
-                self.fields['subcategory'].queryset = self.instance.category.subcategory_set.order_by('subcategory')
+        if 'category' in self.data:
+            try:
+                category_id = int(self.data.get('category'))
+                self.fields['subcategory'].queryset = Subcategory.objects.filter(category_id=category_id).order_by(
+                    'category')
+            except (ValueError, TypeError):
+                pass  # invalid input from the client; ignore and fallback to empty City queryset
+        elif self.instance.pk:
+            self.fields['subcategory'].queryset = self.instance.category.subcategory_set.order_by('subcategory')
 
-            self.fields['description'].queryset = Description.objects.none()
-            if 'subcategory' in self.data:
-                try:
-                    subcategory_id = int(self.data.get('subcategory'))
-                    self.fields['description'].queryset = Description.objects.filter(
-                        subcategory_id=subcategory_id).order_by(
-                        'subcategory')
-                except (ValueError, TypeError):
-                    pass  # invalid input from the client; ignore and fallback to empty City queryset
-            elif self.instance.pk:
-                self.fields['description'].queryset = self.instance.subcategory.description_set.order_by('description')
-            self.fields['name'].widget.attrs.update({'class': 'textinput form-control', 'pattern' : '[a-zA-Z\s]{1,50}', 'title' : 'Alphabets and Spaces only'})
-            self.fields['category'].widget.attrs.update({'class': 'textinput form-control'})
-            self.fields['subcategory'].widget.attrs.update({'class': 'textinput form-control'})
-            self.fields['description'].widget.attrs.update({'class': 'textinput form-control'})
-            self.fields['quantity'].widget.attrs.update({'class': 'textinput form-control', 'min': '0'})
-            self.fields['unit'].widget.attrs.update({'class': 'textinput form-control'})
-            self.fields['Mode_of_delivery'].widget.attrs.update({'class': 'textinput form-control'})
-            self.fields['condition'].widget.attrs.update({'class': 'textinput form-control'})
-            self.fields['label_code'].widget.attrs.update({'class': 'textinput form-control'})
-
-
-
+        self.fields['description'].queryset = Description.objects.none()
+        if 'subcategory' in self.data:
+            try:
+                subcategory_id = int(self.data.get('subcategory'))
+                self.fields['description'].queryset = Description.objects.filter(
+                    subcategory_id=subcategory_id).order_by(
+                    'subcategory')
+            except (ValueError, TypeError):
+                pass  # invalid input from the client; ignore and fallback to empty City queryset
+        elif self.instance.pk:
+            self.fields['description'].queryset = self.instance.subcategory.description_set.order_by('description')
+        self.fields['name'].widget.attrs.update(
+            {'class': 'textinput form-control', 'pattern': '[a-zA-Z\s]{1,50}', 'title': 'Alphabets and Spaces only'})
+        self.fields['category'].widget.attrs.update({'class': 'textinput form-control'})
+        self.fields['subcategory'].widget.attrs.update({'class': 'textinput form-control'})
+        self.fields['description'].widget.attrs.update({'class': 'textinput form-control'})
+        self.fields['unit'].widget.attrs.update({'class': 'textinput form-control'})
+        self.fields['Mode_of_delivery'].widget.attrs.update({'class': 'textinput form-control'})
+        self.fields['condition'].widget.attrs.update({'class': 'textinput form-control'})
+        self.fields['label_code'].widget.attrs.update({'class': 'textinput form-control'})
+        self.fields['quantity'].widget.attrs.update({'class': 'textinput form-control setprice quantity', 'min': '0', 'required': 'true'})
+        self.fields['perprice'].widget.attrs.update({'class': 'textinput form-control setprice price', 'min': '0', 'required': 'true'})
 
     class Meta:
         model = Stock
+        fields = ['name', 'category', 'subcategory', 'description', 'unit', 'Mode_of_delivery', 'condition','label_code', 'quantity', 'perprice']
 
-        fields = ['name','category','subcategory','description','quantity','unit','Mode_of_delivery','condition','label_code']
+
+class InwardDetailsForm(forms.ModelForm):
+    class Meta:
+        model = InwardBillDetails
+        fields = ['total']
+
 
 class NonStockForm(forms.ModelForm):
     def __init__(self, *args, **kwargs):
@@ -88,19 +138,25 @@ class NonStockForm(forms.ModelForm):
             self.fields['category'].widget.attrs.update({'class': 'textinput form-control'})
             self.fields['subcategory'].widget.attrs.update({'class': 'textinput form-control'})
             self.fields['description'].widget.attrs.update({'class': 'textinput form-control'})
+            self.fields['unit'].widget.attrs.update({'class': 'textinput form-control'})
             self.fields['quantity'].widget.attrs.update({'class': 'textinput form-control', 'min': '0'})
             self.fields['Mode_of_delivery'].widget.attrs.update({'class': 'textinput form-control'})
             self.fields['condition'].widget.attrs.update({'class': 'textinput form-control'})
             self.fields['label_code'].widget.attrs.update({'class': 'textinput form-control'})
+            self.fields['quantity'].widget.attrs.update({'class': 'textinput form-control setprice quantity', 'min': '0', 'required': 'true'})
+            self.fields['perprice'].widget.attrs.update({'class': 'textinput form-control setprice price', 'min': '0', 'required': 'true'})
 
 
 
 
     class Meta:
         model = NonStock
-        fields = ['name','category','subcategory','description','quantity','Mode_of_delivery','condition','label_code']
+        fields = ['name','category','subcategory','description','unit','quantity','Mode_of_delivery','condition','label_code','quantity','perprice']
 
-
+class NonInwardDetailsForm(forms.ModelForm):
+    class Meta:
+        model = NonInwardBillDetails
+        fields = ['total']
 
 # form used to select a supplier
 class SelectSupplierForm(forms.ModelForm):
@@ -335,7 +391,7 @@ class NonSaleForm(forms.ModelForm):
 
 
 
-#
+
 class NonSaleItemForm(forms.ModelForm):
     def __init__(self, *args, **kwargs):
         super().__init__(*args, **kwargs)

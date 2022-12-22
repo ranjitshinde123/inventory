@@ -2,12 +2,17 @@
 from django.contrib import admin
 from import_export.admin import ImportExportModelAdmin
 
-from .models import Category, Subcategory, Description, Stock, Supplier, PurchaseBill, PurchaseBillDetails,PurchaseItem, SaleBill, SaleItem, SaleBillDetails, NonDescription, NonSubcategory, NonCategory, NonStock,NonPurchaseBillDetails, NonPurchaseItem, Consumer, NonPurchaseBill, NonSaleBill, NonSaleItem, NonSaleBillDetails,trs
+from .models import Category, Subcategory, Description, Stock, Supplier, PurchaseBill, PurchaseBillDetails, \
+    PurchaseItem, SaleBill, SaleItem, SaleBillDetails, NonDescription, NonSubcategory, NonCategory, NonStock, \
+    NonPurchaseBillDetails, NonPurchaseItem, Consumer, NonPurchaseBill, NonSaleBill, NonSaleItem, NonSaleBillDetails, \
+    trs, InwardBillDetails, NonInwardBillDetails
 
 admin.site.register(Stock)
 admin.site.register(NonStock)
 admin.site.register(PurchaseBill)
 admin.site.register(PurchaseBillDetails)
+admin.site.register(InwardBillDetails)
+admin.site.register(NonInwardBillDetails)
 admin.site.register(PurchaseItem)
 admin.site.register(SaleBill)
 admin.site.register(NonSaleBill)

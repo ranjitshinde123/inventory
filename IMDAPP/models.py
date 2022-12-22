@@ -93,6 +93,57 @@ class Consumer(models.Model):
 
 
 
+# class Stock(models.Model):
+#
+#     CONDITION = [
+#         ('GOOD', 'GOOD'),
+#         ('TORN', 'TORN'),
+#         ('DAMAGED', 'DAMAGED'),
+#     ]
+#     MODE_OF_DELIVERY = [
+#         ('BY-HAND', 'BY-HAND'),
+#         ('COURIER', 'COURIER'),
+#         ('OTHER', 'OTHER'),
+#
+#     ]
+#
+#     STATUS_UNIT = [
+#         ('mtr', 'mtr'),
+#         ('cm', 'cm'),
+#         ('mm', 'mm'),
+#         ('kg', 'kg'),
+#         ('gm', 'gm'),
+#         ('ltr', 'ltr'),
+#         ('sqmtr', 'sqmtr'),
+#         ('sqcm', 'sqcm'),
+#         ('cum', 'cum'),
+#         ('ream', 'ream'),
+#         ('doz', 'doz'),
+#         ('pkts', 'pkts'),
+#         ('pairs', 'pairs'),
+#         ('rolls', 'rolls'),
+#         ('inches', 'inches'),
+#     ]
+#
+#
+#
+#     category=models.ForeignKey(Category,on_delete=models.CASCADE)
+#     subcategory=models.ForeignKey(Subcategory,on_delete=models.CASCADE)
+#     description=models.ForeignKey(Description,on_delete=models.CASCADE)
+#     name=models.ForeignKey(Consumer,on_delete=models.CASCADE)
+#     unit = models.CharField(max_length=50, choices=STATUS_UNIT)
+#     id = models.AutoField(primary_key=True)
+#     quantity = models.IntegerField(default=1)
+#     Mode_of_delivery = models.CharField(max_length=50, choices=MODE_OF_DELIVERY)  # received by
+#     label_code = models.CharField(max_length=20, default="")
+#     condition = models.CharField(max_length=50, choices=CONDITION)
+#     is_deleted = models.BooleanField(default=False)
+#
+#     def __str__(self):
+#         return str(self.subcategory)+ ", Label Code = " + self.label_code
+
+
+
 class Stock(models.Model):
 
     CONDITION = [
@@ -100,7 +151,7 @@ class Stock(models.Model):
         ('TORN', 'TORN'),
         ('DAMAGED', 'DAMAGED'),
     ]
-    MODE_OF_DELIVERY = [
+    MODE_OF_DELEVERY = [
         ('BY-HAND', 'BY-HAND'),
         ('COURIER', 'COURIER'),
         ('OTHER', 'OTHER'),
@@ -108,39 +159,59 @@ class Stock(models.Model):
     ]
 
     STATUS_UNIT = [
-        ('mtr', 'mtr'),
-        ('cm', 'cm'),
-        ('mm', 'mm'),
-        ('kg', 'kg'),
-        ('gm', 'gm'),
-        ('ltr', 'ltr'),
-        ('sqmtr', 'sqmtr'),
-        ('sqcm', 'sqcm'),
-        ('cum', 'cum'),
-        ('ream', 'ream'),
-        ('doz', 'doz'),
-        ('pkts', 'pkts'),
-        ('pairs', 'pairs'),
-        ('rolls', 'rolls'),
-        ('inches', 'inches'),
+        ('Mtr', 'Mtr'),
+        ('Cm', 'Cm'),
+        ('Mm', 'Mm'),
+        ('Kg', 'Kg'),
+        ('Gm', 'Gm'),
+        ('Ltr', 'Ltr'),
+        ('SqMtr', 'SqMtr'),
+        ('SqCm', 'SqCm'),
+        ('CuM', 'CuM'),
+        ('Ream', 'Ream'),
+        ('Doz', 'Doz'),
+        ('Pkts', 'Pkts'),
+        ('Pairs', 'Pairs'),
+        ('Rolls', 'Rolls'),
     ]
 
 
-
+    billno = models.AutoField(primary_key=True)
+    time = models.DateTimeField(auto_now=True)
     category=models.ForeignKey(Category,on_delete=models.CASCADE)
     subcategory=models.ForeignKey(Subcategory,on_delete=models.CASCADE)
     description=models.ForeignKey(Description,on_delete=models.CASCADE)
     name=models.ForeignKey(Consumer,on_delete=models.CASCADE)
     unit = models.CharField(max_length=50, choices=STATUS_UNIT)
-    id = models.AutoField(primary_key=True)
-    quantity = models.IntegerField(default=1)
-    Mode_of_delivery = models.CharField(max_length=50, choices=MODE_OF_DELIVERY)  # received by
+    Mode_of_delivery = models.CharField(max_length=50, choices=MODE_OF_DELEVERY)  # received by
     label_code = models.CharField(max_length=20, default="")
     condition = models.CharField(max_length=50, choices=CONDITION)
+    quantity = models.IntegerField(default=1)
+    perprice = models.IntegerField(default=1)
+    totalprice = models.IntegerField(default=1)
     is_deleted = models.BooleanField(default=False)
 
+
+
     def __str__(self):
-        return str(self.subcategory)+ ", Label Code = " + self.label_code
+        return  str(self.subcategory) +   " ,label code=" + self.label_code
+
+
+    def get_items_list(self):
+        return Stock.objects.filter(billno=self)
+
+    def total(self):
+        totalprice = 0
+        totalprice = self.quantity * self.perprice
+        return totalprice
+
+
+class InwardBillDetails(models.Model):
+    billno = models.ForeignKey(Stock, on_delete=models.CASCADE, related_name='inwarddetailsbillno')
+    total = models.CharField(max_length=50, blank=True, null=True)
+
+    def __str__(self):
+        return "Bill no: " + str(self.billno.billno)
 
 #nonconsumable
 
@@ -168,6 +239,37 @@ class NonDescription(models.Model):
         return self.description
 
 
+# class NonStock(models.Model):
+#
+#     CONDITION = [
+#         ('GOOD', 'GOOD'),
+#         ('TORN', 'TORN'),
+#         ('DAMAGED', 'DAMAGED'),
+#     ]
+#     MODE_OF_DELIVERY = [
+#         ('BY-HAND', 'BY-HAND'),
+#         ('COURIER', 'COURIER'),
+#         ('OTHER', 'OTHER'),
+#
+#     ]
+#
+#
+#     category=models.ForeignKey(NonCategory,on_delete=models.CASCADE)
+#     subcategory=models.ForeignKey(NonSubcategory,on_delete=models.CASCADE)
+#     description=models.ForeignKey(NonDescription,on_delete=models.CASCADE)
+#     name=models.ForeignKey(Supplier,on_delete=models.CASCADE)
+#     id = models.AutoField(primary_key=True)
+#     quantity = models.IntegerField(default=1)
+#     Mode_of_delivery = models.CharField(max_length=50, choices=MODE_OF_DELIVERY)  # received by
+#     label_code = models.CharField(max_length=20, default="")
+#     condition = models.CharField(max_length=50, choices=CONDITION)
+#     is_deleted = models.BooleanField(default=False)
+#
+#     def __str__(self):
+#         return str(self.subcategory)  + ",Label Code= " + self.label_code
+#
+
+
 class NonStock(models.Model):
 
     CONDITION = [
@@ -175,27 +277,67 @@ class NonStock(models.Model):
         ('TORN', 'TORN'),
         ('DAMAGED', 'DAMAGED'),
     ]
-    MODE_OF_DELIVERY = [
+    MODE_OF_DELEVERY = [
         ('BY-HAND', 'BY-HAND'),
         ('COURIER', 'COURIER'),
         ('OTHER', 'OTHER'),
 
     ]
 
+    STATUS_UNIT = [
+        ('Mtr', 'Mtr'),
+        ('Cm', 'Cm'),
+        ('Mm', 'Mm'),
+        ('Kg', 'Kg'),
+        ('Gm', 'Gm'),
+        ('Ltr', 'Ltr'),
+        ('SqMtr', 'SqMtr'),
+        ('SqCm', 'SqCm'),
+        ('CuM', 'CuM'),
+        ('Ream', 'Ream'),
+        ('Doz', 'Doz'),
+        ('Pkts', 'Pkts'),
+        ('Pairs', 'Pairs'),
+        ('Rolls', 'Rolls'),
+    ]
 
+
+    billno = models.AutoField(primary_key=True)
+    time = models.DateTimeField(auto_now=True)
     category=models.ForeignKey(NonCategory,on_delete=models.CASCADE)
     subcategory=models.ForeignKey(NonSubcategory,on_delete=models.CASCADE)
     description=models.ForeignKey(NonDescription,on_delete=models.CASCADE)
     name=models.ForeignKey(Supplier,on_delete=models.CASCADE)
-    id = models.AutoField(primary_key=True)
-    quantity = models.IntegerField(default=1)
-    Mode_of_delivery = models.CharField(max_length=50, choices=MODE_OF_DELIVERY)  # received by
+    unit = models.CharField(max_length=50, choices=STATUS_UNIT)
+    Mode_of_delivery = models.CharField(max_length=50, choices=MODE_OF_DELEVERY)  # received by
     label_code = models.CharField(max_length=20, default="")
     condition = models.CharField(max_length=50, choices=CONDITION)
+    quantity = models.IntegerField(default=1)
+    perprice = models.IntegerField(default=1)
+    totalprice = models.IntegerField(default=1)
     is_deleted = models.BooleanField(default=False)
 
+
+
     def __str__(self):
-        return str(self.subcategory)  + ",Label Code= " + self.label_code
+        return  str(self.subcategory) +   " ,label code=" + self.label_code
+
+
+    def get_items_list(self):
+        return NonStock.objects.filter(billno=self)
+
+    def total(self):
+        totalprice = 0
+        totalprice = self.quantity * self.perprice
+        return totalprice
+
+
+class NonInwardBillDetails(models.Model):
+    billno = models.ForeignKey(NonStock, on_delete=models.CASCADE, related_name='noninwarddetailsbillno')
+    total = models.CharField(max_length=50, blank=True, null=True)
+
+    def __str__(self):
+        return "Bill no: " + str(self.billno.billno)
 
 
 class PurchaseBill(models.Model):
@@ -236,7 +378,7 @@ class PurchaseItem(models.Model):
     is_deleted=models.BooleanField(default=False)
 
     def __str__(self):
-        return "Bill no: " + str(self.billno.billno) + ", Item = " + self.stock.subcategory
+        return "Bill no: " + str(self.billno.billno) + ", Item = " + str(self.stock.subcategory)
 
 
 #nonconsumable
@@ -278,7 +420,7 @@ class NonPurchaseItem(models.Model):
     is_deleted=models.BooleanField(default=False)
 
     def __str__(self):
-        return "Bill no: " + str(self.billno.billno) + ", Item = " + self.nonstock.subcategory
+        return "Bill no: " + str(self.billno.billno) + ", Item = " + str(self.nonstock.subcategory)
 
 
 
@@ -307,7 +449,7 @@ class NonSaleBill(models.Model):
     Mode_of_delivery = models.CharField(max_length=50, choices=MODE_OF_DELIVERY)  # received by
     label_code = models.CharField(max_length=20, default="")
     issued_to = models.CharField(max_length=50)
-    gstin = models.CharField(max_length=15, unique=True)
+    gstin = models.CharField(max_length=15)
     is_deleted=models.BooleanField(default=False)
 
 
@@ -380,7 +522,7 @@ class SaleBill(models.Model):
     Mode_of_delivery = models.CharField(max_length=50, choices=MODE_OF_DELIVERY)  # received by
     label_code = models.CharField(max_length=20, default="")
     issued_to = models.CharField(max_length=50)
-    gstin = models.CharField(max_length=15, unique=True)
+    gstin = models.CharField(max_length=15)
     is_deleted=models.BooleanField(default=False)
 
 

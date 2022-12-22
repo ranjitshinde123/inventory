@@ -43,6 +43,8 @@ urlpatterns = [
     path('purchases/new/<pk>', views.PurchaseCreateView.as_view(), name='new-purchase'),
     path('purchases/<pk>/delete', views.PurchaseDeleteView.as_view(), name='delete-purchase'),
     path("purchases/<billno>", views.PurchaseBillView.as_view(), name='purchase-bill'),
+    path("inward/<billno>", views.StockBillView.as_view(), name='inward-bill'),
+    path("inwardnc/<billno>", views.NonStockBillView.as_view(), name='inwardnc-bill'),
 
 #Purchase (NonConsumable Item)
 

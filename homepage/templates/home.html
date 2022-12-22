@@ -23,16 +23,16 @@
                             <a class="dropdown-item" href="{% url 'nonconsumable' %}">Non-Consumable Items</a>
                             </li>
                         </ul>
-                <a class="dropdown-item "  href="#">Purchase List &raquo;</a>
-                        <ul>
-                            <li>
-                            <a class="dropdown-item" href="{% url 'purchases-list' %}">Consumable Items</a>
-                            </li>
+<!--                <a class="dropdown-item "  href="#">Purchase List &raquo;</a>-->
+<!--                        <ul>-->
+<!--                            <li>-->
+<!--                            <a class="dropdown-item" href="{% url 'purchases-list' %}">Consumable Items</a>-->
+<!--                            </li>-->
 
-                            <li>
-                            <a class="dropdown-item" href="{% url 'nonpurchases-list' %}">Non-Consumable Items</a>
-                            </li>
-                        </ul>
+<!--                            <li>-->
+<!--                            <a class="dropdown-item" href="{% url 'nonpurchases-list' %}">Non-Consumable Items</a>-->
+<!--                            </li>-->
+<!--                        </ul>-->
 
                     <a class="dropdown-item "  href="#">Outward List &raquo;</a>
                         <ul>
@@ -57,34 +57,34 @@
     <div class="row">
          <div class="col-md-6">
             <div style="font-family: 'Alkalami';color: #28559A; font-style: bold;text-align:center; font-size: 30px; border-bottom: 2px solid #4e6570">Recent Inward(Consumable)</div><br>
-            {% for item in purchases %}
+            {% for item in inward %}
                 {% if not forloop.first %}
                     <br><div style="border-bottom: 0.5px solid #4e6570"></div><br>
                 {% endif %}
                 <div class="row" style="font-family: 'Alkalami'">
                     <div class="col-md-9" style="font-family:'Alkalami'">
                         Bill No: #{{ item.billno }} <br>
-                        Inward by :<b>{{ item.consumer.name }}</b> <br>
+                        Inward by :<b>{{ item.name }}</b> <br>
                         <small><i>{{ item.time.date }}</i></small>
                     </div>
-                    <div class="col-md-2" style="font-family:'Alkalami'"> <br>₹ {{ item.get_total_price }} <br> <a href="{% url 'purchase-bill' item.billno %}">View Bill</a> </div>
+                    <div class="col-md-2" style="font-family:'Alkalami'"> <br>₹ {{ item.total }} <br> <a href="{% url 'inward-bill' item.billno %}">View Bill</a> </div>
                 </div>
             {% endfor %}
         </div>
 
         <div class="col-md-6">
             <div style="font-family:'Alkalami';color: #28559A; font-style: bold; text-align:center; font-size: 30px; border-bottom: 2px solid #4e6570">Recent Inward(Non-Consumable)</div><br>
-            {% for item in nonpurchases %}
+            {% for item in noninward %}
                 {% if not forloop.first %}
                     <br><div style="border-bottom: 0.5px solid #4e6570;font-family:'Alkalami'"></div><br>
                 {% endif %}
                 <div class="row">
                     <div class="col-md-9" style="font-family:'Alkalami'">
                         Bill No: #{{ item.billno }} <br>
-                        Inward by: <b>{{ item.supplier.name }}</b> <br>
+                        Inward by: <b>{{ item.name }}</b> <br>
                         <small><i>{{ item.time.date }}</i></small>
                     </div>
-                    <div class="col-md-2" style="font-family:'Alkalami'"> <br> ₹{{ item.get_total_price }} <br> <a href="{% url 'nonpurchase-bill' item.billno %}">View Bill</a> </div>
+                    <div class="col-md-2" style="font-family:'Alkalami'"> <br> ₹{{ item.total }} <br> <a href="{% url 'inwardnc-bill' item.billno %}">View Bill</a> </div>
                 </div>
             {% endfor %}
         </div>

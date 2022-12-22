@@ -27,7 +27,7 @@ from .models import (
     SaleItem,
     SaleBillDetails, Stock, NonStock, Subcategory, Description, NonSubcategory, NonDescription, NonPurchaseBill,
     NonPurchaseBillDetails, NonPurchaseItem, Supplier, NonSaleBill, NonSaleItem, NonSaleBillDetails, Consumer,
-    trs, Category, NonCategory
+    trs, Category, NonCategory, InwardBillDetails, NonInwardBillDetails
 )
 from .forms import (
     StockForm,
@@ -38,7 +38,8 @@ from .forms import (
     SaleDetailsForm, SubcategoryForm, CategoryForm, DescriptionForm, NonDescriptionForm, NonCategoryForm,
     NonSubcategoryForm, NonStockForm, NonPurchaseItemFormset, SelectSupplierForm, SelectConsumerForm,
     SupplierForm,
-    NonPurchaseDetailsForm, NonSaleForm, NonSaleItemFormset, NonSaleDetailsForm, ConsumerForm,
+    NonPurchaseDetailsForm, NonSaleForm, NonSaleItemFormset, NonSaleDetailsForm, ConsumerForm, InwardDetailsForm,
+    NonInwardDetailsForm,
 
 )
 
@@ -484,11 +485,11 @@ def inwardslip(request):
         if request.method == "POST":
             fromdate = datetime.datetime.strptime(request.POST.get('fromdate'), '%Y-%m-%d')
             todate = datetime.datetime.strptime(request.POST.get('todate'), '%Y-%m-%d')
-            bills = PurchaseBill.objects.filter(Q(time__gte=fromdate) & Q(time__lte=todate))
+            bills = Stock.objects.filter(Q(time__gte=fromdate) & Q(time__lte=todate))
             return render(request, 'purchases/inwardslip.html', {"bills": bills})
         else:
             error="yes"
-            bills = PurchaseBill.objects.all()
+            bills = Stock.objects.all()
             return render(request, 'purchases/inwardslip.html', {"bills": bills})
 
     except:
@@ -504,11 +505,11 @@ def noninwardslip(request):
         if request.method == "POST":
             fromdate = datetime.datetime.strptime(request.POST.get('fromdate'), '%Y-%m-%d')
             todate = datetime.datetime.strptime(request.POST.get('todate'), '%Y-%m-%d')
-            bills = NonPurchaseBill.objects.filter(Q(time__gte=fromdate) & Q(time__lte=todate))
+            bills = NonStock.objects.filter(Q(time__gte=fromdate) & Q(time__lte=todate))
             return render(request, 'purchases/noninwardslip.html', {"bills": bills})
         else:
             error = "yes"
-            bills = NonPurchaseBill.objects.all()
+            bills = NonStock.objects.all()
             return render(request, 'purchases/noninwardslip.html', {"bills": bills})
     except:
         error="yes"
@@ -600,6 +601,8 @@ class SaleCreateView(View):
     def post(self,request,*args, **kwargs):
         form = SaleForm(request.POST)
         formset = SaleItemFormset(request.POST)
+        stocks = Stock.objects.filter(is_deleted=False)
+
        # gets the supplier object
 
         # recieves a post method for the formset
@@ -617,7 +620,8 @@ class SaleCreateView(View):
                     billitem.billno = billobj  # links the bill object to the items
                     # gets the stock item
                     stock = get_object_or_404(Stock,subcategory=billitem.stock.subcategory )
-                    print(request.GET)
+
+
                     # stock = get_object_or_404(Stock, name=billitem.stock.name
 
                     billitem.totalprice = billitem.perprice * billitem.quantity
@@ -631,17 +635,20 @@ class SaleCreateView(View):
             except (ObjectDoesNotExist, MultipleObjectsReturned):
                 pass
 
-
-
             messages.success(request, "Sold items added successfully")
             return redirect('sale-bill', billno=billobj.billno)
         form = SaleForm(request.GET or None)
         formset = SaleItemFormset(request.GET or None)
+        stocks = Stock.objects.filter(is_deleted=False)
+
         context = {
             'form': form,
             'formset': formset,
+            'stocks':stocks
          }
         return render(request, self.template_name, context,locals())
+
+
 
 
 class SaleDeleteView(SuccessMessageMixin, DeleteView):
@@ -882,19 +889,96 @@ class StockListView(FilterView):
 
 
 
-class StockCreateView(SuccessMessageMixin, CreateView):
+# class StockCreateView(SuccessMessageMixin, CreateView):
+#     model = Stock
+#     form_class = StockForm
+#     template_name = "inventory/edit_stock.html"
+#     success_url = '/inventory'
+#     success_message = "Stock added successfully"
+#
+#     def get_context_data(self, **kwargs):  # used to send additional context
+#         context = super().get_context_data(**kwargs)
+#         context["title"] = 'New Stock'
+#         context["savebtn"] = 'Add To Stock'
+#
+#         return context
+
+class StockCreateView(View):
     model = Stock
     form_class = StockForm
     template_name = "inventory/edit_stock.html"
-    success_url = '/inventory'
-    success_message = "Stock added successfully"
+    # success_url = 'inward-bill'
+    # success_message = "Stock has been created successfully"
 
-    def get_context_data(self, **kwargs):  # used to send additional context
-        context = super().get_context_data(**kwargs)
-        context["title"] = 'New Stock'
-        context["savebtn"] = 'Add To Stock'
+    def get(self, request):
+        form = StockForm(request.GET or None)
+        # formset = InwardItemFormset(request.GET or None)  # renders an empty formset
+        stocks = Stock.objects.filter(is_deleted=False)
 
-        return context
+        # purch/stocks = Purchase/Stock.objects.filter(is_deleted=False)
+        context = {
+            'form': form,
+            # 'formset': formset,
+            'stocks': stocks
+        }
+        return render(request, self.template_name, context)
+
+    def post(self, request, *args, **kwargs):
+        form = StockForm(request.POST)
+        # formset = InwardItemFormset(request.POST)
+        # gets the supplier object
+
+        # recieves a post method for the formset
+        if form.is_valid() :
+            form = StockForm(request.POST)
+            # billdetailsobj = PurchaseBillDetails.objects.get(billno=billno)
+
+            # saves bill
+            billobj = form.save(commit=False)
+            billobj.save()
+            # create bill details object
+            billdetailsobj = InwardBillDetails(billno=billobj)
+            billdetailsobj.save()
+            try:
+                for form in form:
+
+                    form = StockForm(request.POST)
+
+                    billitem = form.save(commit=False)
+
+                    billitem.billno = billobj  # links the bill object to the items
+                    # gets the stock item
+                    # stock = get_object_or_404(Stock, name=billitem.name)
+                    print(request.GET)
+                    # stock = get_object_or_404(Stock, name=billitem.stock.name
+                    # stock.quantity += billitem.quantity
+
+                    totalprice = billitem.perprice * billitem.quantity
+                    # print(billitem.totalprice)
+                    # # updates quantity in stock db
+
+                    # saves bill item and stock
+
+                    # stock.save()
+                    # billitem.save()
+
+            except (ObjectDoesNotExist, MultipleObjectsReturned):
+                pass
+
+            messages.success(request, "Sold items have been registered successfully")
+            return redirect('inward-bill', billno=billobj.billno)
+        form = StockForm(request.GET or None)
+        inwarditems = InwardBillDetails(request.GET or None)
+
+        # formset = InwardItemFormset(request.GET or None)
+        context = {
+            'form': form,
+            'inwarditems':inwarditems,
+            # 'formset': formset,
+        }
+        return render(request, self.template_name, context, locals())
+
+
 
 
 class StockUpdateView(SuccessMessageMixin, UpdateView):  # updateview class to edit stock, mixin used to display message
@@ -929,17 +1013,43 @@ class StockDeleteView(View):  # view class to delete stock
         return redirect('inventory')
 
 
+class StockBillView(View):
+    model = Stock
+    template_name = "bill/inward_bill.html"
+    bill_base = "bill/bill_base.html"
+
+    def get(self, request, billno):
+        context = {
+            'bill': Stock.objects.get(billno=billno),
+            'items': Stock.objects.filter(billno=billno),
+            'billdetails': InwardBillDetails.objects.get(billno=billno),
+            'bill_base': self.bill_base,
+        }
+        return render(request, self.template_name, context)
+
+    def post(self, request, billno):
+        form = InwardDetailsForm(request.POST)
+        if form.is_valid():
+            billdetailsobj = InwardBillDetails.objects.get(billno=billno)
+            billdetailsobj.save()
+            messages.success(request, "Bill details have been modified successfully")
+        context = {
+            'bill': Stock.objects.get(billno=billno),
+            'items': Stock.objects.filter(billno=billno),
+            'billdetails': InwardBillDetails.objects.get(billno=billno),
+            'bill_base': self.bill_base,
+        }
+        return render(request, self.template_name, context)
+
 class StockView(View):
     def get(self, request, name):
         stockobj = get_object_or_404(Stock, name=name)
-        stock = Stock.objects.filter(stock=stockobj)
+        # stock = Stock.objects.get(stock=stockobj)
 
         context = {
-            'stock': stock,
+            'stock': stockobj,
         }
-        return render(request, 'inventory/nonstockdetails.html', context)
-
-
+        return render(request, 'inventory/stockdetails.html', context)
 
 
 
@@ -951,19 +1061,119 @@ class NonStockListView(FilterView):
 
 
 
-class NonStockCreateView(SuccessMessageMixin, CreateView):
+class NonStockCreateView(View):
     model = NonStock
     form_class = NonStockForm
     template_name = "inventory/edit_nonstock.html"
-    success_url = '/inventory/nonconsumable'
-    success_message = "Stock added successfully"
+    # success_url = 'inward-bill'
+    # success_message = "Stock has been created successfully"
 
-    def get_context_data(self, **kwargs):  # used to send additional context
-        context = super().get_context_data(**kwargs)
-        context["title"] = 'New Stock'
-        context["savebtn"] = 'Add To Stock'
+    def get(self, request):
+        form = NonStockForm(request.GET or None)
+        # formset = InwardItemFormset(request.GET or None)  # renders an empty formset
+        stocks = NonStock.objects.filter(is_deleted=False)
 
-        return context
+        # purch/stocks = Purchase/Stock.objects.filter(is_deleted=False)
+        context = {
+            'form': form,
+            # 'formset': formset,
+            'stocks': stocks
+        }
+        return render(request, self.template_name, context)
+
+    def post(self, request, *args, **kwargs):
+        form = NonStockForm(request.POST)
+        # formset = InwardItemFormset(request.POST)
+        # gets the supplier object
+
+        # recieves a post method for the formset
+        if form.is_valid() :
+            form = NonStockForm(request.POST)
+            # billdetailsobj = PurchaseBillDetails.objects.get(billno=billno)
+
+            # saves bill
+            billobj = form.save(commit=False)
+            billobj.save()
+            # create bill details object
+            billdetailsobj = NonInwardBillDetails(billno=billobj)
+            billdetailsobj.save()
+            try:
+                for form in form:
+
+                    form = NonStockForm(request.POST)
+
+                    billitem = form.save(commit=False)
+
+                    billitem.billno = billobj  # links the bill object to the items
+                    # gets the stock item
+                    # stock = get_object_or_404(Stock, name=billitem.name)
+                    print(request.GET)
+                    # stock = get_object_or_404(Stock, name=billitem.stock.name
+                    # stock.quantity += billitem.quantity
+
+                    totalprice = billitem.perprice * billitem.quantity
+                    # print(billitem.totalprice)
+                    # # updates quantity in stock db
+
+                    # saves bill item and stock
+
+                    # stock.save()
+                    # billitem.save()
+
+            except (ObjectDoesNotExist, MultipleObjectsReturned):
+                pass
+
+            messages.success(request, "Sold item added successfully")
+            return redirect('inwardnc-bill', billno=billobj.billno)
+        form = NonStockForm(request.GET or None)
+        inwarditems = NonInwardBillDetails(request.GET or None)
+
+        # formset = InwardItemFormset(request.GET or None)
+        context = {
+            'form': form,
+            'inwarditems':inwarditems,
+            # 'formset': formset,
+        }
+        return render(request, self.template_name, context, locals())
+
+class NonStockBillView(View):
+    model = NonStock
+    template_name = "bill/inwardnc_bill.html"
+    bill_base = "bill/bill_base.html"
+
+    def get(self, request, billno):
+        context = {
+            'bill': NonStock.objects.get(billno=billno),
+            'items': NonStock.objects.filter(billno=billno),
+            'billdetails': NonInwardBillDetails.objects.get(billno=billno),
+            'bill_base': self.bill_base,
+        }
+        return render(request, self.template_name, context)
+
+    def post(self, request, billno):
+        form = NonInwardDetailsForm(request.POST)
+        if form.is_valid():
+            billdetailsobj = NonInwardBillDetails.objects.get(billno=billno)
+            billdetailsobj.save()
+            messages.success(request, "Bill details have been modified successfully")
+        context = {
+            'bill': NonStock.objects.get(billno=billno),
+            'items': NonStock.objects.filter(billno=billno),
+            'billdetails': NonInwardBillDetails.objects.get(billno=billno),
+            'bill_base': self.bill_base,
+        }
+        return render(request, self.template_name, context)
+
+class NonStockView(View):
+    def get(self, request, name):
+        stockobj = get_object_or_404(NonStock, name=name)
+        # stock = Stock.objects.get(stock=stockobj)
+
+        context = {
+            'stock': stockobj,
+        }
+        return render(request, 'inventory/stockdetails.html', context)
+
 
 
 class NonStockUpdateView(SuccessMessageMixin, UpdateView):  # updateview class to edit stock, mixin used to display message

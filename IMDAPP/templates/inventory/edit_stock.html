@@ -1,16 +1,16 @@
 {% extends "base.html" %}
-
+{% load static %}
 
 {% block title %} {{title}} {% endblock title %}
 
 
 {% block content %}
   <div class="row" style="margin:10px 0px 50px 0px">
-        <div class="col-md-6"style="font-family:'Alkalami'" >
+        <div class="col-md-6" >
             <a href="{% url 'new-stock' %}" class="btn btn-lg btn-block btn-huge"
                style="border-radius: 30px; width:70%; margin:auto;background-color:#4B9FE1; color:white">Consumable</a>
         </div>
-        <div class="col-md-6" style="font-family:'Alkalami'">
+        <div class="col-md-6">
             <a href="{% url 'new-nonstock' %}" class="btn btn-lg btn-block btn-huge"
                style="border-radius: 30px; width:70%; margin:auto;background-color:#4B9FE1; color:white">Non-Consumable</a>
         </div>
@@ -24,56 +24,53 @@
     </div>
       </div>
       <div class="card-body" style="font-family: 'Alkalami'">
-    <form method="post" >
-
-        {% csrf_token %}
-        {{ form.non_field_errors }}
-
-        <div class="form-row">
-            <div class="form-group form-group col-md-3">
-            {{ form.category.errors }}
-            <label for="{{ form.category.id_for_label }}">Category:</label>
-            {{ form.category}}
-        </div>
-
-        <div class="form-group form-group col-md-3">
-            {{ form.subcategory.errors }}
-            <label for="{{ form.subcategory.id_for_label }}">Sub-Category:</label>
-            {{ form.subcategory }}
-        </div>
-
-        <div class="form-group form-group col-md-3">
-            {{ form.quantity.errors }}
-            <label for="{{ form.quantity.id_for_label }}">Quantity:</label>
-            {{ form.quantity }}
-        </div>
+          <form method="post" >
+              {% csrf_token %}
+              {{ form.non_field_errors }}
+                {{ form.category.errors }}
+                {{ form.subcategory.errors }}
+                {{ form.unit.errors }}
+                {{ form.name.errors }}
+                {{ form.label_code.errors }}
+                {{ form.description.errors }}
+                {{ form.condition.errors }}
+                {{ form.Mode_of_delivery.errors }}
+                {{ form.quantity.errors }}
+                {{ form.perprice.errors }}
+                {{ form.totalprice.errors }}
 
 
-        <div class="form-group form-group col-md-3">
-            {{ form.unit.errors }}
-            <label for="{{ form.unit.id_for_label }}">Unit:</label>
-            {{ form.unit }}
-        </div>
-</div>
 
-        <div class="form-row">
-            <div class="form-group form-group col-md-6">
-            {{ form.name.errors }}
-            <label for="{{ form.name.id_for_label }}">Received From:  </label>
-            {{ form.name }}
-            </div>
-
-        <div class="form-group form-group col-md-6">
-            {{ form.label_code.errors }}
-            <label for="{{ form.label_code.id_for_label }}">Label-Code:</label>
-            {{ form.label_code }}
-            </div>
-
-
-        </div>
-
-
-         <div class="form-group ">
+              <div class="form-row">
+                  <div class="form-group form-group col-md-4">
+                      {{ form.category.errors }}
+                      <label for="{{ form.category.id_for_label }}">Category:</label>
+                      {{ form.category}}
+                  </div>
+                  <div class="form-group form-group col-md-4">
+                      {{ form.subcategory.errors }}
+                      <label for="{{ form.subcategory.id_for_label }}">Subcategory:</label>
+                      {{ form.subcategory }}
+                  </div>
+                  <div class="form-group form-group col-md-4">
+                      {{ form.unit.errors }}
+                      <label for="{{ form.unit.id_for_label }}">Unit:</label>
+                      {{ form.unit }}
+                  </div>
+              </div>
+              <div class="form-row">
+                  <div class="form-group form-group col-md-6">
+                      {{ form.name.errors }}
+                      <label for="{{ form.name.id_for_label }}">Received From:</label>
+                      {{ form.name }}
+                  </div>
+                  <div class="form-group form-group col-md-6">
+                      {{ form.label_code.errors }}
+                      <label for="{{ form.label_code.id_for_label }}">Label-Code:</label>
+                      {{ form.label_code }}
+                  </div>
+              </div>
+               <div class="form-group ">
             {{ form.description.errors }}
             <label for="{{ form.description.id_for_label }}">Description:</label>
             {{ form.description }}
@@ -92,26 +89,131 @@
             {{ form.Mode_of_delivery }}
             </div>
         </div>
-
-        <br>
-
-        <div class="align-middle">
-            <button type="submit" class="btn btn-info">{{ savebtn }}</button>
-            {% if title == "New Stock" %}
-                <button type="reset" class="btn btn-danger" >Reset</button>
-            {% endif %}
-            {% if delbtn %}
-                <a href="{% url 'delete-stock' object.pk %}" class="btn  btn-danger"> Delete Stock </a>
-            {% endif %}
-<!--            <a href="{% url 'inventory' %}" class="btn btn-secondary">Cancel</a>-->
+        <div class="form-row">
+            <div class="form-group form-group col-md-4">
+            {{ form.quantity.errors }}
+            <label for="{{ form.quantity.id_for_label }}">Quantity:</label>
+            {{ form.quantity }}
+            </div>
+            <div class="form-group form-group col-md-4">
+            {{ form.perprice.errors }}
+            <label for="{{ form.perprice.id_for_label }}">Per Price:</label>
+            {{ form.perprice }}
+            </div>
+            <div class="form-group form-group col-md-4">
+            {{ form.totalprice.errors }}
+            <label for="{{ form.totalprice.id_for_label }}">Price:</label>
+                <input type="text" class="textinput form-control totalprice" value="1" disabled required>
+            {{ form.totalprice}}
+            </div>
         </div>
 
+        <br>
+              <div class="align-middle">
+                  <button type="submit" class="btn btn-info">Received</button>
+                  <button type="reset" class="btn btn-danger">Reset</button>
+
+              </div>
     </form>
       </div>
     </div>
   </div>
-
+<!--    <div style="color:#0F2557; font-style: bold; font-size: 3.5rem; border-bottom: 1px solid white;">INWARD ITEMS</div>-->
+<!--    <div style="color:#575757; font-style: bold; font-size: 3rem; border-bottom: 1px solid white;">{{title}}</div> -->
  <br>
+
+   <script type="text/javascript" src="{% static 'js/jquery-3.2.1.slim.min.js' %}"></script>
+    <script type="text/javascript" src="{% static 'js/dialogbox.js' %}"></script>
+<!--    <script src="script.js"></script>-->
+    <script type="text/javascript">
+
+        //creates custom alert object
+        var custom_alert = new custom_alert();
+
+        function updateElementIndex(el, prefix, ndx) {
+            var id_regex = new RegExp('(' + prefix + '-\\d+)');
+            var replacement = prefix + '-' + ndx;
+            if ($(el).attr("for")) $(el).attr("for", $(el).attr("for").replace(id_regex, replacement));
+            if (el.id) el.id = el.id.replace(id_regex, replacement);
+            if (el.name) el.name = el.name.replace(id_regex, replacement);
+        }
+
+        //stores the total no of item forms
+        var total = 1;
+
+        function cloneMore(selector, prefix) {
+            var newElement = $(selector).clone(true);
+            //var total = $('#id_' + prefix + '-TOTAL_FORMS').val();
+            newElement.find(':input:not([type=button]):not([type=submit]):not([type=reset])').each(function() {
+                var name = $(this).attr('name')
+                if(name) {
+                    name = name.replace('-' + (total-1) + '-', '-' + total + '-');
+                    var id = 'id_' + name;
+                    $(this).attr({'name': name, 'id': id}).val('').removeAttr('checked');
+                }
+            });
+            newElement.find('label').each(function() {
+                var forValue = $(this).attr('for');
+                if (forValue) {
+                forValue = forValue.replace('-' + (total-1) + '-', '-' + total + '-');
+                $(this).attr({'for': forValue});
+                }
+            });
+            total++;
+            $('#id_' + prefix + '-TOTAL_FORMS').val(total);
+            $(selector).after(newElement);
+            return false;
+        }
+
+        function deleteForm(prefix, btn) {
+            //var total = parseInt($('#id_' + prefix + '-TOTAL_FORMS').val());
+            if (total > 1){
+                btn.closest('.form-row').remove();
+                var forms = $('.form-row');
+                $('#id_' + prefix + '-TOTAL_FORMS').val(forms.length);
+                for (var i=0, formCount=forms.length; i<formCount; i++) {
+                    $(forms.get(i)).find(':input').each(function() {
+                        updateElementIndex(this, prefix, i);
+                    });
+                }
+                total--;
+            } else {
+                custom_alert.render("Field cannot be deleted");
+            }
+            return false;
+        }
+
+        $(document).on('click', '.add-form-row', function(e){
+            e.preventDefault();
+            cloneMore('.form-row:last', 'form');
+            return false;
+        });
+
+        $(document).on('click', '.remove-form-row', function(e){
+            e.preventDefault();
+            deleteForm('form', $(this));
+            return false;
+        });
+
+
+        //updates the total price by multiplying 'price per item' and 'quantity'
+        $(document).on('change', '.setprice', function(e){
+            e.preventDefault();
+            //gets the values
+            var element = $(this);
+            var quantity = element.parents('.form-row').find('.quantity').val();
+            var perprice = element.parents('.form-row').find('.price').val();
+            //calculates the total
+            var tprice = quantity * perprice;
+            //sets it to field
+            element.parents('.form-row').find('.totalprice').val(tprice);
+            return false;
+        });
+
+    </script>
+
+
+
       <script>
 function getCookie(name) {
 let cookieValue = null;
@@ -146,7 +248,7 @@ break;
  .then(response => response.json())
  .then(data => {
  console.log('Success:', data);
- subcategory_field.innerHTML = '<option value = "" selected="">---------------</option>'
+ subcategory_field.innerHTML = '<option value = "" selected="">-----------</option>'
  for(let i = 0; i<data.length; i++){
  subcategory_field.innerHTML += '<option value ="'+data[i]["id"]+'">'+data[i].subcategory+'</option>'
  }
@@ -192,19 +294,6 @@ break;
  }
 
 
-</script>
-<script>
-    $(document).ready(function() {
-        // messages timeout for 10 sec
-        setTimeout(function() {
-            $('.message').fadeOut('slow');
-        }, 1000); // <-- time in milliseconds, 1000 =  1 sec
-
-        // delete message
-        $('.del-msg').live('click',function(){
-            $('.del-msg').parent().attr('style', 'display:none;');
-        })
-    });
 </script>
 
 {% endblock content %}

@@ -13,9 +13,11 @@ class HomeView(View):
         data = []        
         stockqueryset = Stock.objects.filter(is_deleted=False).order_by('-quantity')
         for item in stockqueryset:
-            labels.append(item.subcategory)
+            labels.append(item.quantity)
             data.append(item.quantity)
         sales = SaleBill.objects.order_by('-time')[:3]
+        inward = Stock.objects.order_by('-time')[:3]
+        noninward = NonStock.objects.order_by('-time')[:3]
         nonsales = NonSaleBill.objects.order_by('-time')[:3]
         purchases = PurchaseBill.objects.order_by('-time')[:3]
         nonpurchases = NonPurchaseBill.objects.order_by('-time')[:3]
@@ -24,6 +26,8 @@ class HomeView(View):
             'data'      : data,
             'sales'     : sales,
             'nonsales'     : nonsales,
+            'inward'     : inward,
+            'noninward'     : noninward,
             'purchases' : purchases,
             'nonpurchases' : nonpurchases
         }
