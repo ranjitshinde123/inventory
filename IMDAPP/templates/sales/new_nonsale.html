@@ -6,23 +6,23 @@
 
 
 {% block content %}
-    <div class="card text-left">
+    <div class="card text-left" style="width:100%">
       <div class="card-header" style="background-color:#01345B">
         <div class="row" style="color: white; font-style: bold; font-size: 3.5rem">
-        <div class="col-md-8" style="font-family: 'Alkalami'" >Non-Consumable Items</div>
-        </div>
+        <div class="col-md-8" style="font-family: 'Alkalami'" >Non-Consumable Item</div>
+
+    </div>
       </div>
-
-        <div class="card-body" style="font-family: 'Alkalami';">
-
+      <div class="card-body" style="font-family: 'Alkalami'">
         <form method="post" >
+                  <div class="card-body" style="font-family: 'Alkalami'">
+
             {% csrf_token %}
             {{ form.non_field_errors }}
 
                 {{ form.name.errors }}
                 {{ form.phone.errors }}
                 {{ form.email.errors }}
-                {{ form.gstin.errors }}
                 {{ form.address.errors }}
                 {{ form.category.errors }}
                 {{ form.subcategory.errors }}
@@ -42,20 +42,15 @@
                 </div>
 
                 <div class="form-row">
-                    <div class="form-group col-md-4">
+                    <div class="form-group col-md-6">
                          {{ form.phone.errors }}
                         <label for="{{ form.phone.id_for_label }}" style="font-size:22px">Phone No:</label>
                         {{ form.phone }}
                     </div>
-                    <div class="form-group col-md-4">
+                    <div class="form-group col-md-6">
                          {{ form.email.errors }}
                         <label for="{{ form.email.id_for_label }}" style="font-size:22px">Email:</label>
                         {{ form.email }}
-                    </div>
-                    <div class="form-group col-md-4">
-                         {{ form.gstin.errors }}
-                        <label for="{{ form.gstin.id_for_label }}" style="font-size:22px">GSTIN No:</label>
-                        {{ form.gstin }}
                     </div>
                 </div>
 
@@ -117,33 +112,33 @@
                         <div class="panel-body">
                         {% for iform in formset %}
                             <div class="row form-row">
-                                <div class="form-group col-md-4">
+                                <div class="form-group col-md-6">
                                     {{ iform.nonstock.errors }}
                                     <label class="panel-body-text">Stock:</label>
                                     {{ iform.nonstock }}
                                 </div>
-                                <div class="form-group col-md-2">
-                                    <label class="panel-body-text">Price per item:</label>
-                                    {{ iform.perprice }}
-                                </div>
-                                <div class="form-group col-md-2">
+<!--                                <div class="form-group col-md-3">-->
+<!--                                    <label class="panel-body-text">Price per item:</label>-->
+<!--                                    {{ iform.perprice }}-->
+<!--                                </div>-->
+                                <div class="form-group col-md-6">
                                     {{ iform.quantity.errors }}
                                     <label class="panel-body-text">Quantity:</label>
                                     {{ iform.quantity }}
                                 </div>
-                                <div class="form-group col-md-2">
-                                    <label class="panel-body-text">Price:</label>
-                                    <input type="text" class="textinput form-control totalprice"  disabled required>
-                                </div><!-- Log on to codeastro.com for more projects -->
-                                <div class="form-group col-md-2">
-                                    <label class="panel-body-text" style="color: #000">.</label>
-                                    <button class="form-control btn btn-danger remove-form-row">Delete</button>
-                                </div>
+<!--                                <div class="form-group col-md-2">-->
+<!--                                    <label class="panel-body-text">Price:</label>-->
+<!--                                    <input type="text" class="textinput form-control totalprice" disabled required>-->
+<!--                                </div>&lt;!&ndash; Log on to codeastro.com for more projects &ndash;&gt;-->
+<!--                                <div class="form-group col-md-2">-->
+<!--                                    <label class="panel-body-text" style="color: #000">.</label>-->
+<!--                                    <button class="form-control btn btn-danger remove-form-row">Delete</button>-->
+<!--                                </div>-->
                             </div>
                         {% endfor %}
-                            <div style="text-align: right;">
-                                <a href="#" class="add-form-row">+ Add More</a>
-                            </div>
+<!--                            <div style="text-align: right;">-->
+<!--                                <a href="#" class="add-form-row">+ Add More</a>-->
+<!--                            </div>-->
                         </div>
                     </div>
 
@@ -151,23 +146,22 @@
                 <br>
 
                 <div class="align-middle">
-                    <button type="submit" class="btn btn-info">Send</button>
-                     <button type="reset" class="btn btn-danger" >Reset</button>
+                    <button type="submit" style="height:40px;width:100px" class="btn btn-info">Send</button>
+                     <button type="reset"  style="height:40px;width:100px" class="btn btn-danger" >Reset</button>
                 </div>
 
-            </div>
-
+            </div></div>
         </form>
+      </div>
     </div>
         {% for message in messages %}
     <div class="message">
         {{ message }}
         <a href="#" class="del-msg">&times;</a>
     </div>
-    </div>
 {% endfor %}
     <!-- Custom JS to add and remove item forms -->
-     <script type="text/javascript" src="{% static 'js/jquery-3.2.1.slim.min.js' %}"></script>
+    <script type="text/javascript" src="{% static 'js/jquery-3.2.1.slim.min.js' %}"></script>
     <script type="text/javascript" src="{% static 'js/dialogbox.js' %}"></script>
     <script type="text/javascript">
      //creates custom alert object
@@ -241,11 +235,11 @@
 
         //stores pk and quantity of all stocks into a js object 'stocks'
         var stocks = [
-            {% for stock in stocks %}
+            {% for nonstock in stocks %}
                 {% if not forloop.first %},{% endif %}
                 {
-                    pk          : {{ stock.pk }},
-                    quantity    : {{ stock.quantity }}
+                    pk          : {{ nonstock.pk }},
+                    quantity    : {{ nonstock.quantity }}
                 }
             {% endfor %}
         ];
@@ -255,14 +249,14 @@
             e.preventDefault();
             //gets the values
             var element = $(this);
-            var stock = element.parents('.form-row').find('.stock').val();
+            var nonstock = element.parents('.form-row').find('.nonstock').val();
             var quantity = element.parents('.form-row').find('.quantity').val();
             var perprice = element.parents('.form-row').find('.price').val();
             //checks if stocks are available
             stocks.forEach(function(stockSummary, i) {
                 var pk = stocks[i].pk;
                 var squantity = stocks[i].quantity;
-                if(stock == pk) {
+                if(nonstock == pk) {
                     //checks if ordered stock is more than available stock
                     if(quantity > squantity){
                         quantity = quantity - 1;
@@ -287,8 +281,8 @@
             return false;
         });
 
- </script>
-<script>
+    </script>
+          <script>
 function getCookie(name) {
 let cookieValue = null;
 if (document.cookie && document.cookie !== '') {
@@ -369,7 +363,4 @@ break;
 
 
 </script>
-
-
-
 {% endblock content %}

@@ -86,6 +86,7 @@ urlpatterns = [
     path('Master/',views.master,name='master'),
     path('Master/subcategory',views.addsubcategory, name='addsubcategory'),
     path('Master/description',views.adddescription, name='adddescription'),
+    path('Master/unit',views.addunit, name='add-unit'),
 
     path('Master/nonnew', views.addnoncategory, name='addnoncategory'),
     path('Master/nonsubcategory', views.addnonsubcategory, name='addnonsubcategory'),

@@ -29,8 +29,6 @@
     </div>
 </form>
 
-    <br>
-    <br>
 <div style="overflow-y:auto; overflow-x:auto; font-family:'Alkalami'" >
 
 
@@ -56,7 +54,7 @@
                 <td class="align-middle"> <p>{{ sale.billno }}</p> </td>
                 <td class="align-middle">{{ sale.time.date }}</td>
                 <td class="align-middle">{% for item in sale.get_items_list %} {{ item.nonstock.description }} <br> {% endfor %}</td>
-                <td class="align-middle">{% for item in sale.get_items_list %} {{ item.nonstock.quantity }} <br> {% endfor %}</td>
+                <td class="align-middle">{% for item in sale.get_items_list %} {{ item.quantity }} <br> {% endfor %}</td>
                 <td class="align-middle">{% for item in sale.get_items_list %} {{ sale.issued_to }} <br> {% endfor %}</td>
                 <td class="align-middle">{% for item in sale.get_items_list %} {{ sale.name }} <br> {% endfor %}</td>
                 <td class="align-middle">

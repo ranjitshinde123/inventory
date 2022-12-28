@@ -11,7 +11,7 @@
         <div class="row" style="color: white; font-style: bold; font-size: 3.5rem">
         <div class="col-md-8" style="font-family: 'Alkalami'" >Inward Items</div>
        <div class="col-md-4">
-            <div style="float:right; margin-top:8%"> <a class="btn  btn-info" href="{% url 'new-consumer' %}">New Supplier</a> </div>
+            <div style="float:right; margin-top:8%"> <a class="btn  btn-info" href="{% url 'new-supplier' %}">New Supplier</a> </div>
             </div>
     </div>
       </div>
@@ -62,11 +62,11 @@
                                 <label class="panel-body-text">Stock:</label>
                                 {{ form.nonstock }}
                             </div><!-- Log on to codeastro.com for more projects -->
-                            <div class="form-group col-md-2">
+                            <div class="form-group col-md-3">
                                 <label class="panel-body-text">Price per item:</label>
                                 {{ form.perprice }}
                             </div>
-                            <div class="form-group col-md-2">
+                            <div class="form-group col-md-3">
                                 {{ form.quantity.errors }}
                                 <label class="panel-body-text">Quantity:</label>
                                 {{ form.quantity }}
@@ -75,15 +75,15 @@
                                 <label class="panel-body-text">Price:</label>
                                 <input type="text" class="textinput form-control totalprice"  disabled required>
                             </div>
-                            <div class="form-group col-md-2">
-                                <label class="panel-body-text" style="color: #000">.</label>
-                                <button class="form-control btn btn-danger remove-form-row">Delete</button>
-                            </div>
+<!--                            <div class="form-group col-md-2">-->
+<!--                                <label class="panel-body-text" style="color: #000">.</label>-->
+<!--                                <button class="form-control btn btn-danger remove-form-row">Delete</button>-->
+<!--                            </div>-->
                         </div>
                     {% endfor %}
-                        <div style="text-align: right;">
-                            <a href="#" class="add-form-row">+ Add More</a>
-                        </div>
+<!--                        <div style="text-align: right;">-->
+<!--                            <a href="#" class="add-form-row">+ Add More</a>-->
+<!--                        </div>-->
                     </div>
                 </div>
 
@@ -91,16 +91,16 @@
             <br><!-- Log on to codeastro.com for more projects -->
 
             <div class="align-middle">
-                <button type="submit" class="btn btn-info">Add To Purchases</button>
+                <button type="submit" class="btn btn-info">Add Item</button>
                 <a href="{% url 'select-supplier' %}" class="btn btn-danger">Go Back</a>
-                <a href="{% url 'nonpurchases-list' %}" class="btn btn-secondary">Next</a>
+<!--                <a href="{% url 'nonpurchases-list' %}" class="btn btn-secondary">Next</a>-->
             </div>
 
         </form>
 
     </div>
   </div>
-    <!-- Custom JS to add and remove item forms --><!-- Log on to codeastro.com for more projects -->
+       <!-- Custom JS to add and remove item forms --><!-- Log on to codeastro.com for more projects -->
     <script type="text/javascript" src="{% static 'js/jquery-3.2.1.slim.min.js' %}"></script>
     <script type="text/javascript" src="{% static 'js/dialogbox.js' %}"></script>
 <!--    <script src="script.js"></script>-->

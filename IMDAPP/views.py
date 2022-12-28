@@ -26,8 +26,8 @@ from .models import (
     SaleBill,
     SaleItem,
     SaleBillDetails, Stock, NonStock, Subcategory, Description, NonSubcategory, NonDescription, NonPurchaseBill,
-    NonPurchaseBillDetails, NonPurchaseItem, Supplier, NonSaleBill, NonSaleItem, NonSaleBillDetails, Consumer,
-    trs, Category, NonCategory, InwardBillDetails, NonInwardBillDetails
+    NonPurchaseBillDetails, NonPurchaseItem, Supplier, NonSaleBill, NonSaleItem, NonSaleBillDetails,
+    trs, Category, NonCategory, InwardBillDetails, NonInwardBillDetails, Unit, Consumer
 )
 from .forms import (
     StockForm,
@@ -35,11 +35,11 @@ from .forms import (
     PurchaseDetailsForm,
     SaleForm,
     SaleItemFormset,
-    SaleDetailsForm, SubcategoryForm, CategoryForm, DescriptionForm, NonDescriptionForm, NonCategoryForm,
-    NonSubcategoryForm, NonStockForm, NonPurchaseItemFormset, SelectSupplierForm, SelectConsumerForm,
+     SubcategoryForm, CategoryForm, DescriptionForm, NonDescriptionForm, NonCategoryForm,
+    NonSubcategoryForm, NonStockForm, NonPurchaseItemFormset, SelectSupplierForm,
     SupplierForm,
-    NonPurchaseDetailsForm, NonSaleForm, NonSaleItemFormset, NonSaleDetailsForm, ConsumerForm, InwardDetailsForm,
-    NonInwardDetailsForm,
+    NonPurchaseDetailsForm, NonSaleForm, NonSaleItemFormset, InwardDetailsForm,
+    NonInwardDetailsForm, UnitForm, ConsumerForm, SelectConsumerForm,
 
 )
 
@@ -56,19 +56,19 @@ class ConsumerCreateView(SuccessMessageMixin, CreateView):
     model = Consumer
     form_class = ConsumerForm
     success_url = '/inventory/consumers'
-    success_message = "Consumer added successfully"
+    success_message = "Supplier added successfully"
     template_name = "suppliers/edit_consumer.html"
 
     def post(self, request, *args, **kwargs):
         response = super().post(request, *args, **kwargs)
         if not self.object:
-            messages.info(request, 'Consumer already exists.')
+            messages.info(request, 'Supplier already exists.')
         return response
 
     def get_context_data(self, **kwargs):
         context = super().get_context_data(**kwargs)
-        context["title"] = 'New Consumer'
-        context["savebtn"] = 'Add Consumer'
+        context["title"] = 'New Supplier'
+        context["savebtn"] = 'Add Supplier'
         return context
     # used to update a supplier's info
 
@@ -77,21 +77,21 @@ class ConsumerUpdateView(SuccessMessageMixin, UpdateView):
     model = Consumer
     form_class = ConsumerForm
     success_url = '/inventory/consumers'
-    success_message = "Consumer details updated successfully"
+    success_message = "Supplier details updated successfully"
     template_name = "suppliers/edit_consumer.html"
 
     def get_context_data(self, **kwargs):
         context = super().get_context_data(**kwargs)
-        context["title"] = 'Edit Consumer'
+        context["title"] = 'Edit Supplier'
         context["savebtn"] = 'Save Changes'
-        context["delbtn"] = 'Delete Consumer'
+        context["delbtn"] = 'Delete Supplier'
         return context
 
 
 # used to delete a supplier
 class ConsumerDeleteView(View):
     template_name = "suppliers/delete_consumer.html"
-    success_message = "Consumer deleted successfully"
+    success_message = "Supplier deleted successfully"
 
     def get(self, request, pk):
         consumer = get_object_or_404(Consumer, pk=pk)
@@ -109,7 +109,7 @@ class ConsumerDeleteView(View):
 class ConsumerView(View):
     def get(self, request,name):
         consumerobj = get_object_or_404(Consumer, name=name)
-        bill_list = PurchaseBill.objects.filter(consumer=consumerobj)
+        bill_list = PurchaseBill.objects.filter(supplier=consumerobj)
         page = request.GET.get('page', 1)
         paginator = Paginator(bill_list, 10)
         try:
@@ -119,7 +119,7 @@ class ConsumerView(View):
         except EmptyPage:
             bills = paginator.page(paginator.num_pages)
         context = {
-            'consumer': consumerobj,
+            'supplier': consumerobj,
             'bills': bills
         }
         return render(request, 'suppliers/edit_consumer.html', context)
@@ -247,7 +247,7 @@ class SelectConsumerView(View):
             consumer = get_object_or_404(Consumer, id=consumerid)
             return redirect('new-purchase', consumer.pk)
         return render(request, self.template_name, {'form': form})
-
+#
 
 
 
@@ -257,6 +257,7 @@ class SelectConsumerView(View):
 
 class PurchaseCreateView(View):
     template_name = 'purchases/new_purchase.html'
+
     def get(self, request, pk):
         formset = PurchaseItemFormset(request.GET or None)  # renders an empty formset
         consumerobj = get_object_or_404(Consumer, pk=pk)  # gets the supplier object
@@ -265,12 +266,14 @@ class PurchaseCreateView(View):
             'consumer': consumerobj,
         }  # sends the supplier and formset as context
         return render(request, self.template_name, context)
+
     def post(self, request, pk):
         formset = PurchaseItemFormset(request.POST or None)  # recieves a post method for the formset
         consumerobj = get_object_or_404(Consumer, pk=pk)  # gets the supplier object
         if formset.is_valid():
             # saves bill
-            billobj = PurchaseBill(consumer=consumerobj)  # a new object of class 'PurchaseBill' is created with supplier field set to 'supplierobj'
+            billobj = PurchaseBill(
+                consumer=consumerobj)  # a new object of class 'PurchaseBill' is created with supplier field set to 'supplierobj'
             billobj.save()  # saves object into the db
             # create bill details object
             billdetailsobj = PurchaseBillDetails(billno=billobj)
@@ -280,22 +283,17 @@ class PurchaseCreateView(View):
                 billitem = form.save(commit=False)
                 billitem.billno = billobj  # links the bill object to the items
                 # gets the stock item
-                # label_code = get_object_or_404(Stock,id=billitem.stock.label_code)
-                stock = get_object_or_404(Stock, id=billitem.stock.id)
-
-                # subcategory/stock = get_object_or_404(Stock/Purchase, name=billitem.purchaser/stock.name)       # gets the item
+                stock = get_object_or_404(Stock, pk=billitem.stock.pk)
 
                 # gets the item
                 # calculates the total price
                 billitem.totalprice = billitem.perprice * billitem.quantity
                 # updates quantity in stock db
-                stock.quantity += billitem.quantity  # updates quantityv
-                # purchase/stock.quantity += billitem.quantity                              # updates quantity
+                stock.quantity += billitem.quantity  # updates quantity
                 # saves bill item and stock
                 stock.save()
-                # purchase/stock.save()
                 billitem.save()
-            messages.success(request, "Purchased items added successfully")
+            messages.success(request, "Item added successfully")
             return redirect('purchase-bill', billno=billobj.billno)
         formset = PurchaseItemFormset(request.GET or None)
         context = {
@@ -303,7 +301,6 @@ class PurchaseCreateView(View):
             'consumer': consumerobj
         }
         return render(request, self.template_name, context)
-
 
 
 class PurchaseDeleteView(SuccessMessageMixin, DeleteView):
@@ -319,7 +316,7 @@ class PurchaseDeleteView(SuccessMessageMixin, DeleteView):
             if stock.is_deleted == False:
                 stock.quantity -= item.quantity
                 stock.save()
-        messages.success(self.request, "Purchase bill deleted successfully")
+        messages.success(self.request, " Bill deleted successfully")
         return super(PurchaseDeleteView, self).delete(*args, **kwargs)
 
 
@@ -377,7 +374,7 @@ class NonPurchaseCreateView(View):
                 billitem = form.save(commit=False)
                 billitem.billno = billobj  # links the bill object to the items
                 # gets the stock item
-                nonstock = get_object_or_404(NonStock,id=billitem.nonstock.id)
+                nonstock = get_object_or_404(NonStock,pk=billitem.nonstock.pk)
 
                 # gets the item
                 # calculates the total price
@@ -387,7 +384,7 @@ class NonPurchaseCreateView(View):
                 # saves bill item and stock
                 nonstock.save()
                 billitem.save()
-            messages.success(request, "Purchased items added successfully")
+            messages.success(request, "Item added successfully")
             return redirect('nonpurchase-bill', billno=billobj.billno)
         formset = NonPurchaseItemFormset(request.GET or None)
         context = {
@@ -413,7 +410,7 @@ class NonPurchaseDeleteView(SuccessMessageMixin, DeleteView):
             if nonstock.is_deleted == False:
                 nonstock.quantity -= item.quantity
                 nonstock.save()
-        messages.success(self.request, "Purchase bill deleted successfully")
+        messages.success(self.request, " Bill deleted successfully")
         return super(NonPurchaseDeleteView, self).delete(*args, **kwargs)
 
 #OutwardSlip(consumable,Non-consumable)
@@ -485,11 +482,11 @@ def inwardslip(request):
         if request.method == "POST":
             fromdate = datetime.datetime.strptime(request.POST.get('fromdate'), '%Y-%m-%d')
             todate = datetime.datetime.strptime(request.POST.get('todate'), '%Y-%m-%d')
-            bills = Stock.objects.filter(Q(time__gte=fromdate) & Q(time__lte=todate))
+            bills = PurchaseBill.objects.filter(Q(time__gte=fromdate) & Q(time__lte=todate))
             return render(request, 'purchases/inwardslip.html', {"bills": bills})
         else:
             error="yes"
-            bills = Stock.objects.all()
+            bills = PurchaseBill.objects.all()
             return render(request, 'purchases/inwardslip.html', {"bills": bills})
 
     except:
@@ -505,11 +502,11 @@ def noninwardslip(request):
         if request.method == "POST":
             fromdate = datetime.datetime.strptime(request.POST.get('fromdate'), '%Y-%m-%d')
             todate = datetime.datetime.strptime(request.POST.get('todate'), '%Y-%m-%d')
-            bills = NonStock.objects.filter(Q(time__gte=fromdate) & Q(time__lte=todate))
+            bills = NonPurchaseBill.objects.filter(Q(time__gte=fromdate) & Q(time__lte=todate))
             return render(request, 'purchases/noninwardslip.html', {"bills": bills})
         else:
             error = "yes"
-            bills = NonStock.objects.all()
+            bills = NonPurchaseBill.objects.all()
             return render(request, 'purchases/noninwardslip.html', {"bills": bills})
     except:
         error="yes"
@@ -624,7 +621,7 @@ class SaleCreateView(View):
 
                     # stock = get_object_or_404(Stock, name=billitem.stock.name
 
-                    billitem.totalprice = billitem.perprice * billitem.quantity
+                    # billitem.totalprice = billitem.perprice * billitem.quantity
                     # updates quantity in stock db
                     stock.quantity -= billitem.quantity
                     # saves bill item and stock
@@ -747,7 +744,7 @@ class NonSaleCreateView(View):
                     print(request.GET)
                     # stock = get_object_or_404(Stock, name=billitem.stock.name
 
-                    billitem.totalprice = billitem.perprice * billitem.quantity
+                    # billitem.totalprice = billitem.perprice * billitem.quantity
                     # updates quantity in stock db
                     nonstock.quantity -= billitem.quantity
                     # saves bill item and stock
@@ -965,7 +962,7 @@ class StockCreateView(View):
             except (ObjectDoesNotExist, MultipleObjectsReturned):
                 pass
 
-            messages.success(request, "Sold items have been registered successfully")
+            messages.success(request, "Received item successfully")
             return redirect('inward-bill', billno=billobj.billno)
         form = StockForm(request.GET or None)
         inwarditems = InwardBillDetails(request.GET or None)
@@ -1032,7 +1029,7 @@ class StockBillView(View):
         if form.is_valid():
             billdetailsobj = InwardBillDetails.objects.get(billno=billno)
             billdetailsobj.save()
-            messages.success(request, "Bill details have been modified successfully")
+            messages.success(request, "Bill details modified successfully")
         context = {
             'bill': Stock.objects.get(billno=billno),
             'items': Stock.objects.filter(billno=billno),
@@ -1123,7 +1120,7 @@ class NonStockCreateView(View):
             except (ObjectDoesNotExist, MultipleObjectsReturned):
                 pass
 
-            messages.success(request, "Sold item added successfully")
+            messages.success(request, "Received item successfully")
             return redirect('inwardnc-bill', billno=billobj.billno)
         form = NonStockForm(request.GET or None)
         inwarditems = NonInwardBillDetails(request.GET or None)
@@ -1238,6 +1235,29 @@ def addcategory(request):
     except:
         error = "yes"
     return render(request, "Master/addcategory.html", locals())
+
+
+
+
+def addunit(request):
+    form=UnitForm(request.POST)
+    try:
+        error = "no"
+        if form.is_valid():
+            unit = form.cleaned_data['unit']
+            if Unit.objects.filter(unit=unit).exists():
+                messages.info(
+                    request, 'Unit already exists! ')
+                return redirect('add-unit')
+            form.save()
+        else:
+            unit = form.save(commit=False)
+            unit.save()
+            error = "yes"
+    except:
+        error = "yes"
+    return render(request, "Master/add_unit.html", locals())
+
 
 def addsubcategory(request):
     form=SubcategoryForm(request.POST or None)

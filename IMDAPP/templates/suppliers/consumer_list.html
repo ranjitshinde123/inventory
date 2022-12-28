@@ -26,11 +26,10 @@
         
         <thead class="thead-dark align-middle">
             <tr>
-                <th width="15%">Type</th>
-                <th width="17%">Name</th>
-                <th width="17%">Phone No.</th>
-                <th width="18%">Email</th>
-                <th width="13%">Address</th>
+                <th width="20%">Name</th>
+                <th width="20%">Phone No.</th>
+                <th width="20%">Email</th>
+                <th width="20%">Address</th>
                 <th width="15%">Actions</th>
             </tr>
         </thead>
@@ -40,7 +39,6 @@
         <tbody>
             {% for consumer in object_list %}
             <tr>
-                <td class="align-middle"> {{ consumer.U_Type }} </td>
                 <td class="align-middle"> {{ consumer.name }} </td>
                 <td class="align-middle"> {{ consumer.phone }} </td>
                 <td class="align-middle"> {{ consumer.email }} </td>

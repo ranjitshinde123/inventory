@@ -1,8 +1,7 @@
 from django import forms
-from django.core.exceptions import ValidationError
+
 from django.forms import formset_factory
-from django.http import request
-from pyexpat.errors import messages
+
 
 from .models import (
     Supplier,
@@ -12,8 +11,8 @@ from .models import (
     SaleBill,
     SaleItem,
     SaleBillDetails, Stock, Category, Subcategory, Description, NonStock, NonDescription, NonSubcategory, NonCategory,
-    NonPurchaseBill, NonPurchaseBillDetails, NonPurchaseItem, Consumer, NonSaleBill, NonSaleBillDetails, NonSaleItem,
-    InwardBillDetails, NonInwardBillDetails
+    NonPurchaseBill, NonPurchaseBillDetails, NonPurchaseItem, NonSaleBill, NonSaleBillDetails, NonSaleItem,
+    InwardBillDetails, NonInwardBillDetails, Unit, Consumer
 )
 # class StockForm(forms.ModelForm):
 #     def __init__(self, *args, **kwargs):
@@ -256,13 +255,12 @@ class ConsumerForm(forms.ModelForm):
         self.fields['name'].widget.attrs.update({'class': 'textinput form-control'})
         self.fields['phone'].widget.attrs.update({'class': 'textinput form-control', 'maxlength': '10', 'pattern': '[0-9]{10}', 'title': 'Numbers only'})
         self.fields['email'].widget.attrs.update({'class': 'textinput form-control'})
-        self.fields['U_Type'].widget.attrs.update({'class': 'textinput form-control'})
         self.fields['gstin'].widget.attrs.update({'class': 'textinput form-control', 'maxlength': '15', 'pattern': '[A-Z0-9]{15}','title': 'GSTIN Format Required'})
 
 
     class Meta:
         model = Consumer
-        fields = ['name', 'phone', 'address', 'email','U_Type','gstin']
+        fields = ['name', 'phone', 'address', 'email','gstin']
         widgets = {
             'address': forms.Textarea(
                 attrs={
@@ -309,14 +307,13 @@ class SaleForm(forms.ModelForm):
         self.fields['subcategory'].widget.attrs.update({'class': 'textinput form-control'})
         self.fields['Mode_of_delivery'].widget.attrs.update({'class': 'textinput form-control'})
         self.fields['label_code'].widget.attrs.update({'class': 'textinput form-control'})
-        self.fields['gstin'].widget.attrs.update({'class': 'textinput form-control', 'maxlength': '15', 'pattern': '[A-Z0-9]{15}','title': 'GSTIN Format Required'})
 
 
 
 
     class Meta:
         model = SaleBill
-        fields = ['name', 'phone', 'email','address','issued_to','category','subcategory','Mode_of_delivery','label_code','description','gstin']
+        fields = ['name', 'phone', 'email','address','issued_to','category','subcategory','Mode_of_delivery','label_code','description']
 
 
 
@@ -327,20 +324,20 @@ class SaleItemForm(forms.ModelForm):
         self.fields['stock'].queryset = Stock.objects.filter(is_deleted=False)
         self.fields['stock'].widget.attrs.update({'class': 'textinput form-control setprice stock', 'required': 'true'})
         self.fields['quantity'].widget.attrs.update({'class': 'textinput form-control setprice quantity', 'min': '0', 'required': 'true'})
-        self.fields['perprice'].widget.attrs.update({'class': 'textinput form-control setprice price', 'min': '0', 'required': 'true'})
+        # self.fields['perprice'].widget.attrs.update({'class': 'textinput form-control setprice price', 'min': '0', 'required': 'true'})
 
     class Meta:
         model = SaleItem
-        fields = ['stock', 'quantity', 'perprice']
+        fields = ['stock', 'quantity']
 
 # formset used to render multiple 'SaleItemForm'
 SaleItemFormset = formset_factory(SaleItemForm, extra=1)
 
 # form used to accept the other details for sales bill
-class SaleDetailsForm(forms.ModelForm):
-    class Meta:
-        model = SaleBillDetails
-        fields = ['total']
+# class SaleDetailsForm(forms.ModelForm):
+#     class Meta:
+#         model = SaleBillDetails
+#         fields = ['total']
 
 #nonconsumable
 
@@ -380,14 +377,13 @@ class NonSaleForm(forms.ModelForm):
         self.fields['subcategory'].widget.attrs.update({'class': 'textinput form-control'})
         self.fields['Mode_of_delivery'].widget.attrs.update({'class': 'textinput form-control'})
         self.fields['label_code'].widget.attrs.update({'class': 'textinput form-control'})
-        self.fields['gstin'].widget.attrs.update({'class': 'textinput form-control', 'maxlength': '15', 'pattern': '[A-Z0-9]{15}','title': 'GSTIN Format Required'})
 
 
 
 
     class Meta:
         model = NonSaleBill
-        fields = ['name', 'phone', 'email','address','issued_to','category','subcategory','Mode_of_delivery','label_code','description','gstin']
+        fields = ['name', 'phone', 'email','address','issued_to','category','subcategory','Mode_of_delivery','label_code','description']
 
 
 
@@ -398,22 +394,30 @@ class NonSaleItemForm(forms.ModelForm):
         self.fields['nonstock'].queryset = NonStock.objects.filter(is_deleted=False)
         self.fields['nonstock'].widget.attrs.update({'class': 'textinput form-control setprice nonstock', 'required': 'true'})
         self.fields['quantity'].widget.attrs.update({'class': 'textinput form-control setprice quantity', 'min': '0', 'required': 'true'})
-        self.fields['perprice'].widget.attrs.update({'class': 'textinput form-control setprice price', 'min': '0', 'required': 'true'})
+        # self.fields['perprice'].widget.attrs.update({'class': 'textinput form-control setprice price', 'min': '0', 'required': 'true'})
 
     class Meta:
         model = NonSaleItem
-        fields = ['nonstock', 'quantity', 'perprice']
+        fields = ['nonstock', 'quantity']
 
 # formset used to render multiple 'SaleItemForm'
 NonSaleItemFormset = formset_factory(NonSaleItemForm, extra=1)
 
 # form used to accept the other details for sales bill
-class NonSaleDetailsForm(forms.ModelForm):
+# class NonSaleDetailsForm(forms.ModelForm):
+#     class Meta:
+#         model = NonSaleBillDetails
+#         fields = ['total']
+
+class UnitForm(forms.ModelForm):
+    def __init__(self, *args, **kwargs):
+        super().__init__(*args, **kwargs)
+        self.fields['unit'].widget.attrs.update({'class': 'textinput form-control'})
+
+
     class Meta:
-        model = NonSaleBillDetails
-        fields = ['total']
-
-
+        model = Unit
+        fields = ['unit']
 
 
 class CategoryForm(forms.ModelForm):

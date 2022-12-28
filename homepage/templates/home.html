@@ -23,16 +23,16 @@
                             <a class="dropdown-item" href="{% url 'nonconsumable' %}">Non-Consumable Items</a>
                             </li>
                         </ul>
-<!--                <a class="dropdown-item "  href="#">Purchase List &raquo;</a>-->
-<!--                        <ul>-->
-<!--                            <li>-->
-<!--                            <a class="dropdown-item" href="{% url 'purchases-list' %}">Consumable Items</a>-->
-<!--                            </li>-->
+                <a class="dropdown-item "  href="#">Inward Item List &raquo;</a>
+                        <ul>
+                            <li>
+                            <a class="dropdown-item" href="{% url 'purchases-list' %}">Consumable Items</a>
+                            </li>
 
-<!--                            <li>-->
-<!--                            <a class="dropdown-item" href="{% url 'nonpurchases-list' %}">Non-Consumable Items</a>-->
-<!--                            </li>-->
-<!--                        </ul>-->
+                            <li>
+                            <a class="dropdown-item" href="{% url 'nonpurchases-list' %}">Non-Consumable Items</a>
+                            </li>
+                        </ul>
 
                     <a class="dropdown-item "  href="#">Outward List &raquo;</a>
                         <ul>
@@ -44,8 +44,17 @@
                             <a class="dropdown-item" href="{% url 'nonsales-list' %}">Non-Consumable Items</a>
                             </li>
                         </ul>
-                    <a class="dropdown-item" href="{% url 'suppliers-list' %}">Supplier List</a>
-                    <a class="dropdown-item" href="{% url 'consumer-list' %}">Consumer List</a>
+                    <a class="dropdown-item "  href="#">Supplier &raquo;</a>
+                        <ul>
+                            <li>
+                            <a class="dropdown-item" href="{% url 'suppliers-list' %}">Consumable List</a>
+                            </li>
+
+                            <li>
+                            <a class="dropdown-item" href="{% url 'consumer-list' %}">Non-Consumable List</a>
+                            </li>
+                        </ul>
+
             </div>
         </div>
       </div>
@@ -67,7 +76,7 @@
                         Inward by :<b>{{ item.name }}</b> <br>
                         <small><i>{{ item.time.date }}</i></small>
                     </div>
-                    <div class="col-md-2" style="font-family:'Alkalami'"> <br>₹ {{ item.total }} <br> <a href="{% url 'inward-bill' item.billno %}">View Bill</a> </div>
+                    <div class="col-md-2" style="font-family:'Alkalami'">₹ {{ item.total }} <br> <a href="{% url 'inward-bill' item.billno %}">View Bill</a> </div>
                 </div>
             {% endfor %}
         </div>
@@ -84,7 +93,7 @@
                         Inward by: <b>{{ item.name }}</b> <br>
                         <small><i>{{ item.time.date }}</i></small>
                     </div>
-                    <div class="col-md-2" style="font-family:'Alkalami'"> <br> ₹{{ item.total }} <br> <a href="{% url 'inwardnc-bill' item.billno %}">View Bill</a> </div>
+                    <div class="col-md-2" style="font-family:'Alkalami'"> ₹{{ item.total }} <br> <a href="{% url 'inwardnc-bill' item.billno %}">View Bill</a> </div>
                 </div>
             {% endfor %}
         </div>
@@ -107,7 +116,7 @@
                         Outward by <b>{{ item.name }}</b> <br>
                         <small><i>{{ item.time.date }}</i></small>
                     </div>
-                    <div class="col-md-2" style="font-family:'Alkalami'"> <br>₹{{ item.get_total_price }} <br> <a href="{% url 'sale-bill' item.billno %}">View Bill</a> </div>
+                    <div class="col-md-2" style="font-family:'Alkalami'"> <a href="{% url 'sale-bill' item.billno %}">View Bill</a> </div>
                 </div>
             {% endfor %}
         </div>
@@ -124,7 +133,7 @@
                         Outward by <b>{{ item.name }}</b> <br>
                         <small><i>{{ item.time.date }}</i></small>
                     </div>
-                    <div class="col-md-2" style="font-family:'Alkalami'"> <br> ₹{{ item.get_total_price }} <br> <a href="{% url 'nonsale-bill' item.billno %}">View Bill</a> </div>
+                    <div class="col-md-2" style="font-family:'Alkalami'"> <a href="{% url 'nonsale-bill' item.billno %}">View Bill</a> </div>
                 </div>
             {% endfor %}
         </div>

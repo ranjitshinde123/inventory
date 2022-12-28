@@ -72,14 +72,6 @@ class Supplier(models.Model):
 
 class Consumer(models.Model):
     id=models.AutoField(primary_key=True)
-
-    STATUS_CHOICES=[
-        ('FS','FS'),
-        ('LB','LB'),
-        ('MI','MI'),
-        ('PS','PS'),
-    ]
-    U_Type=models.CharField(max_length=50,choices=STATUS_CHOICES)
     name=models.CharField(max_length=255)
     phone = models.CharField(max_length=12 ,unique=True)
     address = models.TextField()
@@ -142,7 +134,11 @@ class Consumer(models.Model):
 #     def __str__(self):
 #         return str(self.subcategory)+ ", Label Code = " + self.label_code
 
+class Unit(models.Model):
+    unit = models.CharField(max_length=20)
 
+    def __str__(self):
+        return self.unit
 
 class Stock(models.Model):
 
@@ -158,31 +154,13 @@ class Stock(models.Model):
 
     ]
 
-    STATUS_UNIT = [
-        ('Mtr', 'Mtr'),
-        ('Cm', 'Cm'),
-        ('Mm', 'Mm'),
-        ('Kg', 'Kg'),
-        ('Gm', 'Gm'),
-        ('Ltr', 'Ltr'),
-        ('SqMtr', 'SqMtr'),
-        ('SqCm', 'SqCm'),
-        ('CuM', 'CuM'),
-        ('Ream', 'Ream'),
-        ('Doz', 'Doz'),
-        ('Pkts', 'Pkts'),
-        ('Pairs', 'Pairs'),
-        ('Rolls', 'Rolls'),
-    ]
-
-
     billno = models.AutoField(primary_key=True)
     time = models.DateTimeField(auto_now=True)
     category=models.ForeignKey(Category,on_delete=models.CASCADE)
     subcategory=models.ForeignKey(Subcategory,on_delete=models.CASCADE)
     description=models.ForeignKey(Description,on_delete=models.CASCADE)
     name=models.ForeignKey(Consumer,on_delete=models.CASCADE)
-    unit = models.CharField(max_length=50, choices=STATUS_UNIT)
+    unit=models.ForeignKey(Unit,on_delete=models.CASCADE)
     Mode_of_delivery = models.CharField(max_length=50, choices=MODE_OF_DELEVERY)  # received by
     label_code = models.CharField(max_length=20, default="")
     condition = models.CharField(max_length=50, choices=CONDITION)
@@ -194,7 +172,7 @@ class Stock(models.Model):
 
 
     def __str__(self):
-        return  str(self.subcategory) +   " ,label code=" + self.label_code
+        return  str(self.subcategory) +   " ,label code=" + str(self.label_code)
 
 
     def get_items_list(self):
@@ -270,6 +248,9 @@ class NonDescription(models.Model):
 #
 
 
+
+
+
 class NonStock(models.Model):
 
     CONDITION = [
@@ -283,32 +264,13 @@ class NonStock(models.Model):
         ('OTHER', 'OTHER'),
 
     ]
-
-    STATUS_UNIT = [
-        ('Mtr', 'Mtr'),
-        ('Cm', 'Cm'),
-        ('Mm', 'Mm'),
-        ('Kg', 'Kg'),
-        ('Gm', 'Gm'),
-        ('Ltr', 'Ltr'),
-        ('SqMtr', 'SqMtr'),
-        ('SqCm', 'SqCm'),
-        ('CuM', 'CuM'),
-        ('Ream', 'Ream'),
-        ('Doz', 'Doz'),
-        ('Pkts', 'Pkts'),
-        ('Pairs', 'Pairs'),
-        ('Rolls', 'Rolls'),
-    ]
-
-
     billno = models.AutoField(primary_key=True)
     time = models.DateTimeField(auto_now=True)
     category=models.ForeignKey(NonCategory,on_delete=models.CASCADE)
     subcategory=models.ForeignKey(NonSubcategory,on_delete=models.CASCADE)
     description=models.ForeignKey(NonDescription,on_delete=models.CASCADE)
     name=models.ForeignKey(Supplier,on_delete=models.CASCADE)
-    unit = models.CharField(max_length=50, choices=STATUS_UNIT)
+    unit=models.ForeignKey(Unit,on_delete=models.CASCADE)
     Mode_of_delivery = models.CharField(max_length=50, choices=MODE_OF_DELEVERY)  # received by
     label_code = models.CharField(max_length=20, default="")
     condition = models.CharField(max_length=50, choices=CONDITION)
@@ -320,7 +282,7 @@ class NonStock(models.Model):
 
 
     def __str__(self):
-        return  str(self.subcategory) +   " ,label code=" + self.label_code
+        return  str(self.subcategory) +   " ,label code=" + str(self.label_code)
 
 
     def get_items_list(self):
@@ -343,7 +305,7 @@ class NonInwardBillDetails(models.Model):
 class PurchaseBill(models.Model):
     billno = models.AutoField(primary_key=True)
     time = models.DateTimeField(auto_now=True)
-    consumer = models.ForeignKey(Consumer, on_delete=models.CASCADE, related_name='purchaseconsumer')
+    consumer = models.ForeignKey(Consumer, on_delete=models.CASCADE, related_name='purchasesupplier')
 
     def __str__(self):
         return "Bill no: " + str(self.billno)
@@ -449,7 +411,6 @@ class NonSaleBill(models.Model):
     Mode_of_delivery = models.CharField(max_length=50, choices=MODE_OF_DELIVERY)  # received by
     label_code = models.CharField(max_length=20, default="")
     issued_to = models.CharField(max_length=50)
-    gstin = models.CharField(max_length=15)
     is_deleted=models.BooleanField(default=False)
 
 
@@ -464,12 +425,12 @@ class NonSaleBill(models.Model):
     def get_items_list(self):
         return NonSaleItem.objects.filter(billno=self)
 
-    def get_total_price(self):
-        saleitems = NonSaleItem.objects.filter(billno=self)
-        total = 0
-        for item in saleitems:
-            total += item.totalprice
-        return total
+    # def get_total_price(self):
+    #     saleitems = NonSaleItem.objects.filter(billno=self)
+    #     total = 0
+    #     for item in saleitems:
+    #         total += item.totalprice
+    #     return total
 
 
 # contains the sale stocks made
@@ -477,8 +438,8 @@ class NonSaleItem(models.Model):
     billno = models.ForeignKey(NonSaleBill, on_delete=models.CASCADE, related_name='nonsalebillno')
     nonstock = models.ForeignKey(NonStock, on_delete=models.CASCADE, related_name='nonsaleitem')
     quantity = models.IntegerField(default=1)
-    perprice = models.IntegerField(default=1)
-    totalprice = models.IntegerField(default=1)
+    # perprice = models.IntegerField(default=1)
+    # totalprice = models.IntegerField(default=1)
 
     def __str__(self):
         return "Bill no: " + str(self.billno.billno)
@@ -489,7 +450,7 @@ class NonSaleItem(models.Model):
 class NonSaleBillDetails(models.Model):
     billno = models.ForeignKey(NonSaleBill, on_delete=models.CASCADE, related_name='nonsaledetailsbillno')
 
-    total = models.CharField(max_length=50, blank=True, null=True)
+    # total = models.CharField(max_length=50, blank=True, null=True)
 
     def __str__(self):
         return "Bill no: " + str(self.billno.billno)
@@ -522,7 +483,6 @@ class SaleBill(models.Model):
     Mode_of_delivery = models.CharField(max_length=50, choices=MODE_OF_DELIVERY)  # received by
     label_code = models.CharField(max_length=20, default="")
     issued_to = models.CharField(max_length=50)
-    gstin = models.CharField(max_length=15)
     is_deleted=models.BooleanField(default=False)
 
 
@@ -535,12 +495,12 @@ class SaleBill(models.Model):
     def get_items_list(self):
         return SaleItem.objects.filter(billno=self)
 
-    def get_total_price(self):
-        saleitems = SaleItem.objects.filter(billno=self)
-        total = 0
-        for item in saleitems:
-            total += item.totalprice
-        return total
+    # def get_total_price(self):
+    #     saleitems = SaleItem.objects.filter(billno=self)
+    #     total = 0
+    #     for item in saleitems:
+    #         total += item.totalprice
+    #     return total
 
 
 # contains the sale stocks made
@@ -548,8 +508,8 @@ class SaleItem(models.Model):
     billno = models.ForeignKey(SaleBill, on_delete=models.CASCADE, related_name='salebillno')
     stock = models.ForeignKey(Stock, on_delete=models.CASCADE, related_name='saleitem')
     quantity = models.IntegerField(default="")
-    perprice = models.IntegerField(default="")
-    totalprice = models.IntegerField(default="")
+    # perprice = models.IntegerField(default="")
+    # totalprice = models.IntegerField(default="")
 
     def __str__(self):
         return "Bill no: " + str(self.billno.billno)
@@ -560,7 +520,7 @@ class SaleItem(models.Model):
 class SaleBillDetails(models.Model):
     billno = models.ForeignKey(SaleBill, on_delete=models.CASCADE, related_name='saledetailsbillno')
 
-    total = models.CharField(max_length=50, blank=True, null=True)
+    # total = models.CharField(max_length=50, blank=True, null=True)
 
     def __str__(self):
         return "Bill no: " + str(self.billno.billno)
