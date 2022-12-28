@@ -11,9 +11,7 @@
           <div class="card-header" style="background-color:#01345B">
             <div class="row" style="color: white; font-style: bold; font-size: 3.5rem">
             <div class="col-md-8" style="font-family: 'Alkalami'" >Outward List(Non-Consumable)</div>
-            <div class="col-md-4">
-                <div style="float:right; margin-top:8%;font-family:'Alkalami'"> <a class="btn btn-info" href="{% url 'new-nonsale' %}">Add New Sale</a> </div>
-            </div>
+
             </div>
           </div>
     <div class="card-body" style="font-family: 'Alkalami'">
@@ -35,12 +33,12 @@
 </style>
 
 
- <table class=" table table-css table-bordered table-hover" style="font-family:'Alkalami'" id="myTable" onkeyup="myFunction()">
+ <table class="table table-css table-bordered table-hover" style="font-family:'Alkalami'" id="myTable" onkeyup="myFunction()">
             
         <thead class="thead-dark align-middle">
             <tr >
                 <th width="3%" >Bill No.</th>
-                <th width="15%">Date</th>
+                <th width="10%">Date</th>
                 <th width="10%">Name</th>
                 <th width="7%">Address</th>
                 <th width="5%">Category</th>
@@ -48,10 +46,10 @@
                 <th width="5%">Quantity</th>
                 <th width="5%">Total</th>
                 <th width="7%">Issued To</th>
-                <th width="2%">Label Code</th>
+                <th width="7%">Label Code</th>
                 <th width="5%">Mode_Of_Delivery</th>
-                <th width="11%">Description</th>
-                <th width="15%">Action</th>
+                <th width="16%">Description</th>
+                <th width="10%">Action</th>
             </tr>
         </thead>
 
@@ -90,11 +88,6 @@
         </div>
     </div>
 </div>
-
-
-
-
-<br>
 <br>
  <div style="font-family:'Alkalami'">
         <a href="{% url 'home' %}" class="btn btn-secondary">Back To Home</a>

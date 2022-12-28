@@ -22,12 +22,12 @@
     <br>
   <div class="card-body" style="font-family: 'Alkalami'">
     <form method="post">
-
+        <label for="id_consumer">Supplier:</label>
         {% csrf_token %}
 
         {% for field in form.visible_fields %}
             <div class="form-group">
-                {{ field.label_tag }}
+                {{ supplier.label_tag }}
                 {{ field }}
             </div>
         {% endfor %}

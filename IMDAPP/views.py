@@ -632,7 +632,7 @@ class SaleCreateView(View):
             except (ObjectDoesNotExist, MultipleObjectsReturned):
                 pass
 
-            messages.success(request, "Sold items added successfully")
+            messages.success(request, "Send item successfully")
             return redirect('sale-bill', billno=billobj.billno)
         form = SaleForm(request.GET or None)
         formset = SaleItemFormset(request.GET or None)
@@ -661,7 +661,7 @@ class SaleDeleteView(SuccessMessageMixin, DeleteView):
             if stock.is_deleted == False:
                 stock.quantity += item.quantity
                 stock.save()
-        messages.success(self.request, "Sale bill deleted successfully")
+        messages.success(self.request, "Bill deleted successfully")
         return super(SaleDeleteView, self).delete(*args, **kwargs)
 
 class SaleBillView(View):
@@ -755,7 +755,7 @@ class NonSaleCreateView(View):
             except (ObjectDoesNotExist, MultipleObjectsReturned):
                 pass
 
-            messages.success(request, "Sold items added successfully")
+            messages.success(request, "Send item successfully")
             return redirect('nonsale-bill', billno=billobj.billno)
         form = NonSaleForm(request.GET or None)
         formset = NonSaleItemFormset(request.GET or None)
@@ -779,7 +779,7 @@ class NonSaleDeleteView(SuccessMessageMixin, DeleteView):
             if nonstock.is_deleted == False:
                 nonstock.quantity += item.quantity
                 nonstock.save()
-        messages.success(self.request, "Sale bill deleted successfully")
+        messages.success(self.request, "Bill deleted successfully")
         return super(NonSaleDeleteView, self).delete(*args, **kwargs)
 
 class NonSaleBillView(View):
@@ -996,7 +996,7 @@ class StockUpdateView(SuccessMessageMixin, UpdateView):  # updateview class to e
 
 class StockDeleteView(View):  # view class to delete stock
     template_name = "inventory/delete_stock.html"  # 'delete_stock.html' used as the template
-    success_message = "Stock deleted successfully"  # displays message when form is submitted
+    success_message = "Item deleted successfully"  # displays message when form is submitted
 
     def get(self, request, pk):
         stock = get_object_or_404(Stock, pk=pk)
@@ -1178,7 +1178,7 @@ class NonStockUpdateView(SuccessMessageMixin, UpdateView):  # updateview class t
     form_class = NonStockForm  # setting 'StockForm' form as form
     template_name = "inventory/edit_nonstock.html"  # 'edit_stock.html' used as the template
     success_url = '/inventory/nonconsumable'  # redirects to 'inventory' page in the url after submitting the form
-    success_message = "Stock updated successfully"  # displays message when form is submitted
+    success_message = "Item updated successfully"  # displays message when form is submitted
 
     def get_context_data(self, **kwargs):  # used to send additional context
         context = super().get_context_data(**kwargs)
@@ -1191,7 +1191,7 @@ class NonStockUpdateView(SuccessMessageMixin, UpdateView):  # updateview class t
 
 class NonStockDeleteView(View):  # view class to delete stock
     template_name = "inventory/delete_nonstock.html"  # 'delete_stock.html' used as the template
-    success_message = "Stock deleted successfully"  # displays message when form is submitted
+    success_message = "Item deleted successfully"  # displays message when form is submitted
 
     def get(self, request, pk):
         nonstock = get_object_or_404(NonStock, pk=pk)
