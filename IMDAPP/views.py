@@ -546,12 +546,12 @@ def outwardexport_csv(request):
     response = HttpResponse(content_type='text/csv')
     response['Content-Disposition'] = 'attachment; filename=Expenses' +str(datetime.datetime.now()) + '.csv'
     writer = csv.writer(response)
-    writer.writerow(['Billno', 'Customer','Item name','Description','Issued To','Quantity Sold', 'Total Sold Price', 'Date'])
+    writer.writerow(['Billno', 'Customer','Item name','Description','Issued To','Quantity Sold', 'Date'])
 
     expenses = SaleItem.objects.all()
 
     for x in expenses:
-        writer.writerow([x.billno.billno, x.billno.name, x.stock,x.stock.description,x.billno.issued_to, x.quantity, x.totalprice, x.billno.time])
+        writer.writerow([x.billno.billno, x.billno.name, x.stock,x.stock.description,x.billno.issued_to, x.quantity, x.billno.time])
     return response
 
 
@@ -559,12 +559,12 @@ def outwardnonexport_csv(request):
     response = HttpResponse(content_type='text/csv')
     response['Content-Disposition'] = 'attachment; filename=Expenses' +str(datetime.datetime.now()) + '.csv'
     writer = csv.writer(response)
-    writer.writerow(['Billno', 'Customer','Item name','Description','Issued To','Quantity Sold', 'Total Sold Price', 'Date'])
+    writer.writerow(['Billno', 'Customer','Item name','Description','Issued To','Quantity Sold', 'Date'])
 
     expenses = NonSaleItem.objects.all()
 
     for x in expenses:
-        writer.writerow([x.billno.billno, x.billno.name, x.nonstock,x.nonstock.description,x.billno.issued_to, x.quantity, x.totalprice, x.billno.time])
+        writer.writerow([x.billno.billno, x.billno.name, x.nonstock,x.nonstock.description,x.billno.issued_to, x.quantity,  x.billno.time])
     return response
 
 
