@@ -43,8 +43,7 @@
                 <form method="POST">
                     {% csrf_token %}
                     <fieldset class="form-group">
-                         <img src="https://internal.imd.gov.in/section/satmet/lightning/logof.png" class="center"
-                        style="height: 200px; margin-top: -20px;margin-left: auto;margin-right: auto; margin-bottom: -20px;" >
+                         <center><img src="https://internal.imd.gov.in/section/satmet/lightning/logof.png" style="height:200px;margin-top: -20px; margin-bottom: -20px;"></center>
 
                         <div class="align-middle" style="color:#494949;"><legend class="border-bottom mb-4">Please login to continue...</legend></div>
                         {{ form|crispy }}
