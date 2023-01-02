@@ -250,36 +250,17 @@
             //gets the values
             var element = $(this);
             var nonstock = element.parents('.form-row').find('.nonstock').val();
+             console.log('NonStock::',nonstock);
             var quantity = element.parents('.form-row').find('.quantity').val();
             var perprice = element.parents('.form-row').find('.price').val();
+            var subcategory = document.getElementById('id_subcategory').value;
             //checks if stocks are available
-            stocks.forEach(function(stockSummary, i) {
-                var pk = stocks[i].pk;
-                var squantity = stocks[i].quantity;
-                if(nonstock == pk) {
-                    //checks if ordered stock is more than available stock
-                    if(quantity > squantity){
-                        quantity = quantity - 1;
-                        if(quantity <= 1){
-                            //no stocks are available. Attempts to delete field
-                            custom_alert.render('Stock are currently unavailable. Field will be removed;');
-                            //Sets quantity to 0 as failsafe for when the total no of item forms are 1
-                            element.parents('.form-row').find('.quantity').val(0);
-                            deleteForm('form', element);
-                        } else {
-                            element.parents('.form-row').find('.quantity').val(squantity-1);
-                            quantity = squantity - 1;
-                            custom_alert.render('Stock are currently unavailable');
-                        }
+            console.log("SubCategory::",subcategory);
+            if(nonstock !== subcategory ){
+                   custom_alert.render("You are selected wrong item");
                     }
-                }
             });
-            //calculates the total
-            var tprice = quantity * perprice;
-            //sets it to field
-            element.parents('.form-row').find('.totalprice').val(tprice);
-            return false;
-        });
+
 
     </script>
           <script>

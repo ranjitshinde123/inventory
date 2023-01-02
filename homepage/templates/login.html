@@ -24,7 +24,7 @@
 
 <body>
 
-<div class="align-middle" style="color: #607d8b; font-style: bold; font-size: 3rem;font-family: 'Alkalami'">IMD</div>
+<!--<div class="align-middle" style="color: #607d8b; font-style: bold; font-size: 3rem;font-family: 'Alkalami'">IMD</div>-->
 <br>
 
 <div class="row d-flex justify-content-center" style="font-family: 'Alkalami'">
@@ -43,6 +43,9 @@
                 <form method="POST">
                     {% csrf_token %}
                     <fieldset class="form-group">
+                         <img src="https://internal.imd.gov.in/section/satmet/lightning/logof.png" class="center"
+                        style="height: 200px; margin-top: -20px;margin-left: auto;margin-right: auto; margin-bottom: -20px;" >
+
                         <div class="align-middle" style="color:#494949;"><legend class="border-bottom mb-4">Please login to continue...</legend></div>
                         {{ form|crispy }}
                     </fieldset>

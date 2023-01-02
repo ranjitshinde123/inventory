@@ -99,7 +99,8 @@ urlpatterns = [
     path('nondescriptions', views.nondescriptions, name="nondescriptions"),
 
     #History
-    path('historypage/', views.get_trs, name="trs")
+    path('historypage/', views.get_trs, name="trs"),
+    # path('verify_gstin/', views.verify_gstin, name="gstin-verify")
 
 ]
 

@@ -449,6 +449,14 @@ def nonoutwardslip(request):
     return render(request, 'sales/nonoutward_slip.html',locals())
 
 
+
+
+# def verify_gstin(request):
+#     return redirect("https://services.gst.gov.in/services/searchtp")
+#     # return redirect("https://www.mastersindia.co/gst-number-search-and-gstin-verification/")
+#     # return redirect("https://cleartax.in/gst-number-search/")
+
+
 #inward Slip(consumable,Non-Consumable)
 
 
@@ -599,6 +607,7 @@ class SaleCreateView(View):
         form = SaleForm(request.POST)
         formset = SaleItemFormset(request.POST)
         stocks = Stock.objects.filter(is_deleted=False)
+        form = SaleForm(request.POST)
 
        # gets the supplier object
 
@@ -616,11 +625,9 @@ class SaleCreateView(View):
                     billitem = form.save(commit=False)
                     billitem.billno = billobj  # links the bill object to the items
                     # gets the stock item
-                    stock = get_object_or_404(Stock,subcategory=billitem.stock.subcategory )
-
+                    stock = get_object_or_404(Stock,subcategory=billitem.stock.subcategory)
 
                     # stock = get_object_or_404(Stock, name=billitem.stock.name
-
                     # billitem.totalprice = billitem.perprice * billitem.quantity
                     # updates quantity in stock db
                     stock.quantity -= billitem.quantity
