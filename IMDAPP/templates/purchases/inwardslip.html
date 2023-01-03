@@ -58,7 +58,7 @@
                 <th width="20%">Actions</th>
             </tr>
         </thead>
-
+<div class="list">
 {% if bills %}
 
         <tbody>
@@ -82,8 +82,10 @@
             </tr>
             {% endfor %}
         </tbody>
-    </table>
 </div>
+    </table>
+
+    </div>
     </div>
 </div>
 <br>
@@ -96,7 +98,7 @@
 
 
 
-    <div class="align-middle">
+<div class="align-middle">
           {% if bills.has_other_pages %}
     <nav>
       <ul class="pagination justify-content-center">

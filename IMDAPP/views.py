@@ -416,37 +416,73 @@ class NonPurchaseDeleteView(SuccessMessageMixin, DeleteView):
 #OutwardSlip(consumable,Non-consumable)
 
 def outwardslip(request):
-    try:
-        error="no"
-        if request.method == "POST":
-            fromdate = datetime.datetime.strptime(request.POST.get('fromdate'), '%Y-%m-%d')
-            todate = datetime.datetime.strptime(request.POST.get('todate'), '%Y-%m-%d')
-            bills = SaleBill.objects.filter(Q(time__gte=fromdate) & Q(time__lte=todate))
-            return render(request, 'sales/outwardslip.html', {"bills": bills})
-        else:
-            error="yes"
-            bills = SaleBill.objects.all()
-            return render(request, 'sales/outwardslip.html', {"bills": bills})
-    except:
-        error="yes"
-    return render(request, 'sales/outwardslip.html',locals())
+    if request.method == "POST":
+        try:
+            error = "no"
+            if request.method == "POST":
+                fromdate = datetime.datetime.strptime(request.POST.get('fromdate'), '%Y-%m-%d')
+                todate = datetime.datetime.strptime(request.POST.get('todate'), '%Y-%m-%d')
+                bills = SaleBill.objects.filter(Q(time__gte=fromdate) & Q(time__lte=todate))
+                return render(request, 'sales/outwardslip.html', {"bills": bills})
+            else:
+                error = "yes"
+                bills = SaleBill.objects.all()
+                return render(request,'sales/outwardslip.html', {"bills": bills})
+
+        except:
+            error = "yes"
+        return render(request, 'sales/outwardslip.html', locals())
+    else:
+        list = SaleBill.objects.all()
+        page = request.GET.get('page', 1)
+        paginator = Paginator(list, 10)
+
+        try:
+            bills = paginator.page(page)
+        except PageNotAnInteger:
+            bills = paginator.page(1)
+        except EmptyPage:
+            bills = paginator.page(paginator.num_pages)
+
+        context = {
+            'bills': bills,
+        }
+        return render(request,'sales/outwardslip.html', context)
 
 
 def nonoutwardslip(request):
-    try:
-        error="no"
-        if request.method == "POST":
-            fromdate = datetime.datetime.strptime(request.POST.get('fromdate'), '%Y-%m-%d')
-            todate = datetime.datetime.strptime(request.POST.get('todate'), '%Y-%m-%d')
-            bills = NonSaleBill.objects.filter(Q(time__gte=fromdate) & Q(time__lte=todate))
-            return render(request, 'sales/nonoutward_slip.html', {"bills": bills})
-        else:
-            error="yes"
-            bills = NonSaleBill.objects.all()
-            return render(request, 'sales/nonoutward_slip.html', {"bills": bills})
-    except:
-        error="yes"
-    return render(request, 'sales/nonoutward_slip.html',locals())
+    if request.method == "POST":
+        try:
+            error = "no"
+            if request.method == "POST":
+                fromdate = datetime.datetime.strptime(request.POST.get('fromdate'), '%Y-%m-%d')
+                todate = datetime.datetime.strptime(request.POST.get('todate'), '%Y-%m-%d')
+                bills = NonSaleBill.objects.filter(Q(time__gte=fromdate) & Q(time__lte=todate))
+                return render(request, 'sales/nonoutward_slip.html', {"bills": bills})
+            else:
+                error = "yes"
+                bills = NonSaleBill.objects.all()
+                return render(request, 'sales/nonoutward_slip.html', {"bills": bills})
+
+        except:
+            error = "yes"
+        return render(request, 'sales/nonoutward_slip.html', locals())
+    else:
+        list = NonSaleBill.objects.all()
+        page = request.GET.get('page', 1)
+        paginator = Paginator(list, 10)
+
+        try:
+            bills = paginator.page(page)
+        except PageNotAnInteger:
+            bills = paginator.page(1)
+        except EmptyPage:
+            bills = paginator.page(paginator.num_pages)
+
+        context = {
+            'bills': bills,
+        }
+        return render(request, 'sales/nonoutward_slip.html', context)
 
 
 #
@@ -459,7 +495,7 @@ def nonoutwardslip(request):
 
 #inward Slip(consumable,Non-Consumable)
 
-
+#
 # def inwardslip(request):
 #     try:
 #         error="no"
@@ -467,58 +503,127 @@ def nonoutwardslip(request):
 #             fromdate = datetime.datetime.strptime(request.POST.get('fromdate'), '%Y-%m-%d')
 #             todate = datetime.datetime.strptime(request.POST.get('todate'), '%Y-%m-%d')
 #             bills = PurchaseBill.objects.filter(Q(time__gte=fromdate) & Q(time__lte=todate))
+#         try:
 #
+#             bills = paginator.page(page)
+#         except PageNotAnInteger:
+#             bills = paginator.page(1)
+#         except EmptyPage:
+#             bills = paginator.page(paginator.num_pages)
 #
+#         context = {
+#         'bills': bills,
+#             }
+#         return render(request, 'purchases/inwardslip.html', context)
+#     finally:
+#
+#         return render(request, 'purchases/inwardslip.html')
+
+
+##try
+# def inwardslip(request,page=1):
+#     bills = PurchaseBill.objects.all()
+#     paginator = Paginator(bills, 2)  # 5 users per page
+#
+#     # We don't need to handle the case where the `page` parameter
+#     # is not an integer because our URL only accepts integers
 #     try:
-#
 #         bills = paginator.page(page)
-#     except PageNotAnInteger:
-#         bills = paginator.page(1)
 #     except EmptyPage:
+#         # if we exceed the page limit we return the last page
 #         bills = paginator.page(paginator.num_pages)
 #
-#     context = {
-#         'bills': bills,
-#     }
-#     return render(request, 'purchases/inwardslip.html', context)
+#     return render(request, 'purchases/inwardslip.html', {'bills': bills})
+
 #
 
-
+#
 def inwardslip(request):
-    try:
-        error="no"
-        if request.method == "POST":
-            fromdate = datetime.datetime.strptime(request.POST.get('fromdate'), '%Y-%m-%d')
-            todate = datetime.datetime.strptime(request.POST.get('todate'), '%Y-%m-%d')
-            bills = PurchaseBill.objects.filter(Q(time__gte=fromdate) & Q(time__lte=todate))
-            return render(request, 'purchases/inwardslip.html', {"bills": bills})
-        else:
-            error="yes"
-            bills = PurchaseBill.objects.all()
-            return render(request, 'purchases/inwardslip.html', {"bills": bills})
+    if request.method =="POST":
+        try:
+            error = "no"
+            if request.method == "POST":
+                fromdate = datetime.datetime.strptime(request.POST.get('fromdate'), '%Y-%m-%d')
+                todate = datetime.datetime.strptime(request.POST.get('todate'), '%Y-%m-%d')
+                bills = PurchaseBill.objects.filter(Q(time__gte=fromdate) & Q(time__lte=todate))
+                return render(request, 'purchases/inwardslip.html', {"bills": bills})
+            else:
+                error = "yes"
+                bills = PurchaseBill.objects.all()
+                return render(request, 'purchases/inwardslip.html', {"bills": bills})
 
-    except:
-        error="yes"
-    return render(request, 'purchases/inwardslip.html',locals())
+        except:
+            error = "yes"
+        return render(request, 'purchases/inwardslip.html', locals())
+    else:
+        list = PurchaseBill.objects.all()
+        page = request.GET.get('page', 1)
+        paginator = Paginator(list,10)
 
+        try:
+            bills = paginator.page(page)
+        except PageNotAnInteger:
+            bills = paginator.page(1)
+        except EmptyPage:
+            bills = paginator.page(paginator.num_pages)
+
+        context = {
+            'bills': bills,
+        }
+        return render(request, 'purchases/inwardslip.html', context)
 
 
 
 def noninwardslip(request):
-    try:
-        error="no"
-        if request.method == "POST":
-            fromdate = datetime.datetime.strptime(request.POST.get('fromdate'), '%Y-%m-%d')
-            todate = datetime.datetime.strptime(request.POST.get('todate'), '%Y-%m-%d')
-            bills = NonPurchaseBill.objects.filter(Q(time__gte=fromdate) & Q(time__lte=todate))
-            return render(request, 'purchases/noninwardslip.html', {"bills": bills})
-        else:
+    if request.method =="POST":
+        try:
+            error = "no"
+            if request.method == "POST":
+                fromdate = datetime.datetime.strptime(request.POST.get('fromdate'), '%Y-%m-%d')
+                todate = datetime.datetime.strptime(request.POST.get('todate'), '%Y-%m-%d')
+                bills = NonPurchaseBill.objects.filter(Q(time__gte=fromdate) & Q(time__lte=todate))
+                return render(request, 'purchases/noninwardslip.html', {"bills": bills})
+            else:
+                error = "yes"
+                bills = NonPurchaseBill.objects.all()
+                return render(request, 'purchases/noninwardslip.html', {"bills": bills})
+
+        except:
             error = "yes"
-            bills = NonPurchaseBill.objects.all()
-            return render(request, 'purchases/noninwardslip.html', {"bills": bills})
-    except:
-        error="yes"
-    return render(request, 'purchases/noninwardslip.html',locals())
+        return render(request, 'purchases/noninwardslip.html', locals())
+    else:
+        list = NonPurchaseBill.objects.all()
+        page = request.GET.get('page', 1)
+        paginator = Paginator(list,10)
+
+        try:
+            bills = paginator.page(page)
+        except PageNotAnInteger:
+            bills = paginator.page(1)
+        except EmptyPage:
+            bills = paginator.page(paginator.num_pages)
+
+        context = {
+            'bills': bills,
+        }
+        return render(request, 'purchases/noninwardslip.html', context)
+
+
+# def noninwardslip(request):
+#     try:
+#         error="no"
+#         if request.method == "POST":
+#             fromdate = datetime.datetime.strptime(request.POST.get('fromdate'), '%Y-%m-%d')
+#             todate = datetime.datetime.strptime(request.POST.get('todate'), '%Y-%m-%d')
+#             bills = NonPurchaseBill.objects.filter(Q(time__gte=fromdate) & Q(time__lte=todate))
+#             return render(request, 'purchases/noninwardslip.html', {"bills": bills})
+#         else:
+#             error = "yes"
+#             bills = NonPurchaseBill.objects.all()
+#             return render(request, 'purchases/noninwardslip.html', {"bills": bills})
+#     except:
+#         error="yes"
+#     return render(request, 'purchases/noninwardslip.html',locals())
 
 
 ##inward
@@ -1372,9 +1477,26 @@ def nondescriptions(request):
 
 
 
-#History
+# def get_trs(request):
+#     object_list=trs.objects.all()
+#     context = {
+#             'object_list': object_list,
+#         }
+#     return render(request, 'History/trs_list.html', context)
+
+
+# #History
 def get_trs(request):
     object_list=trs.objects.all()
+    page = request.GET.get('page', 1)
+    paginator = Paginator(object_list,500)
+
+    try:
+        object_list = paginator.page(page)
+    except PageNotAnInteger:
+        object_list = paginator.page(1)
+    except EmptyPage:
+        object_list = paginator.page(paginator.num_pages)
     context = {
         'object_list': object_list,
     }
