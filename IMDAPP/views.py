@@ -449,10 +449,10 @@ def nonoutwardslip(request):
     return render(request, 'sales/nonoutward_slip.html',locals())
 
 
-
-
-def verify_gstin(request):
-    return redirect("https://services.gst.gov.in/services/searchtp")
+#
+#
+# def verify_gstin(request):
+#     return redirect("https://services.gst.gov.in/services/searchtp")
     # return redirect("https://www.mastersindia.co/gst-number-search-and-gstin-verification/")
     # return redirect("https://cleartax.in/gst-number-search/")
 

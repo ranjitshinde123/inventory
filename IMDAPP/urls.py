@@ -100,7 +100,7 @@ urlpatterns = [
 
     #History
     path('historypage/', views.get_trs, name="trs"),
-    path('verify_gstin/ ', views.verify_gstin, name="gstin-verify"),
+    # path('verify_gstin/ ', views.verify_gstin, name="gstin-verify"),
     # path('gmail/ ', views.send_emails, name="gmail"),
 
 ]
