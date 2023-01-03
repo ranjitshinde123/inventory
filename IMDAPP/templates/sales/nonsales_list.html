@@ -44,7 +44,6 @@
                 <th width="5%">Category</th>
                 <th width="10%">Sub-Category</th>
                 <th width="5%">Quantity</th>
-                <th width="5%">Total</th>
                 <th width="7%">Issued To</th>
                 <th width="7%">Label Code</th>
                 <th width="5%">Mode_Of_Delivery</th>
@@ -65,7 +64,6 @@
                 <td class="align-middle">{% for item in sale.get_items_list %} {{ item.nonstock.category }} <br> {% endfor %}</td>
                 <td class="align-middle">{% for item in sale.get_items_list %} {{ item.nonstock.subcategory }} <br> {% endfor %}</td>
                 <td class="align-middle">{% for item in sale.get_items_list %} {{ item.quantity }} <br> {% endfor %}</td>
-                <td class="align-middle">₹{{ sale.get_total_price }}</td>
                 <td class="align-middle">{% for item in sale.get_items_list %} {{ sale.issued_to }} <br> {% endfor %}</td>
                 <td class="align-middle">{% for item in sale.get_items_list %} {{ item.nonstock.label_code }} <br> {% endfor %}</td>
                 <td class="align-middle">{% for item in sale.get_items_list %} {{ item.nonstock.Mode_of_delivery }} <br> {% endfor %}</td>

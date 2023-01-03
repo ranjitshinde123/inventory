@@ -451,10 +451,10 @@ def nonoutwardslip(request):
 
 
 
-# def verify_gstin(request):
-#     return redirect("https://services.gst.gov.in/services/searchtp")
-#     # return redirect("https://www.mastersindia.co/gst-number-search-and-gstin-verification/")
-#     # return redirect("https://cleartax.in/gst-number-search/")
+def verify_gstin(request):
+    return redirect("https://services.gst.gov.in/services/searchtp")
+    # return redirect("https://www.mastersindia.co/gst-number-search-and-gstin-verification/")
+    # return redirect("https://cleartax.in/gst-number-search/")
 
 
 #inward Slip(consumable,Non-Consumable)
@@ -1380,4 +1380,21 @@ def get_trs(request):
     }
     return render(request, 'History/trs_list.html', context)
 
-
+#
+# from django.core.mail import EmailMultiAlternatives
+# from django.template.loader import render_to_string
+#
+# def send_emails(request):
+#     merge_data = {
+#         'greetings': "hello"
+#     }
+#     html_tbody = render_to_string("bill_base/inward_bill.html", merge_data)
+#
+#     message = EmailMultiAlternatives(
+#        subject='Django HTML Email',
+#        body="mail testing",
+#        from_email='monikagavate99@gmail.com',
+#        to=['komalp.mobicloud@gmail.com']
+#     )
+#     message.attach_alternative(html_tbody, "bill_base/inward_bill.html")
+#     message.send(fail_silently=False)
