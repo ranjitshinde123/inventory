@@ -1489,7 +1489,7 @@ def nondescriptions(request):
 def get_trs(request):
     object_list=trs.objects.all()
     page = request.GET.get('page', 1)
-    paginator = Paginator(object_list,100)
+    paginator = Paginator(object_list,500)
 
     try:
         object_list = paginator.page(page)
