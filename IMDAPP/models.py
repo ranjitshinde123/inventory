@@ -405,7 +405,6 @@ class NonSaleBill(models.Model):
     address = models.CharField(max_length=200)
     email = models.EmailField(max_length=255)
     Mode_of_delivery = models.CharField(max_length=50, choices=MODE_OF_DELIVERY)  # received by
-    label_code = models.CharField(max_length=20, default="")
     issued_to = models.CharField(max_length=50)
     is_deleted=models.BooleanField(default=False)
 
@@ -474,7 +473,6 @@ class SaleBill(models.Model):
     address = models.CharField(max_length=200)
     email = models.EmailField(max_length=255)
     Mode_of_delivery = models.CharField(max_length=50, choices=MODE_OF_DELIVERY)  # received by
-    label_code = models.CharField(max_length=20, default="")
     issued_to = models.CharField(max_length=50)
     is_deleted=models.BooleanField(default=False)
 

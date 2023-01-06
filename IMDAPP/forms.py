@@ -282,14 +282,14 @@ class SaleForm(forms.ModelForm):
         self.fields['address'].widget.attrs.update({'class': 'textinput form-control', 'pattern' : '[a-zA-Z\s]{1,50}', 'title' : 'Alphabets and Spaces only', 'required': 'true'})
         self.fields['issued_to'].widget.attrs.update({'class': 'textinput form-control', 'pattern' : '[a-zA-Z\s]{1,50}', 'title' : 'Alphabets and Spaces only', 'required': 'true'})
         self.fields['Mode_of_delivery'].widget.attrs.update({'class': 'textinput form-control'})
-        self.fields['label_code'].widget.attrs.update({'class': 'textinput form-control'})
+        # self.fields['label_code'].widget.attrs.update({'class': 'textinput form-control'})
 
 
 
 
     class Meta:
         model = SaleBill
-        fields = ['name', 'phone', 'email','address','issued_to','Mode_of_delivery','label_code']
+        fields = ['name', 'phone', 'email','address','issued_to','Mode_of_delivery']
 
 
 
@@ -327,14 +327,14 @@ class NonSaleForm(forms.ModelForm):
         self.fields['address'].widget.attrs.update({'class': 'textinput form-control', 'pattern' : '[a-zA-Z\s]{1,50}', 'title' : 'Alphabets and Spaces only', 'required': 'true'})
         self.fields['issued_to'].widget.attrs.update({'class': 'textinput form-control', 'pattern' : '[a-zA-Z\s]{1,50}', 'title' : 'Alphabets and Spaces only', 'required': 'true'})
         self.fields['Mode_of_delivery'].widget.attrs.update({'class': 'textinput form-control'})
-        self.fields['label_code'].widget.attrs.update({'class': 'textinput form-control'})
+        # self.fields['label_code'].widget.attrs.update({'class': 'textinput form-control'})
 
 
 
 
     class Meta:
         model = NonSaleBill
-        fields = ['name', 'phone', 'email','address','issued_to','Mode_of_delivery','label_code']
+        fields = ['name', 'phone', 'email','address','issued_to','Mode_of_delivery']
 
 
 
