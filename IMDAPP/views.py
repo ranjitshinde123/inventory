@@ -56,13 +56,13 @@ class ConsumerCreateView(SuccessMessageMixin, CreateView):
     model = Consumer
     form_class = ConsumerForm
     success_url = '/inventory/consumers'
-    success_message = "Supplier added successfully"
+    success_message = "Supplier added successfully."
     template_name = "suppliers/edit_consumer.html"
 
     def post(self, request, *args, **kwargs):
         response = super().post(request, *args, **kwargs)
         if not self.object:
-            messages.info(request, 'Supplier already exists.')
+            messages.info(request, 'Supplier already exist!!')
         return response
 
     def get_context_data(self, **kwargs):
@@ -77,7 +77,7 @@ class ConsumerUpdateView(SuccessMessageMixin, UpdateView):
     model = Consumer
     form_class = ConsumerForm
     success_url = '/inventory/consumers'
-    success_message = "Supplier details updated successfully"
+    success_message = "Supplier details updated successfully."
     template_name = "suppliers/edit_consumer.html"
 
     def get_context_data(self, **kwargs):
@@ -91,7 +91,7 @@ class ConsumerUpdateView(SuccessMessageMixin, UpdateView):
 # used to delete a supplier
 class ConsumerDeleteView(View):
     template_name = "suppliers/delete_consumer.html"
-    success_message = "Supplier deleted successfully"
+    success_message = "Supplier deleted successfully."
 
     def get(self, request, pk):
         consumer = get_object_or_404(Consumer, pk=pk)
@@ -145,7 +145,7 @@ class SupplierCreateView(SuccessMessageMixin, CreateView):
     model = Supplier
     form_class = SupplierForm
     success_url = '/inventory/suppliers'
-    success_message = "Supplier added successfully"
+    success_message = "Supplier added successfully."
     template_name = "suppliers/edit_supplier.html"
 
     def post(self, request, *args, **kwargs):
@@ -172,7 +172,7 @@ class SupplierUpdateView(SuccessMessageMixin, UpdateView):
     model = Supplier
     form_class = SupplierForm
     success_url = '/inventory/suppliers'
-    success_message = "Supplier details updated successfully"
+    success_message = "Supplier details updated successfully."
     template_name = "suppliers/edit_supplier.html"
 
     def get_context_data(self, **kwargs):
@@ -186,7 +186,7 @@ class SupplierUpdateView(SuccessMessageMixin, UpdateView):
 # used to delete a supplier
 class SupplierDeleteView(View):
     template_name = "suppliers/delete_supplier.html"
-    success_message = "Supplier deleted successfully"
+    success_message = "Supplier deleted successfully."
 
     def get(self, request, pk):
         supplier = get_object_or_404(Supplier, pk=pk)
@@ -384,7 +384,7 @@ class NonPurchaseCreateView(View):
                 # saves bill item and stock
                 nonstock.save()
                 billitem.save()
-            messages.success(request, "Item added successfully")
+            messages.success(request, "Item added successfully.")
             return redirect('nonpurchase-bill', billno=billobj.billno)
         formset = NonPurchaseItemFormset(request.GET or None)
         context = {
@@ -410,7 +410,7 @@ class NonPurchaseDeleteView(SuccessMessageMixin, DeleteView):
             if nonstock.is_deleted == False:
                 nonstock.quantity -= item.quantity
                 nonstock.save()
-        messages.success(self.request, " Bill deleted successfully")
+        messages.success(self.request, " Bill deleted successfully.")
         return super(NonPurchaseDeleteView, self).delete(*args, **kwargs)
 
 #OutwardSlip(consumable,Non-consumable)
