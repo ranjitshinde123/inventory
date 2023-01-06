@@ -69,6 +69,7 @@
                                     <tr>
                                         <td class="inner-box" style="width: 5%; font-weight: bold; text-align: center;">&nbsp;SL</td>
                                         <td class="inner-box" style="width: 30%; font-weight: bold; text-align: center;">ITEM</td>
+                                        <td class="inner-box" style="width: 30%; font-weight: bold; text-align: center;">Description</td>
                                         <td class="inner-box" style="width: 12%; font-weight: bold; text-align: center;"> ISSUED TO</td>
                                         <td class="inner-box" style="width: 12%; font-weight: bold; text-align: center;"> QUANTITY</td>
                                     </tr>
@@ -76,6 +77,7 @@
                                         <tr style="height: auto;text-align: center;">
                                             <td class="inner-box" style="width: 5%;">&nbsp; {{ forloop.counter }}</td>
                                             <td class="inner-box" style="width: 30%;">&nbsp; {{ item.nonstock.subcategory }}</td>
+                                            <td class="inner-box" style="width: 30%;">&nbsp; {{ item.nonstock.description }}</td>
                                             <td class="inner-box" style="width: 30%;">&nbsp; {{ bill.issued_to }}</td>
                                             <td class="inner-box" style="width: 15%;">&nbsp; {{ item.quantity }}</td>
 

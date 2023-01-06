@@ -63,7 +63,6 @@ class Supplier(models.Model):
     address = models.TextField()
     email = models.EmailField(max_length=100)
     gstin = models.CharField(max_length=15, unique=True)
-
     is_deleted = models.BooleanField(default=False)
 
     def __str__(self):
@@ -172,7 +171,7 @@ class Stock(models.Model):
 
 
     def __str__(self):
-        return  str(self.subcategory) +   " ,label code=" + str(self.label_code)
+        return  str(self.subcategory) +   " \n ,Label code=" + str(self.label_code)  +   "\n ,Description=" + str(self.description)
 
 
     def get_items_list(self):
@@ -282,7 +281,7 @@ class NonStock(models.Model):
 
 
     def __str__(self):
-        return  str(self.subcategory) +   " ,label code=" + str(self.label_code)
+        return  str(self.subcategory) +   " ,Label code=" + str(self.label_code)  +   " ,Description=" + str(self.description)
 
 
     def get_items_list(self):
@@ -405,9 +404,6 @@ class NonSaleBill(models.Model):
     phone = models.CharField(max_length=12)
     address = models.CharField(max_length=200)
     email = models.EmailField(max_length=255)
-    category = models.ForeignKey(NonCategory, on_delete=models.CASCADE)
-    subcategory = models.ForeignKey(NonSubcategory, on_delete=models.CASCADE)
-    description = models.ForeignKey(NonDescription, on_delete=models.CASCADE)
     Mode_of_delivery = models.CharField(max_length=50, choices=MODE_OF_DELIVERY)  # received by
     label_code = models.CharField(max_length=20, default="")
     issued_to = models.CharField(max_length=50)
@@ -477,9 +473,6 @@ class SaleBill(models.Model):
     phone = models.CharField(max_length=12)
     address = models.CharField(max_length=200)
     email = models.EmailField(max_length=255)
-    category = models.ForeignKey(Category, on_delete=models.CASCADE)
-    subcategory = models.ForeignKey(Subcategory, on_delete=models.CASCADE)
-    description = models.ForeignKey(Description, on_delete=models.CASCADE)
     Mode_of_delivery = models.CharField(max_length=50, choices=MODE_OF_DELIVERY)  # received by
     label_code = models.CharField(max_length=20, default="")
     issued_to = models.CharField(max_length=50)

@@ -276,35 +276,11 @@ class ConsumerForm(forms.ModelForm):
 class SaleForm(forms.ModelForm):
     def __init__(self, *args, **kwargs):
         super().__init__(*args, **kwargs)
-
-        if 'category' in self.data:
-            try:
-                category_id = int(self.data.get('category'))
-                self.fields['subcategory'].queryset = Subcategory.objects.filter(category_id=category_id).order_by(
-                    'category')
-            except (ValueError, TypeError):
-                pass  # invalid input from the client; ignore and fallback to empty City queryset
-        elif self.instance.pk:
-            pass
-
-        if 'subcategory' in self.data:
-            try:
-                subcategory_id = int(self.data.get('subcategory'))
-                self.fields['description'].queryset = Description.objects.filter(
-                    subcategory_id=subcategory_id).order_by(
-                    'subcategory')
-            except (ValueError, TypeError):
-                pass  # invalid input from the client; ignore and fallback to empty City queryset
-        elif self.instance.pk:
-            pass
         self.fields['name'].widget.attrs.update({'class': 'textinput form-control', 'pattern' : '[a-zA-Z\s]{1,50}', 'title' : 'Alphabets and Spaces only', 'required': 'true'})
         self.fields['phone'].widget.attrs.update({'class': 'textinput form-control', 'maxlength': '10', 'pattern' : '[0-9]{10}', 'title' : 'Numbers only', 'required': 'true'})
         self.fields['email'].widget.attrs.update({'class': 'textinput form-control'})
         self.fields['address'].widget.attrs.update({'class': 'textinput form-control', 'pattern' : '[a-zA-Z\s]{1,50}', 'title' : 'Alphabets and Spaces only', 'required': 'true'})
         self.fields['issued_to'].widget.attrs.update({'class': 'textinput form-control', 'pattern' : '[a-zA-Z\s]{1,50}', 'title' : 'Alphabets and Spaces only', 'required': 'true'})
-        self.fields['category'].widget.attrs.update({'class': 'textinput form-control'})
-        self.fields['description'].widget.attrs.update({'class': 'textinput form-control'})
-        self.fields['subcategory'].widget.attrs.update({'class': 'textinput form-control'})
         self.fields['Mode_of_delivery'].widget.attrs.update({'class': 'textinput form-control'})
         self.fields['label_code'].widget.attrs.update({'class': 'textinput form-control'})
 
@@ -313,7 +289,7 @@ class SaleForm(forms.ModelForm):
 
     class Meta:
         model = SaleBill
-        fields = ['name', 'phone', 'email','address','issued_to','category','subcategory','Mode_of_delivery','label_code','description']
+        fields = ['name', 'phone', 'email','address','issued_to','Mode_of_delivery','label_code']
 
 
 
@@ -345,36 +321,11 @@ SaleItemFormset = formset_factory(SaleItemForm, extra=1)
 class NonSaleForm(forms.ModelForm):
     def __init__(self, *args, **kwargs):
         super().__init__(*args, **kwargs)
-
-        if 'category' in self.data:
-            try:
-                category_id = int(self.data.get('category'))
-                self.fields['subcategory'].queryset = NonSubcategory.objects.filter(category_id=category_id).order_by(
-                    'category')
-            except (ValueError, TypeError):
-                pass  # invalid input from the client; ignore and fallback to empty City queryset
-        elif self.instance.pk:
-            self.fields['subcategory'].queryset = self.instance.category.subcategory_set.order_by('subcategory')
-
-        if 'subcategory' in self.data:
-            try:
-                subcategory_id = int(self.data.get('subcategory'))
-                self.fields['description'].queryset = NonDescription.objects.filter(
-                    subcategory_id=subcategory_id).order_by(
-                    'subcategory')
-            except (ValueError, TypeError):
-                pass  # invalid input from the client; ignore and fallback to empty City queryset
-        elif self.instance.pk:
-            pass
-            self.fields['description'].queryset = self.instance.subcategory.description_set.order_by('description')
         self.fields['name'].widget.attrs.update({'class': 'textinput form-control', 'pattern' : '[a-zA-Z\s]{1,50}', 'title' : 'Alphabets and Spaces only', 'required': 'true'})
         self.fields['phone'].widget.attrs.update({'class': 'textinput form-control', 'maxlength': '10', 'pattern' : '[0-9]{10}', 'title' : 'Numbers only', 'required': 'true'})
         self.fields['email'].widget.attrs.update({'class': 'textinput form-control'})
         self.fields['address'].widget.attrs.update({'class': 'textinput form-control', 'pattern' : '[a-zA-Z\s]{1,50}', 'title' : 'Alphabets and Spaces only', 'required': 'true'})
         self.fields['issued_to'].widget.attrs.update({'class': 'textinput form-control', 'pattern' : '[a-zA-Z\s]{1,50}', 'title' : 'Alphabets and Spaces only', 'required': 'true'})
-        self.fields['category'].widget.attrs.update({'class': 'textinput form-control'})
-        self.fields['description'].widget.attrs.update({'class': 'textinput form-control'})
-        self.fields['subcategory'].widget.attrs.update({'class': 'textinput form-control'})
         self.fields['Mode_of_delivery'].widget.attrs.update({'class': 'textinput form-control'})
         self.fields['label_code'].widget.attrs.update({'class': 'textinput form-control'})
 
@@ -383,7 +334,7 @@ class NonSaleForm(forms.ModelForm):
 
     class Meta:
         model = NonSaleBill
-        fields = ['name', 'phone', 'email','address','issued_to','category','subcategory','Mode_of_delivery','label_code','description']
+        fields = ['name', 'phone', 'email','address','issued_to','Mode_of_delivery','label_code']
 
 
 

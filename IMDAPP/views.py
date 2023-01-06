@@ -1520,3 +1520,11 @@ def get_trs(request):
 #     )
 #     message.attach_alternative(html_tbody, "bill_base/inward_bill.html")
 #     message.send(fail_silently=False)
+
+#
+# def gstin_verify(request,gstin):
+#     gstin=request.GET.filter(gstin)
+#     return render(request,'gstin_verity',gstin)
+
+
+
