@@ -91,9 +91,9 @@ WSGI_APPLICATION = 'IMDPROJ.wsgi.application'
 DATABASES = {
     'default': {
         'ENGINE': 'django.db.backends.postgresql_psycopg2',
-        'NAME': 'inventorydatab',
-        'USER': 'imdproject1',
-        'PASSWORD': 'mobicloud@123',
+        'NAME': 'kdatabase',
+        'USER': 'monikaa',
+        'PASSWORD': 'monika@123',
         'HOST':'localhost',
         'PORT':'5432',
     }
