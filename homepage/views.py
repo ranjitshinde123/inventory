@@ -1,11 +1,13 @@
+from django.contrib.auth.decorators import login_required
 from django.contrib.auth.forms import AuthenticationForm
 from django.shortcuts import render, redirect
+from django.utils.decorators import method_decorator
 from django.views.generic import View, TemplateView
 from IMDAPP.models import *
 from django.contrib.auth import authenticate, login as loginuser,logout
 
 
-
+@method_decorator(login_required, name='dispatch')
 class HomeView(View):
     template_name = "home.html"
     def get(self, request):        
@@ -52,7 +54,7 @@ def login(request):
            if user is not None:
                loginuser(request,user)
                return redirect('home')
-           return render(request,'index.html')
+           return render(request,'login.html')
 
        else:
            context = {

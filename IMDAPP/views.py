@@ -1,10 +1,13 @@
 import json
+
+from django.contrib.auth.decorators import login_required
 from django.core.exceptions import ObjectDoesNotExist, MultipleObjectsReturned
 from django.shortcuts import render
 from django.db.models import Q
 from django.http import HttpResponse, JsonResponse, request, Http404
 import csv
 from django.shortcuts import render, redirect, get_object_or_404
+from django.utils.decorators import method_decorator
 from django_filters.views import FilterView
 from django.contrib.messages.views import SuccessMessageMixin
 from django.contrib import messages
@@ -44,6 +47,7 @@ from .forms import (
 )
 
 # Create your views here
+@method_decorator(login_required, name='dispatch')
 class ConsumerListView(ListView):
     model = Consumer
     template_name = "suppliers/consumer_list.html"
@@ -52,6 +56,8 @@ class ConsumerListView(ListView):
 
 
 # used to add a new supplier
+@method_decorator(login_required, name='dispatch')
+
 class ConsumerCreateView(SuccessMessageMixin, CreateView):
     model = Consumer
     form_class = ConsumerForm
@@ -72,6 +78,7 @@ class ConsumerCreateView(SuccessMessageMixin, CreateView):
         return context
     # used to update a supplier's info
 
+@method_decorator(login_required, name='dispatch')
 
 class ConsumerUpdateView(SuccessMessageMixin, UpdateView):
     model = Consumer
@@ -89,6 +96,8 @@ class ConsumerUpdateView(SuccessMessageMixin, UpdateView):
 
 
 # used to delete a supplier
+@method_decorator(login_required, name='dispatch')
+
 class ConsumerDeleteView(View):
     template_name = "suppliers/delete_consumer.html"
     success_message = "Supplier deleted successfully."
@@ -106,6 +115,8 @@ class ConsumerDeleteView(View):
 
 
 # used to view a supplier's profile
+@method_decorator(login_required, name='dispatch')
+
 class ConsumerView(View):
     def get(self, request,name):
         consumerobj = get_object_or_404(Consumer, name=name)
@@ -131,6 +142,7 @@ class ConsumerView(View):
 
 
 #new supplier
+@method_decorator(login_required, name='dispatch')
 
 class SupplierListView(ListView):
     model = Supplier
@@ -166,6 +178,7 @@ class SupplierCreateView(SuccessMessageMixin, CreateView):
 
 
     # used to update a supplier's info
+@method_decorator(login_required, name='dispatch')
 
 
 class SupplierUpdateView(SuccessMessageMixin, UpdateView):
@@ -184,6 +197,8 @@ class SupplierUpdateView(SuccessMessageMixin, UpdateView):
 
 
 # used to delete a supplier
+@method_decorator(login_required, name='dispatch')
+
 class SupplierDeleteView(View):
     template_name = "suppliers/delete_supplier.html"
     success_message = "Supplier deleted successfully."
@@ -201,6 +216,8 @@ class SupplierDeleteView(View):
 
 
 # used to view a supplier's profile
+@method_decorator(login_required, name='dispatch')
+
 class SupplierView(View):
     def get(self, request,name):
         supplierobj = get_object_or_404(Supplier, name=name)
@@ -221,6 +238,8 @@ class SupplierView(View):
 
 
 # shows the list of bills of all purchases
+@method_decorator(login_required, name='dispatch')
+
 class PurchaseView(ListView):
     model = PurchaseBill
     template_name = "purchases/purchases_list.html"
@@ -232,6 +251,8 @@ class PurchaseView(ListView):
 
 
 # used to select the supplier
+@method_decorator(login_required, name='dispatch')
+
 class SelectConsumerView(View):
     form_class = SelectConsumerForm
     template_name = 'purchases/select_consumer.html'
@@ -254,6 +275,7 @@ class SelectConsumerView(View):
 
 # used to delete a bill object
 
+@method_decorator(login_required, name='dispatch')
 
 class PurchaseCreateView(View):
     template_name = 'purchases/new_purchase.html'
@@ -302,6 +324,7 @@ class PurchaseCreateView(View):
         }
         return render(request, self.template_name, context)
 
+@method_decorator(login_required, name='dispatch')
 
 class PurchaseDeleteView(SuccessMessageMixin, DeleteView):
     model = PurchaseBill
@@ -319,6 +342,7 @@ class PurchaseDeleteView(SuccessMessageMixin, DeleteView):
         messages.success(self.request, " Bill deleted successfully")
         return super(PurchaseDeleteView, self).delete(*args, **kwargs)
 
+@method_decorator(login_required, name='dispatch')
 
 class NonPurchaseView(ListView):
     model = NonPurchaseBill
@@ -327,6 +351,7 @@ class NonPurchaseView(ListView):
     ordering = ['time']
     paginate_by = 10
 
+@method_decorator(login_required, name='dispatch')
 
 class SelectSupplierView(View):
     form_class = SelectSupplierForm
@@ -346,6 +371,7 @@ class SelectSupplierView(View):
 
 
 
+@method_decorator(login_required, name='dispatch')
 
 class NonPurchaseCreateView(View):
     template_name = 'purchases/non_purchase.html'
@@ -396,6 +422,7 @@ class NonPurchaseCreateView(View):
 
 
 # used to delete a bill object
+@method_decorator(login_required, name='dispatch')
 
 class NonPurchaseDeleteView(SuccessMessageMixin, DeleteView):
     model = NonPurchaseBill
@@ -414,6 +441,7 @@ class NonPurchaseDeleteView(SuccessMessageMixin, DeleteView):
         return super(NonPurchaseDeleteView, self).delete(*args, **kwargs)
 
 #OutwardSlip(consumable,Non-consumable)
+@method_decorator(login_required, name='dispatch')
 
 def outwardslip(request):
     if request.method == "POST":
@@ -449,6 +477,7 @@ def outwardslip(request):
         }
         return render(request,'sales/outwardslip.html', context)
 
+@method_decorator(login_required, name='dispatch')
 
 def nonoutwardslip(request):
     if request.method == "POST":
@@ -538,6 +567,8 @@ def nonoutwardslip(request):
 #
 
 #
+@method_decorator(login_required, name='dispatch')
+
 def inwardslip(request):
     if request.method =="POST":
         try:
@@ -573,6 +604,7 @@ def inwardslip(request):
         return render(request, 'purchases/inwardslip.html', context)
 
 
+@method_decorator(login_required, name='dispatch')
 
 def noninwardslip(request):
     if request.method =="POST":
@@ -627,6 +659,8 @@ def noninwardslip(request):
 
 
 ##inward
+@method_decorator(login_required, name='dispatch')
+
 def export_csv(request):
     response = HttpResponse(content_type='text/csv')
     response['Content-Disposition'] = 'attachment; filename=Expenses' +str(datetime.datetime.now()) + '.csv'
@@ -639,6 +673,7 @@ def export_csv(request):
         writer.writerow([x.billno.billno, x.billno.time,x.stock.name, x.stock.subcategory, x.stock.description,x.stock.quantity, x.stock.Mode_of_delivery, x.stock.condition ])
     return response
 
+@method_decorator(login_required, name='dispatch')
 
 def nonexport_csv(request):
     response = HttpResponse(content_type='text/csv')
@@ -655,6 +690,8 @@ def nonexport_csv(request):
 #
 # #outward
 #
+@method_decorator(login_required, name='dispatch')
+
 def outwardexport_csv(request):
     response = HttpResponse(content_type='text/csv')
     response['Content-Disposition'] = 'attachment; filename=Expenses' +str(datetime.datetime.now()) + '.csv'
@@ -667,6 +704,7 @@ def outwardexport_csv(request):
         writer.writerow([x.billno.billno, x.billno.name, x.stock,x.stock.description,x.billno.issued_to, x.quantity, x.billno.time])
     return response
 
+@method_decorator(login_required, name='dispatch')
 
 def outwardnonexport_csv(request):
     response = HttpResponse(content_type='text/csv')
@@ -683,6 +721,8 @@ def outwardnonexport_csv(request):
 
 
 # shows the list of bills of all sales
+@method_decorator(login_required, name='dispatch')
+
 class SaleView(ListView):
     model = SaleBill
     template_name = "sales/sales_list.html"
@@ -692,6 +732,8 @@ class SaleView(ListView):
 
 
 # used to generate a bill object and save items
+@method_decorator(login_required, name='dispatch')
+
 class SaleCreateView(View):
     template_name = 'sales/new_sale.html'
 
@@ -759,6 +801,7 @@ class SaleCreateView(View):
 
 
 
+@method_decorator(login_required, name='dispatch')
 
 class SaleDeleteView(SuccessMessageMixin, DeleteView):
     model = SaleBill
@@ -775,6 +818,8 @@ class SaleDeleteView(SuccessMessageMixin, DeleteView):
                 stock.save()
         messages.success(self.request, "Bill deleted successfully")
         return super(SaleDeleteView, self).delete(*args, **kwargs)
+
+@method_decorator(login_required, name='dispatch')
 
 class SaleBillView(View):
     model = SaleBill
@@ -808,6 +853,7 @@ class SaleBillView(View):
 
 ##nonconsumable sale
 
+@method_decorator(login_required, name='dispatch')
 
 class NonSaleView(ListView):
     model = NonSaleBill
@@ -818,6 +864,8 @@ class NonSaleView(ListView):
 
 
 # used to generate a bill object and save items
+@method_decorator(login_required, name='dispatch')
+
 class NonSaleCreateView(View):
     template_name = 'sales/new_nonsale.html'
 
@@ -877,6 +925,7 @@ class NonSaleCreateView(View):
         }
         return render(request, self.template_name, context, locals())
 
+@method_decorator(login_required, name='dispatch')
 
 class NonSaleDeleteView(SuccessMessageMixin, DeleteView):
     model = NonSaleBill
@@ -893,6 +942,8 @@ class NonSaleDeleteView(SuccessMessageMixin, DeleteView):
                 nonstock.save()
         messages.success(self.request, "Bill deleted successfully")
         return super(NonSaleDeleteView, self).delete(*args, **kwargs)
+
+@method_decorator(login_required, name='dispatch')
 
 class NonSaleBillView(View):
     model = NonSaleBill
@@ -925,6 +976,8 @@ class NonSaleBillView(View):
 # used to delete a bill object
 
 # used to display the purchase bill object
+@method_decorator(login_required, name='dispatch')
+
 class PurchaseBillView(View):
     model = PurchaseBill
     template_name = "bill/purchase_bill.html"
@@ -954,6 +1007,7 @@ class PurchaseBillView(View):
 
         return render(request, self.template_name, context)
 
+@method_decorator(login_required, name='dispatch')
 
 class NonPurchaseBillView(View):
     model = NonPurchaseBill
@@ -989,6 +1043,7 @@ class NonPurchaseBillView(View):
 
 
 
+@method_decorator(login_required, name='dispatch')
 
 class StockListView(FilterView):
     filterset_class = StockFilter
@@ -1011,6 +1066,7 @@ class StockListView(FilterView):
 #         context["savebtn"] = 'Add To Stock'
 #
 #         return context
+@method_decorator(login_required, name='dispatch')
 
 class StockCreateView(View):
     model = Stock
@@ -1089,6 +1145,7 @@ class StockCreateView(View):
 
 
 
+@method_decorator(login_required, name='dispatch')
 
 class StockUpdateView(SuccessMessageMixin, UpdateView):  # updateview class to edit stock, mixin used to display message
     model = Stock  # setting 'Stock' model as model
@@ -1105,6 +1162,7 @@ class StockUpdateView(SuccessMessageMixin, UpdateView):  # updateview class to e
 
         return context
 
+@method_decorator(login_required, name='dispatch')
 
 class StockDeleteView(View):  # view class to delete stock
     template_name = "inventory/delete_stock.html"  # 'delete_stock.html' used as the template
@@ -1121,6 +1179,7 @@ class StockDeleteView(View):  # view class to delete stock
         messages.success(request, self.success_message)
         return redirect('inventory')
 
+@method_decorator(login_required, name='dispatch')
 
 class StockBillView(View):
     model = Stock
@@ -1150,6 +1209,8 @@ class StockBillView(View):
         }
         return render(request, self.template_name, context)
 
+@method_decorator(login_required, name='dispatch')
+
 class StockView(View):
     def get(self, request, name):
         stockobj = get_object_or_404(Stock, name=name)
@@ -1161,6 +1222,7 @@ class StockView(View):
         return render(request, 'inventory/stockdetails.html', context)
 
 
+@method_decorator(login_required, name='dispatch')
 
 class NonStockListView(FilterView):
     filterset_class = NonStockFilter
@@ -1169,6 +1231,7 @@ class NonStockListView(FilterView):
     paginate_by = 10
 
 
+@method_decorator(login_required, name='dispatch')
 
 class NonStockCreateView(View):
     model = NonStock
@@ -1245,6 +1308,8 @@ class NonStockCreateView(View):
         }
         return render(request, self.template_name, context, locals())
 
+@method_decorator(login_required, name='dispatch')
+
 class NonStockBillView(View):
     model = NonStock
     template_name = "bill/inwardnc_bill.html"
@@ -1272,6 +1337,7 @@ class NonStockBillView(View):
             'bill_base': self.bill_base,
         }
         return render(request, self.template_name, context)
+@method_decorator(login_required, name='dispatch')
 
 class NonStockView(View):
     def get(self, request, name):
@@ -1284,6 +1350,7 @@ class NonStockView(View):
         return render(request, 'inventory/stockdetails.html', context)
 
 
+@method_decorator(login_required, name='dispatch')
 
 class NonStockUpdateView(SuccessMessageMixin, UpdateView):  # updateview class to edit stock, mixin used to display message
     model = NonStock  # setting 'Stock' model as model
@@ -1300,6 +1367,7 @@ class NonStockUpdateView(SuccessMessageMixin, UpdateView):  # updateview class t
 
         return context
 
+@method_decorator(login_required, name='dispatch')
 
 class NonStockDeleteView(View):  # view class to delete stock
     template_name = "inventory/delete_nonstock.html"  # 'delete_stock.html' used as the template
@@ -1316,6 +1384,7 @@ class NonStockDeleteView(View):  # view class to delete stock
         messages.success(request, self.success_message)
         return redirect('nonconsumable')
 
+@method_decorator(login_required, name='dispatch')
 
 class NonStockView(View):
     def get(self, request, name):
@@ -1328,6 +1397,7 @@ class NonStockView(View):
 
 
 
+@method_decorator(login_required, name='dispatch')
 
 def addcategory(request):
     form=CategoryForm(request.POST)
@@ -1350,6 +1420,7 @@ def addcategory(request):
 
 
 
+@method_decorator(login_required, name='dispatch')
 
 def addunit(request):
     form=UnitForm(request.POST)
@@ -1370,6 +1441,7 @@ def addunit(request):
         error = "yes"
     return render(request, "Master/add_unit.html", locals())
 
+@method_decorator(login_required, name='dispatch')
 
 def addsubcategory(request):
     form=SubcategoryForm(request.POST or None)
@@ -1383,6 +1455,7 @@ def addsubcategory(request):
         error = "yes"
     return render(request,"Master/addsubcategory.html",locals())
 
+@method_decorator(login_required, name='dispatch')
 
 def adddescription(request):
     form=DescriptionForm(request.POST or None)
@@ -1395,6 +1468,7 @@ def adddescription(request):
     except:
         error = "yes"
     return render(request, "Master/adddescription.html", locals())
+@method_decorator(login_required, name='dispatch')
 
 def addnoncategory(request):
     form=NonCategoryForm(request.POST)
@@ -1414,6 +1488,7 @@ def addnoncategory(request):
     except:
         error = "yes"
     return render(request, "Master/addnoncategory.html", locals())
+@method_decorator(login_required, name='dispatch')
 
 def addnonsubcategory(request):
     form=NonSubcategoryForm(request.POST or None)
@@ -1428,6 +1503,7 @@ def addnonsubcategory(request):
         error = "yes"
     return render(request,"Master/addnonsubcategory.html",locals())
 
+@method_decorator(login_required, name='dispatch')
 
 def addnondescription(request):
     form=NonDescriptionForm(request.POST or None)
@@ -1441,11 +1517,13 @@ def addnondescription(request):
         error = "yes"
     return render(request, "Master/addnondescription.html", locals())
 
+@method_decorator(login_required, name='dispatch')
 
 def master(request):
     return render(request,'Master/master.html')
 
 
+@method_decorator(login_required, name='dispatch')
 
 def subcategorys(request):
     data = json.loads(request.body)
@@ -1453,6 +1531,7 @@ def subcategorys(request):
     subcategorys = Subcategory.objects.filter(category_id=category_id)
     return JsonResponse(list(subcategorys.values("id","subcategory")), safe=False)
 
+@method_decorator(login_required, name='dispatch')
 
 def descriptions(request):
     data = json.loads(request.body)
@@ -1461,6 +1540,7 @@ def descriptions(request):
     return JsonResponse(list(descriptions.values("id","description")), safe=False)
 
 
+@method_decorator(login_required, name='dispatch')
 
 def nonsubcategorys(request):
     data = json.loads(request.body)
@@ -1468,6 +1548,7 @@ def nonsubcategorys(request):
     subcategorys = NonSubcategory.objects.filter(category_id=category_id)
     return JsonResponse(list(subcategorys.values("id","subcategory")), safe=False)
 
+@method_decorator(login_required, name='dispatch')
 
 def nondescriptions(request):
     data = json.loads(request.body)
@@ -1486,6 +1567,8 @@ def nondescriptions(request):
 
 
 # #History
+@method_decorator(login_required, name='dispatch')
+
 def get_trs(request):
     object_list=trs.objects.all()
     page = request.GET.get('page', 1)
