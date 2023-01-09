@@ -441,7 +441,7 @@ class NonPurchaseDeleteView(SuccessMessageMixin, DeleteView):
         return super(NonPurchaseDeleteView, self).delete(*args, **kwargs)
 
 #OutwardSlip(consumable,Non-consumable)
-@method_decorator(login_required, name='dispatch')
+# @method_decorator(login_required, name='dispatch')
 
 def outwardslip(request):
     if request.method == "POST":
@@ -477,7 +477,7 @@ def outwardslip(request):
         }
         return render(request,'sales/outwardslip.html', context)
 
-@method_decorator(login_required, name='dispatch')
+# @method_decorator(login_required, name='dispatch')
 
 def nonoutwardslip(request):
     if request.method == "POST":
@@ -567,7 +567,7 @@ def nonoutwardslip(request):
 #
 
 #
-@method_decorator(login_required, name='dispatch')
+# @method_decorator(login_required, name='dispatch')
 
 def inwardslip(request):
     if request.method =="POST":
@@ -604,7 +604,7 @@ def inwardslip(request):
         return render(request, 'purchases/inwardslip.html', context)
 
 
-@method_decorator(login_required, name='dispatch')
+# @method_decorator(login_required, name='dispatch')
 
 def noninwardslip(request):
     if request.method =="POST":
@@ -659,7 +659,7 @@ def noninwardslip(request):
 
 
 ##inward
-@method_decorator(login_required, name='dispatch')
+# @method_decorator(login_required, name='dispatch')
 
 def export_csv(request):
     response = HttpResponse(content_type='text/csv')
@@ -673,7 +673,7 @@ def export_csv(request):
         writer.writerow([x.billno.billno, x.billno.time,x.stock.name, x.stock.subcategory, x.stock.description,x.stock.quantity, x.stock.Mode_of_delivery, x.stock.condition ])
     return response
 
-@method_decorator(login_required, name='dispatch')
+# @method_decorator(login_required, name='dispatch')
 
 def nonexport_csv(request):
     response = HttpResponse(content_type='text/csv')
@@ -690,7 +690,7 @@ def nonexport_csv(request):
 #
 # #outward
 #
-@method_decorator(login_required, name='dispatch')
+# @method_decorator(login_required, name='dispatch')
 
 def outwardexport_csv(request):
     response = HttpResponse(content_type='text/csv')
@@ -704,7 +704,7 @@ def outwardexport_csv(request):
         writer.writerow([x.billno.billno, x.billno.name, x.stock,x.stock.description,x.billno.issued_to, x.quantity, x.billno.time])
     return response
 
-@method_decorator(login_required, name='dispatch')
+# @method_decorator(login_required, name='dispatch')
 
 def outwardnonexport_csv(request):
     response = HttpResponse(content_type='text/csv')
@@ -722,7 +722,7 @@ def outwardnonexport_csv(request):
 
 # shows the list of bills of all sales
 @method_decorator(login_required, name='dispatch')
-
+#
 class SaleView(ListView):
     model = SaleBill
     template_name = "sales/sales_list.html"
@@ -1397,7 +1397,7 @@ class NonStockView(View):
 
 
 
-@method_decorator(login_required, name='dispatch')
+# @method_decorator(login_required, name='dispatch')
 
 def addcategory(request):
     form=CategoryForm(request.POST)
@@ -1420,8 +1420,8 @@ def addcategory(request):
 
 
 
-@method_decorator(login_required, name='dispatch')
-
+# @method_decorator(login_required, name='dispatch')
+#
 def addunit(request):
     form=UnitForm(request.POST)
     try:
@@ -1441,7 +1441,7 @@ def addunit(request):
         error = "yes"
     return render(request, "Master/add_unit.html", locals())
 
-@method_decorator(login_required, name='dispatch')
+# @method_decorator(login_required, name='dispatch')
 
 def addsubcategory(request):
     form=SubcategoryForm(request.POST or None)
@@ -1455,7 +1455,7 @@ def addsubcategory(request):
         error = "yes"
     return render(request,"Master/addsubcategory.html",locals())
 
-@method_decorator(login_required, name='dispatch')
+# @method_decorator(login_required, name='dispatch')
 
 def adddescription(request):
     form=DescriptionForm(request.POST or None)
@@ -1468,7 +1468,7 @@ def adddescription(request):
     except:
         error = "yes"
     return render(request, "Master/adddescription.html", locals())
-@method_decorator(login_required, name='dispatch')
+# @method_decorator(login_required, name='dispatch')
 
 def addnoncategory(request):
     form=NonCategoryForm(request.POST)
@@ -1488,7 +1488,7 @@ def addnoncategory(request):
     except:
         error = "yes"
     return render(request, "Master/addnoncategory.html", locals())
-@method_decorator(login_required, name='dispatch')
+# @method_decorator(login_required, name='dispatch')
 
 def addnonsubcategory(request):
     form=NonSubcategoryForm(request.POST or None)
@@ -1503,7 +1503,7 @@ def addnonsubcategory(request):
         error = "yes"
     return render(request,"Master/addnonsubcategory.html",locals())
 
-@method_decorator(login_required, name='dispatch')
+# @method_decorator(login_required, name='dispatch')
 
 def addnondescription(request):
     form=NonDescriptionForm(request.POST or None)
@@ -1517,13 +1517,13 @@ def addnondescription(request):
         error = "yes"
     return render(request, "Master/addnondescription.html", locals())
 
-@method_decorator(login_required, name='dispatch')
+# @method_decorator(login_required, name='dispatch')
 
 def master(request):
     return render(request,'Master/master.html')
 
 
-@method_decorator(login_required, name='dispatch')
+# @method_decorator(login_required, name='dispatch')
 
 def subcategorys(request):
     data = json.loads(request.body)
@@ -1531,7 +1531,7 @@ def subcategorys(request):
     subcategorys = Subcategory.objects.filter(category_id=category_id)
     return JsonResponse(list(subcategorys.values("id","subcategory")), safe=False)
 
-@method_decorator(login_required, name='dispatch')
+# @method_decorator(login_required, name='dispatch')
 
 def descriptions(request):
     data = json.loads(request.body)
@@ -1540,7 +1540,7 @@ def descriptions(request):
     return JsonResponse(list(descriptions.values("id","description")), safe=False)
 
 
-@method_decorator(login_required, name='dispatch')
+# @method_decorator(login_required, name='dispatch')
 
 def nonsubcategorys(request):
     data = json.loads(request.body)
@@ -1548,7 +1548,7 @@ def nonsubcategorys(request):
     subcategorys = NonSubcategory.objects.filter(category_id=category_id)
     return JsonResponse(list(subcategorys.values("id","subcategory")), safe=False)
 
-@method_decorator(login_required, name='dispatch')
+# @method_decorator(login_required, name='dispatch')
 
 def nondescriptions(request):
     data = json.loads(request.body)
@@ -1567,7 +1567,7 @@ def nondescriptions(request):
 
 
 # #History
-@method_decorator(login_required, name='dispatch')
+# @method_decorator(login_required, name='dispatch')
 
 def get_trs(request):
     object_list=trs.objects.all()
