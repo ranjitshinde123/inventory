@@ -113,7 +113,7 @@
 
         {% for p in bills.paginator.page_range %}
           {% if bills.number == p %}
-            <li class="page-item"><a class="page-link" style="color: red;" href="#">{{ p }}</a></li>
+            <li class="page-item"><a class="page-link" style="color: blue;" href="#">{{ p }}</a></li>
           {% else %}
             <li class="page-item"><a class="page-link" href="?page={{ p }}">{{ p }}</a></li>
           {% endif %}

@@ -146,7 +146,7 @@ class Stock(models.Model):
         ('TORN', 'TORN'),
         ('DAMAGED', 'DAMAGED'),
     ]
-    MODE_OF_DELEVERY = [
+    MODE_OF_DELIVERY = [
         ('BY-HAND', 'BY-HAND'),
         ('COURIER', 'COURIER'),
         ('OTHER', 'OTHER'),
@@ -160,7 +160,7 @@ class Stock(models.Model):
     description=models.ForeignKey(Description,on_delete=models.CASCADE)
     name=models.ForeignKey(Consumer,on_delete=models.CASCADE)
     unit=models.ForeignKey(Unit,on_delete=models.CASCADE)
-    Mode_of_delivery = models.CharField(max_length=50, choices=MODE_OF_DELEVERY)  # received by
+    Mode_of_delivery = models.CharField(max_length=50, choices=MODE_OF_DELIVERY)  # received by
     label_code = models.CharField(max_length=20, default="")
     condition = models.CharField(max_length=50, choices=CONDITION)
     quantity = models.IntegerField(default=1)
@@ -257,7 +257,7 @@ class NonStock(models.Model):
         ('TORN', 'TORN'),
         ('DAMAGED', 'DAMAGED'),
     ]
-    MODE_OF_DELEVERY = [
+    MODE_OF_DELIVERY = [
         ('BY-HAND', 'BY-HAND'),
         ('COURIER', 'COURIER'),
         ('OTHER', 'OTHER'),
@@ -270,7 +270,7 @@ class NonStock(models.Model):
     description=models.ForeignKey(NonDescription,on_delete=models.CASCADE)
     name=models.ForeignKey(Supplier,on_delete=models.CASCADE)
     unit=models.ForeignKey(Unit,on_delete=models.CASCADE)
-    Mode_of_delivery = models.CharField(max_length=50, choices=MODE_OF_DELEVERY)  # received by
+    Mode_of_delivery = models.CharField(max_length=50, choices=MODE_OF_DELIVERY)  # received by
     label_code = models.CharField(max_length=20, default="")
     condition = models.CharField(max_length=50, choices=CONDITION)
     quantity = models.IntegerField(default=1)

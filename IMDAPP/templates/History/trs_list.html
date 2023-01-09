@@ -102,7 +102,7 @@
 
         {% for p in object_list.paginator.page_range %}
           {% if object_list.number == p %}
-            <li class="page-item"><a class="page-link" style="color: red;" href="#">{{ p }}</a></li>
+            <li class="page-item"><a class="page-link" style="color: blue;" href="#">{{ p }}</a></li>
           {% else %}
             <li class="page-item"><a class="page-link" href="?page={{ p }}">{{ p }}</a></li>
           {% endif %}
