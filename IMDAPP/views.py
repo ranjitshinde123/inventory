@@ -1371,7 +1371,7 @@ class NonStockUpdateView(SuccessMessageMixin, UpdateView):  # updateview class t
 
 class NonStockDeleteView(View):  # view class to delete stock
     template_name = "inventory/delete_nonstock.html"  # 'delete_stock.html' used as the template
-    success_message = "Item deleted successfully"  # displays message when form is submitted
+    success_message = "Item deleted successfully."  # displays message when form is submitted
 
     def get(self, request, pk):
         nonstock = get_object_or_404(NonStock, pk=pk)
