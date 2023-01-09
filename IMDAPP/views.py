@@ -1398,6 +1398,7 @@ class NonStockView(View):
 
 
 # @method_decorator(login_required, name='dispatch')
+@login_required(login_url='login')
 
 def addcategory(request):
     form=CategoryForm(request.POST)
@@ -1421,7 +1422,8 @@ def addcategory(request):
 
 
 # @method_decorator(login_required, name='dispatch')
-#
+@login_required(login_url='login')
+
 def addunit(request):
     form=UnitForm(request.POST)
     try:
@@ -1442,6 +1444,7 @@ def addunit(request):
     return render(request, "Master/add_unit.html", locals())
 
 # @method_decorator(login_required, name='dispatch')
+@login_required(login_url='login')
 
 def addsubcategory(request):
     form=SubcategoryForm(request.POST or None)
@@ -1456,6 +1459,7 @@ def addsubcategory(request):
     return render(request,"Master/addsubcategory.html",locals())
 
 # @method_decorator(login_required, name='dispatch')
+@login_required(login_url='login')
 
 def adddescription(request):
     form=DescriptionForm(request.POST or None)
@@ -1469,6 +1473,7 @@ def adddescription(request):
         error = "yes"
     return render(request, "Master/adddescription.html", locals())
 # @method_decorator(login_required, name='dispatch')
+@login_required(login_url='login')
 
 def addnoncategory(request):
     form=NonCategoryForm(request.POST)
@@ -1489,6 +1494,7 @@ def addnoncategory(request):
         error = "yes"
     return render(request, "Master/addnoncategory.html", locals())
 # @method_decorator(login_required, name='dispatch')
+@login_required(login_url='login')
 
 def addnonsubcategory(request):
     form=NonSubcategoryForm(request.POST or None)
@@ -1504,6 +1510,7 @@ def addnonsubcategory(request):
     return render(request,"Master/addnonsubcategory.html",locals())
 
 # @method_decorator(login_required, name='dispatch')
+@login_required(login_url='login')
 
 def addnondescription(request):
     form=NonDescriptionForm(request.POST or None)
@@ -1518,12 +1525,14 @@ def addnondescription(request):
     return render(request, "Master/addnondescription.html", locals())
 
 # @method_decorator(login_required, name='dispatch')
+@login_required(login_url='login')
 
 def master(request):
     return render(request,'Master/master.html')
 
 
 # @method_decorator(login_required, name='dispatch')
+@login_required(login_url='login')
 
 def subcategorys(request):
     data = json.loads(request.body)
@@ -1532,6 +1541,7 @@ def subcategorys(request):
     return JsonResponse(list(subcategorys.values("id","subcategory")), safe=False)
 
 # @method_decorator(login_required, name='dispatch')
+@login_required(login_url='login')
 
 def descriptions(request):
     data = json.loads(request.body)
@@ -1541,6 +1551,7 @@ def descriptions(request):
 
 
 # @method_decorator(login_required, name='dispatch')
+@login_required(login_url='login')
 
 def nonsubcategorys(request):
     data = json.loads(request.body)
@@ -1549,6 +1560,7 @@ def nonsubcategorys(request):
     return JsonResponse(list(subcategorys.values("id","subcategory")), safe=False)
 
 # @method_decorator(login_required, name='dispatch')
+@login_required(login_url='login')
 
 def nondescriptions(request):
     data = json.loads(request.body)
@@ -1568,6 +1580,7 @@ def nondescriptions(request):
 
 # #History
 # @method_decorator(login_required, name='dispatch')
+@login_required(login_url='login')
 
 def get_trs(request):
     object_list=trs.objects.all()
