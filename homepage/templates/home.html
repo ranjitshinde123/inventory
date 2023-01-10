@@ -76,7 +76,7 @@
                         Inward by :<b>{{ item.name }}</b> <br>
                         <small><i>{{ item.time.date }}</i></small>
                     </div>
-                    <div class="col-md-2" style="font-family:'Alkalami'">₹ {{ item.total }} <br> <a href="{% url 'inward-bill' item.billno %}">View Bill</a> </div>
+                    <div class="col-md-2" style="font-family:'Alkalami'">₹ {{ item.total }} <br> <a href="{% url 'inward-bill' item.billno %}">View</a> </div>
                 </div>
             {% endfor %}
         </div>
@@ -93,7 +93,7 @@
                         Inward by: <b>{{ item.name }}</b> <br>
                         <small><i>{{ item.time.date }}</i></small>
                     </div>
-                    <div class="col-md-2" style="font-family:'Alkalami'"> ₹{{ item.total }} <br> <a href="{% url 'inwardnc-bill' item.billno %}">View Bill</a> </div>
+                    <div class="col-md-2" style="font-family:'Alkalami'"> ₹{{ item.total }} <br> <a href="{% url 'inwardnc-bill' item.billno %}">View</a> </div>
                 </div>
             {% endfor %}
         </div>
@@ -116,7 +116,7 @@
                         Outward by <b>{{ item.name }}</b> <br>
                         <small><i>{{ item.time.date }}</i></small>
                     </div>
-                    <div class="col-md-2" style="font-family:'Alkalami'"> <a href="{% url 'sale-bill' item.billno %}">View Bill</a> </div>
+                    <div class="col-md-2" style="font-family:'Alkalami'"> <a href="{% url 'sale-bill' item.billno %}">View</a> </div>
                 </div>
             {% endfor %}
         </div>
@@ -133,7 +133,7 @@
                         Outward by <b>{{ item.name }}</b> <br>
                         <small><i>{{ item.time.date }}</i></small>
                     </div>
-                    <div class="col-md-2" style="font-family:'Alkalami'"> <a href="{% url 'nonsale-bill' item.billno %}">View Bill</a> </div>
+                    <div class="col-md-2" style="font-family:'Alkalami'"> <a href="{% url 'nonsale-bill' item.billno %}">View</a> </div>
                 </div>
             {% endfor %}
         </div>

@@ -772,12 +772,13 @@ class SaleCreateView(View):
                     billitem = form.save(commit=False)
                     billitem.billno = billobj  # links the bill object to the items
                     # gets the stock item
-                    stock = get_object_or_404(Stock,subcategory=billitem.stock.subcategory)
+                    stock = get_object_or_404(Stock,pk=billitem.stock.pk)
 
                     # stock = get_object_or_404(Stock, name=billitem.stock.name
                     # billitem.totalprice = billitem.perprice * billitem.quantity
                     # updates quantity in stock db
                     stock.quantity -= billitem.quantity
+                    # stock.description = billitem.description
                     # saves bill item and stock
 
                     stock.save()
@@ -900,7 +901,7 @@ class NonSaleCreateView(View):
                     billitem = form.save(commit=False)
                     billitem.billno = billobj  # links the bill object to the items
                     # gets the stock item
-                    nonstock = get_object_or_404(NonStock, subcategory=billitem.nonstock.subcategory)
+                    nonstock = get_object_or_404(NonStock, pk=billitem.nonstock.pk)
                     print(request.GET)
                     # stock = get_object_or_404(Stock, name=billitem.stock.name
 
