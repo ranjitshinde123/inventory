@@ -253,15 +253,11 @@
             var nonstock = element.parents('.form-row').find('.nonstock').val();
             var quantity = element.parents('.form-row').find('.quantity').val();
             var perprice = element.parents('.form-row').find('.price').val();
-<!--            var subcategory = element.parents('.form-row').find('.subcategory').val();-->
-            var subcategory = document.getElementById('id_subcategory').value;
 
-            console.log("SubCategory::",subcategory);
             //checks if stocks are available
             stocks.forEach(function(stockSummary, i) {
                 var pk = stocks[i].pk;
                 var squantity = stocks[i].quantity;
-                var ssubcategory = stocks[i].subcategory;
                 if(nonstock == pk) {
                     //checks if ordered stock is more than available stock
                     if(quantity > squantity){
@@ -288,24 +284,7 @@
             element.parents('.form-row').find('.totalprice').val(tprice);
             return false;
         });
-          //updates the total price by multiplying 'price per item' and 'quantity'
-        $(document).on('change', '.setprice', function(e){
-            e.preventDefault();
-            //gets the values
-            var element = $(this);
-            var nonstock = element.parents('.form-row').find('.nonstock').val();
-             console.log('NonStock::',nonstock);
-            var quantity = element.parents('.form-row').find('.quantity').val();
-            var perprice = element.parents('.form-row').find('.price').val();
-            var subcategory = document.getElementById('id_subcategory').value;
-<!--            var subcategory = element.parents('.form-row').find('.e.subcategory').val();-->
-            //checks if stocks are available
-            console.log("SubCategory::",subcategory);
-<!--            if(e.nonstock !== e.subcategory ){-->
-<!--                   custom_alert.render("You are selected wrong item");-->
-<!--                    }-->
 
-            });
 
 
 </script>
