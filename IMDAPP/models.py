@@ -171,6 +171,8 @@ class Stock(models.Model):
 
 
 
+
+
     def __str__(self):
         return  str(self.subcategory) +   " \n ,Label code=" + str(self.label_code)  +   "\n ,Description=" + str(self.description)
 

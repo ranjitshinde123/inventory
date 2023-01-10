@@ -82,13 +82,6 @@
             <label for="{{ form.condition.id_for_label }}">Condition,packing:</label>
             {{ form.condition }}
             </div>
-<!--        <div class="form-group col-md-12 mb-3">-->
-<!--        <label for="{{ form.Mode_of_delivery.label }}">{{ form.Mode_of_delivery.label }}</label>-->
-<!--        <select id="{{ form.Mode_of_delivery.auto_id }}" name="{{ form.Mode_of_delivery.name }}">-->
-<!--        {% for value, label in form.fields.Mode_of_delivery.choices %}-->
-<!--            <option value="{{ value }}"{% if form.Mode_of_delivery.value == value %} selected{% endif %}>{{ label }}</option>-->
-<!--        {% endfor %}-->
-<!--        </select>-->
 
         <div class="form-group form-group col-md-6">
             {{ form.Mode_of_delivery.errors }}

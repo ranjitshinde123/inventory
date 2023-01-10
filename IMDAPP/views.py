@@ -569,25 +569,59 @@ def nonoutwardslip(request):
 #
 # @method_decorator(login_required, name='dispatch')
 
-def inwardslip(request):
+# def inwardslip(request):
+#     if request.method =="POST":
+#         try:
+#             error = "no"
+#             if request.method == "POST":
+#                 fromdate = datetime.datetime.strptime(request.POST.get('fromdate'), '%Y-%m-%d')
+#                 todate = datetime.datetime.strptime(request.POST.get('todate'), '%Y-%m-%d')
+#                 bills = PurchaseBill.objects.filter(Q(time__gte=fromdate) & Q(time__lte=todate))
+#                 return render(request, 'purchases/inwardslip.html', {"bills": bills})
+#             else:
+#                 error = "yes"
+#                 bills = PurchaseBill.objects.all()
+#                 return render(request, 'purchases/inwardslip.html', {"bills": bills})
+#
+#         except:
+#             error = "yes"
+#         return render(request, 'purchases/inwardslip.html', locals())
+#     else:
+#         list = PurchaseBill.objects.all()
+#         page = request.GET.get('page', 1)
+#         paginator = Paginator(list,10)
+#
+#         try:
+#             bills = paginator.page(page)
+#         except PageNotAnInteger:
+#             bills = paginator.page(1)
+#         except EmptyPage:
+#             bills = paginator.page(paginator.num_pages)
+#
+#         context = {
+#             'bills': bills,
+#         }
+#         return render(request, 'purchases/inwardslip.html', context)
+#
+def inwardstock(request):
     if request.method =="POST":
         try:
             error = "no"
             if request.method == "POST":
                 fromdate = datetime.datetime.strptime(request.POST.get('fromdate'), '%Y-%m-%d')
                 todate = datetime.datetime.strptime(request.POST.get('todate'), '%Y-%m-%d')
-                bills = PurchaseBill.objects.filter(Q(time__gte=fromdate) & Q(time__lte=todate))
+                bills = Stock.objects.filter(Q(time__gte=fromdate) & Q(time__lte=todate))
                 return render(request, 'purchases/inwardslip.html', {"bills": bills})
             else:
                 error = "yes"
-                bills = PurchaseBill.objects.all()
+                bills = Stock.objects.all()
                 return render(request, 'purchases/inwardslip.html', {"bills": bills})
 
         except:
             error = "yes"
         return render(request, 'purchases/inwardslip.html', locals())
     else:
-        list = PurchaseBill.objects.all()
+        list = Stock.objects.all()
         page = request.GET.get('page', 1)
         paginator = Paginator(list,10)
 
@@ -606,25 +640,58 @@ def inwardslip(request):
 
 # @method_decorator(login_required, name='dispatch')
 
-def noninwardslip(request):
+# def noninwardslip(request):
+#     if request.method =="POST":
+#         try:
+#             error = "no"
+#             if request.method == "POST":
+#                 fromdate = datetime.datetime.strptime(request.POST.get('fromdate'), '%Y-%m-%d')
+#                 todate = datetime.datetime.strptime(request.POST.get('todate'), '%Y-%m-%d')
+#                 bills = NonPurchaseBill.objects.filter(Q(time__gte=fromdate) & Q(time__lte=todate))
+#                 return render(request, 'purchases/noninwardslip.html', {"bills": bills})
+#             else:
+#                 error = "yes"
+#                 bills = NonPurchaseBill.objects.all()
+#                 return render(request, 'purchases/noninwardslip.html', {"bills": bills})
+#
+#         except:
+#             error = "yes"
+#         return render(request, 'purchases/noninwardslip.html', locals())
+#     else:
+#         list = NonPurchaseBill.objects.all()
+#         page = request.GET.get('page', 1)
+#         paginator = Paginator(list,10)
+#
+#         try:
+#             bills = paginator.page(page)
+#         except PageNotAnInteger:
+#             bills = paginator.page(1)
+#         except EmptyPage:
+#             bills = paginator.page(paginator.num_pages)
+#
+#         context = {
+#             'bills': bills,
+#         }
+#         return render(request, 'purchases/noninwardslip.html', context)
+def noninwardstock(request):
     if request.method =="POST":
         try:
             error = "no"
             if request.method == "POST":
                 fromdate = datetime.datetime.strptime(request.POST.get('fromdate'), '%Y-%m-%d')
                 todate = datetime.datetime.strptime(request.POST.get('todate'), '%Y-%m-%d')
-                bills = NonPurchaseBill.objects.filter(Q(time__gte=fromdate) & Q(time__lte=todate))
+                bills = NonStock.objects.filter(Q(time__gte=fromdate) & Q(time__lte=todate))
                 return render(request, 'purchases/noninwardslip.html', {"bills": bills})
             else:
                 error = "yes"
-                bills = NonPurchaseBill.objects.all()
+                bills = NonStock.objects.all()
                 return render(request, 'purchases/noninwardslip.html', {"bills": bills})
 
         except:
             error = "yes"
         return render(request, 'purchases/noninwardslip.html', locals())
     else:
-        list = NonPurchaseBill.objects.all()
+        list = NonStock.objects.all()
         page = request.GET.get('page', 1)
         paginator = Paginator(list,10)
 
@@ -639,6 +706,9 @@ def noninwardslip(request):
             'bills': bills,
         }
         return render(request, 'purchases/noninwardslip.html', context)
+
+
+
 
 
 # def noninwardslip(request):
@@ -1114,9 +1184,9 @@ class StockCreateView(View):
 
                     billitem.billno = billobj  # links the bill object to the items
                     # gets the stock item
-                    # stock = get_object_or_404(Stock, name=billitem.name)
-                    print(request.GET)
-                    # stock = get_object_or_404(Stock, name=billitem.stock.name
+                    stock = get_object_or_404(Stock, name=billitem.name)##change
+                    # print(request.GET)
+                    # stock = get_object_or_404(Stock, name=billitem.stock.subcategory)
                     # stock.quantity += billitem.quantity
 
                     totalprice = billitem.perprice * billitem.quantity
@@ -1279,8 +1349,8 @@ class NonStockCreateView(View):
 
                     billitem.billno = billobj  # links the bill object to the items
                     # gets the stock item
-                    # stock = get_object_or_404(Stock, name=billitem.name)
-                    print(request.GET)
+                    nonstock = get_object_or_404(NonStock, name=billitem.name)
+                    # print(request.GET)
                     # stock = get_object_or_404(Stock, name=billitem.stock.name
                     # stock.quantity += billitem.quantity
 
@@ -1290,7 +1360,7 @@ class NonStockCreateView(View):
 
                     # saves bill item and stock
 
-                    # stock.save()
+                    nonstock.save()
                     # billitem.save()
 
             except (ObjectDoesNotExist, MultipleObjectsReturned):

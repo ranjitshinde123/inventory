@@ -57,8 +57,8 @@ urlpatterns = [
 #Slips(Inward,Outward)
     path('outwardslip/', views.outwardslip, name='outwardslip'),
     path('nonoutwardslip/', views.nonoutwardslip, name='nonoutwardslip'),
-    path('inwardslip/', views.inwardslip, name='inwardslip'),
-    path('noninwardslip/', views.noninwardslip, name='noninwardslip'),
+    path('inwardslip/', views.inwardstock, name='inwardslip'),
+    path('noninwardslip/', views.noninwardstock, name='noninwardslip'),
 
 #Export
     path('export/', views.export_csv, name='stockre'),

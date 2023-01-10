@@ -76,7 +76,7 @@
                         Inward by :<b>{{ item.name }}</b> <br>
                         <small><i>{{ item.time.date }}</i></small>
                     </div>
-                    <div class="col-md-2" style="font-family:'Alkalami'">₹ {{ item.total }} <br> <a href="{% url 'inward-bill' item.billno %}">View</a> </div>
+                    <div class="col-md-2" style="font-family:'Alkalami'">₹ {{ item.total }} <br> <a href="{% url 'inward-bill' item.billno %}">View </a> </div>
                 </div>
             {% endfor %}
         </div>

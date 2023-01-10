@@ -81,8 +81,7 @@ class StockForm(forms.ModelForm):
                     subcategory_id=subcategory_id).order_by(
                     'subcategory')
             except (ValueError, TypeError):
-                self.fields['description'].queryset = self.instance.subcategory.description_set.order_by('description')
-        # invalid input from the client; ignore and fallback to empty City queryset
+                pass  # invalid input from the client; ignore and fallback to empty City queryset
         elif self.instance.pk:
             self.fields['description'].queryset = self.instance.subcategory.description_set.order_by('description')
         self.fields['name'].widget.attrs.update(
