@@ -323,12 +323,10 @@ class PurchaseBill(models.Model):
         return total
 
 
-
 class PurchaseBillDetails(models.Model):
     billno = models.ForeignKey(PurchaseBill, on_delete=models.CASCADE, related_name='purchasedetailsbillno')
     total = models.CharField(max_length=50, blank=True, null=True)
     is_deleted=models.BooleanField(default=False)
-
 
     def __str__(self):
         return "Bill no: " + str(self.billno.billno)

@@ -330,8 +330,6 @@ class NonSaleForm(forms.ModelForm):
         # self.fields['label_code'].widget.attrs.update({'class': 'textinput form-control'})
 
 
-
-
     class Meta:
         model = NonSaleBill
         fields = ['name', 'phone', 'email','address','issued_to','Mode_of_delivery']
