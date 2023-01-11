@@ -394,12 +394,12 @@ class NonSaleBill(models.Model):
         ('TORN', 'TORN'),
         ('DAMAGED', 'DAMAGED'),
     ]
-    MODE_OF_DELIVERY = [
-        ('BY-HAND', 'BY-HAND'),
-        ('COURIER', 'COURIER'),
-        ('OTHER', 'OTHER'),
-
-    ]
+    # MODE_OF_DELIVERY = [
+    #     ('BY-HAND', 'BY-HAND'),
+    #     ('COURIER', 'COURIER'),
+    #     ('OTHER', 'OTHER'),
+    #
+    # ]
 
     billno = models.AutoField(primary_key=True)
     time = models.DateTimeField(auto_now=True)
@@ -407,7 +407,7 @@ class NonSaleBill(models.Model):
     phone = models.CharField(max_length=12)
     address = models.CharField(max_length=200)
     email = models.EmailField(max_length=255)
-    Mode_of_delivery = models.CharField(max_length=50, choices=MODE_OF_DELIVERY)  # received by
+    Mode_of_delivery = models.CharField(max_length=50)  # received by
     issued_to = models.CharField(max_length=50)
     is_deleted=models.BooleanField(default=False)
 
@@ -462,12 +462,12 @@ class SaleBill(models.Model):
         ('TORN', 'TORN'),
         ('DAMAGED', 'DAMAGED'),
     ]
-    MODE_OF_DELIVERY = [
-        ('BY-HAND', 'BY-HAND'),
-        ('COURIER', 'COURIER'),
-        ('OTHER', 'OTHER'),
-
-    ]
+    # MODE_OF_DELIVERY = [
+    #     ('BY-HAND', 'BY-HAND'),
+    #     ('COURIER', 'COURIER'),
+    #     ('OTHER', 'OTHER'),
+    #
+    # ]
 
     billno = models.AutoField(primary_key=True)
     time = models.DateTimeField(auto_now=True)
@@ -475,7 +475,7 @@ class SaleBill(models.Model):
     phone = models.CharField(max_length=12)
     address = models.CharField(max_length=200)
     email = models.EmailField(max_length=255)
-    Mode_of_delivery = models.CharField(max_length=50, choices=MODE_OF_DELIVERY)  # received by
+    Mode_of_delivery = models.CharField(max_length=50)  # received by
     issued_to = models.CharField(max_length=50)
     is_deleted=models.BooleanField(default=False)
 
