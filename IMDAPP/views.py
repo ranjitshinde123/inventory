@@ -1139,6 +1139,81 @@ class StockListView(FilterView):
 #         return context
 @method_decorator(login_required, name='dispatch')
 
+# class StockCreateView(View):
+#     model = Stock
+#     form_class = StockForm
+#     template_name = "inventory/edit_stock.html"
+#     # success_url = 'inward-bill'
+#     # success_message = "Stock has been created successfully"
+#
+#     def get(self, request):
+#         form = StockForm(request.GET or None)
+#         # formset = InwardItemFormset(request.GET or None)  # renders an empty formset
+#         stocks = Stock.objects.filter(is_deleted=False)
+#
+#         # purch/stocks = Purchase/Stock.objects.filter(is_deleted=False)
+#         context = {
+#             'form': form,
+#             # 'formset': formset,
+#             'stocks': stocks
+#         }
+#         return render(request, self.template_name, context)
+#
+#     def post(self, request, *args, **kwargs):
+#         form = StockForm(request.POST)
+#         # formset = InwardItemFormset(request.POST)
+#         # gets the supplier object
+#
+#         # recieves a post method for the formset
+#         if form.is_valid() :
+#             form = StockForm(request.POST)
+#             # billdetailsobj = PurchaseBillDetails.objects.get(billno=billno)
+#
+#             # saves bill
+#             billobj = form.save(commit=False)
+#             billobj.save()
+#             # create bill details object
+#             billdetailsobj = InwardBillDetails(billno=billobj)
+#             billdetailsobj.save()
+#             try:
+#                 for form in form:
+#
+#                     form = StockForm(request.POST)
+#
+#                     billitem = form.save(commit=False)
+#
+#                     billitem.billno = billobj  # links the bill object to the items
+#                     # gets the stock item
+#                     stock = get_object_or_404(Stock, name=billitem.name)##change
+#                     # print(request.GET)
+#                     # stock = get_object_or_404(Stock, name=billitem.stock.subcategory)
+#                     # stock.quantity += billitem.quantity
+#
+#                     totalprice = billitem.perprice * billitem.quantity
+#                     # print(billitem.totalprice)
+#                     # # updates quantity in stock db
+#
+#                     # saves bill item and stock
+#
+#                     # stock.save()
+#                     # billitem.save()
+#
+#             except (ObjectDoesNotExist, MultipleObjectsReturned):
+#                 pass
+#
+#             messages.success(request, "Received item successfully")
+#             return redirect('inward-bill', billno=billobj.billno)
+#         form = StockForm(request.GET or None)
+#         inwarditems = InwardBillDetails(request.GET or None)
+#
+#         # formset = InwardItemFormset(request.GET or None)
+#         context = {
+#             'form': form,
+#             'inwarditems':inwarditems,
+#             # 'formset': formset,
+#         }
+#         return render(request, self.template_name, context, locals())
+#
 class StockCreateView(View):
     model = Stock
     form_class = StockForm
@@ -1161,12 +1236,35 @@ class StockCreateView(View):
 
     def post(self, request, *args, **kwargs):
         form = StockForm(request.POST)
+        form1=SelectConsumerForm(request.POST)
+        # form = CategoryForm(request.POST)
+        try:
+            error = "no"
+            if form.is_valid():
+                category = form.cleaned_data['category']
+                subcategory = form.cleaned_data['subcategory']
+                description = form.cleaned_data['description']
+                # category = form.cleaned_data['category']
+                if Stock.objects.filter(category=category,subcategory=subcategory,description=description).exists():
+                    messages.info(
+                        request, 'Stock already exists go to the add stock! ')
+
+                    return render(request,r'inventory\edit_stock.html',{'form':form})
+                    # return HttpResponse("Go to Add Stock")
+
+
+                # category = form.save(commit=False)
+                # category.save()
+                # error = "yes"
+        except:
+           pass
         # formset = InwardItemFormset(request.POST)
         # gets the supplier object
 
         # recieves a post method for the formset
         if form.is_valid() :
             form = StockForm(request.POST)
+
             # billdetailsobj = PurchaseBillDetails.objects.get(billno=billno)
 
             # saves bill
@@ -1326,6 +1424,25 @@ class NonStockCreateView(View):
 
     def post(self, request, *args, **kwargs):
         form = NonStockForm(request.POST)
+        try:
+            error = "no"
+            if form.is_valid():
+                category = form.cleaned_data['category']
+                subcategory = form.cleaned_data['subcategory']
+                description = form.cleaned_data['description']
+                # category = form.cleaned_data['category']
+                if NonStock.objects.filter(category=category, subcategory=subcategory, description=description).exists():
+                    messages.info(
+                        request, 'Stock already exists go to the add stock! ')
+
+                    return render(request, r'inventory\edit_nonstock.html', {'form': form})
+                    # return HttpResponse("Go to Add Stock")
+
+                # category = form.save(commit=False)
+                # category.save()
+                # error = "yes"
+        except:
+            pass
         # formset = InwardItemFormset(request.POST)
         # gets the supplier object
 
