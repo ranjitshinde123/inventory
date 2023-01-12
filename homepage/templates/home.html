@@ -92,6 +92,8 @@
                         Bill No: #{{ item.billno }} <br>
                         Inward by: <b>{{ item.name }}</b> <br>
                         <small><i>{{ item.time.date }}</i></small>
+<!--                        <br>-->
+<!--                       Quantity:<b>{{ item.quantity }}</b>-->
                     </div>
                     <div class="col-md-2" style="font-family:'Alkalami'"> ₹{{ item.total }} <br> <a href="{% url 'inwardnc-bill' item.billno %}">View</a> </div>
                 </div>

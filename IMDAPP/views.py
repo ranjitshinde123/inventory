@@ -443,6 +443,7 @@ class NonPurchaseDeleteView(SuccessMessageMixin, DeleteView):
 
 #OutwardSlip(consumable,Non-consumable)
 # @method_decorator(login_required, name='dispatch')
+@login_required(login_url='login')
 
 def outwardslip(request):
     if request.method == "POST":
@@ -479,6 +480,7 @@ def outwardslip(request):
         return render(request,'sales/outwardslip.html', context)
 
 # @method_decorator(login_required, name='dispatch')
+@login_required(login_url='login')
 
 def nonoutwardslip(request):
     if request.method == "POST":
@@ -569,60 +571,27 @@ def nonoutwardslip(request):
 
 #
 # @method_decorator(login_required, name='dispatch')
+@login_required(login_url='login')
 
-# def inwardslip(request):
-#     if request.method =="POST":
-#         try:
-#             error = "no"
-#             if request.method == "POST":
-#                 fromdate = datetime.datetime.strptime(request.POST.get('fromdate'), '%Y-%m-%d')
-#                 todate = datetime.datetime.strptime(request.POST.get('todate'), '%Y-%m-%d')
-#                 bills = PurchaseBill.objects.filter(Q(time__gte=fromdate) & Q(time__lte=todate))
-#                 return render(request, 'purchases/inwardslip.html', {"bills": bills})
-#             else:
-#                 error = "yes"
-#                 bills = PurchaseBill.objects.all()
-#                 return render(request, 'purchases/inwardslip.html', {"bills": bills})
-#
-#         except:
-#             error = "yes"
-#         return render(request, 'purchases/inwardslip.html', locals())
-#     else:
-#         list = PurchaseBill.objects.all()
-#         page = request.GET.get('page', 1)
-#         paginator = Paginator(list,10)
-#
-#         try:
-#             bills = paginator.page(page)
-#         except PageNotAnInteger:
-#             bills = paginator.page(1)
-#         except EmptyPage:
-#             bills = paginator.page(paginator.num_pages)
-#
-#         context = {
-#             'bills': bills,
-#         }
-#         return render(request, 'purchases/inwardslip.html', context)
-#
-def inwardstock(request):
+def inwardslip(request):
     if request.method =="POST":
         try:
             error = "no"
             if request.method == "POST":
                 fromdate = datetime.datetime.strptime(request.POST.get('fromdate'), '%Y-%m-%d')
                 todate = datetime.datetime.strptime(request.POST.get('todate'), '%Y-%m-%d')
-                bills = Stock.objects.filter(Q(time__gte=fromdate) & Q(time__lte=todate))
+                bills = PurchaseBill.objects.filter(Q(time__gte=fromdate) & Q(time__lte=todate))
                 return render(request, 'purchases/inwardslip.html', {"bills": bills})
             else:
                 error = "yes"
-                bills = Stock.objects.all()
+                bills = PurchaseBill.objects.all()
                 return render(request, 'purchases/inwardslip.html', {"bills": bills})
 
         except:
             error = "yes"
         return render(request, 'purchases/inwardslip.html', locals())
     else:
-        list = Stock.objects.all()
+        list = PurchaseBill.objects.all()
         page = request.GET.get('page', 1)
         paginator = Paginator(list,10)
 
@@ -638,28 +607,25 @@ def inwardstock(request):
         }
         return render(request, 'purchases/inwardslip.html', context)
 
-
-# @method_decorator(login_required, name='dispatch')
-
-# def noninwardslip(request):
+# def inwardstock(request):
 #     if request.method =="POST":
 #         try:
 #             error = "no"
 #             if request.method == "POST":
 #                 fromdate = datetime.datetime.strptime(request.POST.get('fromdate'), '%Y-%m-%d')
 #                 todate = datetime.datetime.strptime(request.POST.get('todate'), '%Y-%m-%d')
-#                 bills = NonPurchaseBill.objects.filter(Q(time__gte=fromdate) & Q(time__lte=todate))
-#                 return render(request, 'purchases/noninwardslip.html', {"bills": bills})
+#                 bills = Stock.objects.filter(Q(time__gte=fromdate) & Q(time__lte=todate))
+#                 return render(request, 'purchases/inwardslip.html', {"bills": bills})
 #             else:
 #                 error = "yes"
-#                 bills = NonPurchaseBill.objects.all()
-#                 return render(request, 'purchases/noninwardslip.html', {"bills": bills})
+#                 bills = Stock.objects.all()
+#                 return render(request, 'purchases/inwardslip.html', {"bills": bills})
 #
 #         except:
 #             error = "yes"
-#         return render(request, 'purchases/noninwardslip.html', locals())
+#         return render(request, 'purchases/inwardslip.html', locals())
 #     else:
-#         list = NonPurchaseBill.objects.all()
+#         list = Stock.objects.all()
 #         page = request.GET.get('page', 1)
 #         paginator = Paginator(list,10)
 #
@@ -673,26 +639,31 @@ def inwardstock(request):
 #         context = {
 #             'bills': bills,
 #         }
-#         return render(request, 'purchases/noninwardslip.html', context)
-def noninwardstock(request):
+#         return render(request, 'purchases/inwardslip.html', context)
+
+
+# @method_decorator(login_required, name='dispatch')
+@login_required(login_url='login')
+
+def noninwardslip(request):
     if request.method =="POST":
         try:
             error = "no"
             if request.method == "POST":
                 fromdate = datetime.datetime.strptime(request.POST.get('fromdate'), '%Y-%m-%d')
                 todate = datetime.datetime.strptime(request.POST.get('todate'), '%Y-%m-%d')
-                bills = NonStock.objects.filter(Q(time__gte=fromdate) & Q(time__lte=todate))
+                bills = NonPurchaseBill.objects.filter(Q(time__gte=fromdate) & Q(time__lte=todate))
                 return render(request, 'purchases/noninwardslip.html', {"bills": bills})
             else:
                 error = "yes"
-                bills = NonStock.objects.all()
+                bills = NonPurchaseBill.objects.all()
                 return render(request, 'purchases/noninwardslip.html', {"bills": bills})
 
         except:
             error = "yes"
         return render(request, 'purchases/noninwardslip.html', locals())
     else:
-        list = NonStock.objects.all()
+        list = NonPurchaseBill.objects.all()
         page = request.GET.get('page', 1)
         paginator = Paginator(list,10)
 
@@ -707,6 +678,39 @@ def noninwardstock(request):
             'bills': bills,
         }
         return render(request, 'purchases/noninwardslip.html', context)
+# def noninwardstock(request):
+#     if request.method =="POST":
+#         try:
+#             error = "no"
+#             if request.method == "POST":
+#                 fromdate = datetime.datetime.strptime(request.POST.get('fromdate'), '%Y-%m-%d')
+#                 todate = datetime.datetime.strptime(request.POST.get('todate'), '%Y-%m-%d')
+#                 bills = NonStock.objects.filter(Q(time__gte=fromdate) & Q(time__lte=todate))
+#                 return render(request, 'purchases/noninwardslip.html', {"bills": bills})
+#             else:
+#                 error = "yes"
+#                 bills = NonStock.objects.all()
+#                 return render(request, 'purchases/noninwardslip.html', {"bills": bills})
+#
+#         except:
+#             error = "yes"
+#         return render(request, 'purchases/noninwardslip.html', locals())
+#     else:
+#         list = NonStock.objects.all()
+#         page = request.GET.get('page', 1)
+#         paginator = Paginator(list,10)
+#
+#         try:
+#             bills = paginator.page(page)
+#         except PageNotAnInteger:
+#             bills = paginator.page(1)
+#         except EmptyPage:
+#             bills = paginator.page(paginator.num_pages)
+#
+#         context = {
+#             'bills': bills,
+#         }
+#         return render(request, 'purchases/noninwardslip.html', context)
 
 
 
@@ -731,6 +735,7 @@ def noninwardstock(request):
 
 ##inward
 # @method_decorator(login_required, name='dispatch')
+@login_required(login_url='login')
 
 def export_csv(request):
     response = HttpResponse(content_type='text/csv')
@@ -745,6 +750,7 @@ def export_csv(request):
     return response
 
 # @method_decorator(login_required, name='dispatch')
+@login_required(login_url='login')
 
 def nonexport_csv(request):
     response = HttpResponse(content_type='text/csv')
@@ -762,6 +768,7 @@ def nonexport_csv(request):
 # #outward
 #
 # @method_decorator(login_required, name='dispatch')
+@login_required(login_url='login')
 
 def outwardexport_csv(request):
     response = HttpResponse(content_type='text/csv')
@@ -776,6 +783,7 @@ def outwardexport_csv(request):
     return response
 
 # @method_decorator(login_required, name='dispatch')
+@login_required(login_url='login')
 
 def outwardnonexport_csv(request):
     response = HttpResponse(content_type='text/csv')
@@ -1119,7 +1127,7 @@ class NonPurchaseBillView(View):
 
 class StockListView(FilterView):
     filterset_class = StockFilter
-    queryset = Stock.objects.filter(is_deleted=False)
+    queryset = Stock.objects.filter(is_deleted=False).order_by('-quantity')
     template_name = 'inventory/inventory.html'
     paginate_by = 10
 
@@ -1399,7 +1407,7 @@ class StockView(View):
 
 class NonStockListView(FilterView):
     filterset_class = NonStockFilter
-    queryset = NonStock.objects.filter(is_deleted=False)
+    queryset = NonStock.objects.filter(is_deleted=False).order_by('-quantity')
     template_name = 'inventory/nonconsumable.html'
     paginate_by = 10
 
