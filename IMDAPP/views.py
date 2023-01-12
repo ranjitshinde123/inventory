@@ -4,9 +4,10 @@ from django.contrib.auth.decorators import login_required
 from django.core.exceptions import ObjectDoesNotExist, MultipleObjectsReturned
 from django.shortcuts import render
 from django.db.models import Q
-from django.http import HttpResponse, JsonResponse, request, Http404
+from django.http import HttpResponse, JsonResponse, request, Http404, HttpResponseRedirect
 import csv
 from django.shortcuts import render, redirect, get_object_or_404
+from django.urls import reverse
 from django.utils.decorators import method_decorator
 from django_filters.views import FilterView
 from django.contrib.messages.views import SuccessMessageMixin
@@ -1239,19 +1240,22 @@ class StockCreateView(View):
         form1=SelectConsumerForm(request.POST)
         # form = CategoryForm(request.POST)
         try:
-            error = "no"
+
             if form.is_valid():
                 category = form.cleaned_data['category']
                 subcategory = form.cleaned_data['subcategory']
                 description = form.cleaned_data['description']
                 # category = form.cleaned_data['category']
                 if Stock.objects.filter(category=category,subcategory=subcategory,description=description).exists():
+
                     messages.info(
-                        request, 'Stock already exists go to the add stock! ')
+                        request, 'Add stock from here')
 
-                    return render(request,r'inventory\edit_stock.html',{'form':form})
+                    # return render(request,r'inventory\edit_stock.html',{'form':form})
                     # return HttpResponse("Go to Add Stock")
-
+                    return redirect('select-consumer')
+                    # return render(request,'purchases/select_consumer.html',locals())
+                    # return HttpResponseRedirect(reverse('select-consumer', kwargs={'error': error}))
 
                 # category = form.save(commit=False)
                 # category.save()
@@ -1433,9 +1437,10 @@ class NonStockCreateView(View):
                 # category = form.cleaned_data['category']
                 if NonStock.objects.filter(category=category, subcategory=subcategory, description=description).exists():
                     messages.info(
-                        request, 'Stock already exists go to the add stock! ')
+                        request, 'Add stock from here ')
+                    return redirect('select-supplier')
 
-                    return render(request, r'inventory\edit_nonstock.html', {'form': form})
+                    # return render(request, r'inventory\edit_nonstock.html', {'form': form})
                     # return HttpResponse("Go to Add Stock")
 
                 # category = form.save(commit=False)

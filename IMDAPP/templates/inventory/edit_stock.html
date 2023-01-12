@@ -296,5 +296,16 @@ break;
 
 
 </script>
-
+{% if error == "yes" %}
+<script>
+alert('Stock already exists');
+window.location=('{% url 'select-consumer' %}');
+</script>
+{% endif %}
+<!--{% if error == "yes" %}-->
+<!--<script>-->
+<!--alert('Category already exists!!');-->
+<!--window.location=('{% url 'addcategory' %}';-->
+<!--</script>-->
+<!--{% endif %}-->
 {% endblock content %}

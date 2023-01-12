@@ -55,7 +55,7 @@
             <tr>
                 <td class="align-middle"> <p>{{ purchase.billno }}</p> </td>
                 <td class="align-middle">{{ purchase.time.date }}</td>
-                <td class="align-middle">{% for item in purchase.get_items_list %} {{ item.stock.name }} <br> {% endfor %}</td>
+                <td class="align-middle"> {{ purchase.consumer.name }} <br> </td>
                 <td class="align-middle">{% for item in purchase.get_items_list %} {{ item.stock.description }} <br>{% endfor %}</td>
                 <td class="align-middle">{% for item in purchase.get_items_list %} {{ item.quantity }} <br> {% endfor %}</td>
                 <td class="align-middle">{% for item in purchase.get_items_list %} {{ item.stock.Mode_of_delivery }} <br> {% endfor %}</td>
