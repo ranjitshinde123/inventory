@@ -85,7 +85,7 @@
 
 <link rel="stylesheet" href="https://use.fontawesome.com/releases/v5.7.0/css/all.css" integrity="sha384-lZN37f5QGtY3VHgisS14W3ExzMWZxybE1SJSEsQp9S+oqd12jhcu+A56Ebc1zFSJ" crossorigin="anonymous">
 </head>
-<body>
+<body style="font-family: 'Alkalami'">
 <div class="row">
  <div class="col-lg-7 m-auto">
   <div class="card mt-5 border border-dark" >
@@ -111,9 +111,13 @@
         <i class="fa fa-lock fa-2x"></i>
        </span>
       </div>
-      <input type="password" name="password" class="form-control py-4" placeholder="Password">
-     </div>
+      <input type="password" name="password" class="form-control py-4" placeholder="Password" id="myInput">
 
+
+<!-- <i class="far fa-eye" id="togglePassword" style="margin-left: -5px; cursor: pointer;"></i>-->
+<!--       </span>-->
+     </div>
+  <input type="checkbox" onclick="myFunction()"> Show Password
      <center><input type="submit" value="Login" class="btn btn-success px-5"></center>
      <a href="{% url 'home' %}" class="float-right text-white mt-2">Go Back To Home</a>
 
@@ -138,4 +142,14 @@
 
 </script>
 
-{% endif %}>
+{% endif %}
+<script>
+function myFunction() {
+  var x = document.getElementById("myInput");
+  if (x.type === "password") {
+    x.type = "text";
+  } else {
+    x.type = "password";
+  }
+}
+</script>

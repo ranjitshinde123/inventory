@@ -62,71 +62,43 @@
 <br>
 <div class="container" >
         <div class="row" style="font-family: 'Alkalami'">
-            <div class="col-sm-6 mb-2">
-                <div class="card" style="background-color:#85C1E9 ;text-color:white">
+            <div class="col-sm-3 mb-2">
+                <div class="card" style="background-color:#85C1E9 ;text-color:white ;height:90%;width:100%">
                     <div class="card-body">
-                        <b><h4 class="card-title">Total Inward(Consumable)</h4></b>
+                        <b><h5 class="card-title">Total Inward (Consumable)</h5></b>
                         <span class="h2 font-weight-bold mb-0">{{ incount }}</span>
                     </div>
                 </div>
             </div>
-            <div class="col-sm-6 mb-2">
-                <div class="card" style="background-color:#85C1E9 ">
+            <div class="col-sm-3 mb-2">
+                <div class="card" style="background-color:#85C1E9;height:90%;width:100% ">
                     <div class="card-body">
-                     <h4 class="card-title">Total Outward(Consumable)</h4>
+                     <h5 class="card-title">Total Outward (Consumable)</h5>
                         <span class="h2 font-weight-bold mb-0">{{ outcount }}</span>
                     </div>
                 </div>
             </div>
-            <div class="container" >
-        <div class="row" style="font-family: 'Alkalami'">
-            <div class="col-sm-6 mb-2">
-                <div class="card" style="background-color:#85C1E9 ;text-color:white">
+             <div class="col-sm-3 mb-2">
+                <div class="card" style="background-color:#85C1E9 ;text-color:white;height:90%;width:100%">
                     <div class="card-body">
-                        <b><h4 class="card-title">Total Inward(Consumable)</h4></b>
-                        <span class="h2 font-weight-bold mb-0">{{ incount }}</span>
+                        <b><h5 class="card-title">Total Inward<br>(Non-Consumable)</h5></b>
+                        <span class="h2 font-weight-bold mb-0">{{ nonincount }}</span>
                     </div>
                 </div>
             </div>
-            <div class="col-sm-6 mb-2">
-                <div class="card" style="background-color:#85C1E9 ">
+            <div class="col-sm-3 mb-2">
+                <div class="card" style="background-color:#85C1E9 ;height:90%;width:100%">
                     <div class="card-body">
-                     <h4 class="card-title">Total Outward(Consumable)</h4>
-                        <span class="h2 font-weight-bold mb-0">{{ outcount }}</span>
+                     <h5 class="card-title">Total Outward<br>(Non-Consumable)</h5>
+                        <span class="h2 font-weight-bold mb-0">{{ nonoutcount }}</span>
                     </div>
                 </div>
             </div>
-
-
-
-
-
-<!--            -->
-<!--             <div class="row" style="font-family: 'Alkalami'">-->
-
-<!--             <div class="col-sm-6 mb-2">-->
-<!--                <div class="card" style="background-color:#85C1E9 ;text-color:white">-->
-<!--                    <div class="card-body">-->
-<!--                        <b><h4 class="card-title">Total Inward(Non-Consumable)</h4></b>-->
-<!--                        <span class="h2 font-weight-bold mb-0">{{ nonincount }}</span>-->
-<!--                    </div>-->
-<!--                </div>-->
-<!--            </div>-->
-<!--            <div class="col-sm-6 mb-2">-->
-<!--                <div class="card" style="background-color:#85C1E9 ">-->
-<!--                    <div class="card-body">-->
-<!--                     <h4 class="card-title">Total Outward(Non-Consumable)</h4>-->
-<!--                        <span class="h2 font-weight-bold mb-0">{{ nonoutcount }}</span>-->
-<!--                    </div>-->
-<!--                </div>-->
-<!--            </div>-->
-<!--        </div>-->
-<!--    </div>-->
-<!--</div>-->
+    </div>
 
     <br>
 
-    <div class="container">
+    <div class="content-section">
     <div class="row">
          <div class="col-md-6">
             <div style="font-family: 'Alkalami';color: #28559A; font-style: bold;text-align:center; font-size: 30px; border-bottom: 2px solid #4e6570">Recent Inward(Consumable)</div><br>
@@ -156,7 +128,8 @@
                         Bill No: #{{ item.billno }} <br>
                         Inward by: <b>{{ item.name }}</b> <br>
                         <small><i>{{ item.time.date }}</i></small>
-
+<!--                        <br>-->
+<!--                       Quantity:<b>{{ item.quantity }}</b>-->
                     </div>
                     <div class="col-md-2" style="font-family:'Alkalami'"> ₹{{ item.total }} <br> <a href="{% url 'inwardnc-bill' item.billno %}">View</a> </div>
                 </div>
@@ -167,7 +140,7 @@
 
 
 
-   <div class="container">
+   <div class="content-section">
     <div class="row">
          <div class="col-md-6">
             <div style="font-family: 'Alkalami';color: #28559A; font-style: bold;text-align:center; font-size: 30px; border-bottom: 2px solid #4e6570">Recent Outward(Consumable)</div><br>
