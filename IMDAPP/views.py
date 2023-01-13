@@ -995,7 +995,7 @@ class NonSaleCreateView(View):
             except (ObjectDoesNotExist, MultipleObjectsReturned):
                 pass
 
-            messages.success(request, "Send item successfully.")
+            messages.success(request, "Send item successfully")
             return redirect('nonsale-bill', billno=billobj.billno)
         form = NonSaleForm(request.GET or None)
         formset = NonSaleItemFormset(request.GET or None)
