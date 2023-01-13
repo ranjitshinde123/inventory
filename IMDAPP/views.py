@@ -63,7 +63,7 @@ class ConsumerCreateView(SuccessMessageMixin, CreateView):
     model = Consumer
     form_class = ConsumerForm
     success_url = '/inventory/consumers'
-    success_message = "Supplier added successfully."
+    success_message = "Supplier added successfully"
     template_name = "suppliers/edit_consumer.html"
 
     def post(self, request, *args, **kwargs):
