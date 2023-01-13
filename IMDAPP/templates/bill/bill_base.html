@@ -116,7 +116,7 @@ left:0px;
             <div id="dialogboxfoot"></div>
         </div>
     </div>
-   <main id="wrapper">
+  <main id="wrapper" style="font-family: 'Alkalami'">
         <div id="mySidebar" class="sidebar sidebar-show">
             <a href="javascript:void(0)" class="closebtn" onclick="closeNav()">×</a>
             <ul class="list-unstyled sidebar-components">
@@ -141,21 +141,22 @@ left:0px;
                         <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" class="bi bi-layer-backward" viewBox="0 0 16 16">
                             <path d="M8.354 15.854a.5.5 0 0 1-.708 0l-3-3a.5.5 0 0 1 0-.708l1-1a.5.5 0 0 1 .708 0l.646.647V4H1a1 1 0 0 1-1-1V1a1 1 0 0 1 1-1h14a1 1 0 0 1 1 1v2a1 1 0 0 1-1 1H9v7.793l.646-.647a.5.5 0 0 1 .708 0l1 1a.5.5 0 0 1 0 .708l-3 3z"/>
                             <path d="M1 9a1 1 0 0 1-1-1V6a1 1 0 0 1 1-1h4.5a.5.5 0 0 1 0 1H1v2h4.5a.5.5 0 0 1 0 1H1zm9.5 0a.5.5 0 0 1 0-1H15V6h-4.5a.5.5 0 0 1 0-1H15a1 1 0 0 1 1 1v2a1 1 0 0 1-1 1h-4.5z"/>
-                        </svg> Add Stock</a>
+                        </svg> Add Stock </a>
 
+                    <ul class="collapse list-unstyled" id="purchaseSubmenu" style="background-color: #63BCE5">
 
-                    <ul class="collapse list-unstyled" id="purchaseSubmenu">
-                        <li> <a class="sidebar-text sidebar-subitem sidebar-button" style="font-size:1rem; background-color:#01345B; color:white" href="{% url 'select-consumer' %}">
-                             <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" class="bi bi-cart-fill" viewBox="0 0 16 16">-->
+                        <li> <a class="sidebar-text sidebar-button" style="font-family: 'Alkalami' color:#01345b" href="{% url 'select-consumer' %}">
+                             <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" class="bi bi-cart-fill" viewBox="0 0 16 16">
                             <path d="M0 1.5A.5.5 0 0 1 .5 1H2a.5.5 0 0 1 .485.379L2.89 3H14.5a.5.5 0 0 1 .491.592l-1.5 8A.5.5 0 0 1 13 12H4a.5.5 0 0 1-.491-.408L2.01 3.607 1.61 2H.5a.5.5 0 0 1-.5-.5zM5 12a2 2 0 1 0 0 4 2 2 0 0 0 0-4zm7 0a2 2 0 1 0 0 4 2 2 0 0 0 0-4zm-7 1a1 1 0 1 1 0 2 1 1 0 0 1 0-2zm7 0a1 1 0 1 1 0 2 1 1 0 0 1 0-2z"/>-->
                         </svg> Consumable</a> </li>
 
-                        <li> <a class="sidebar-text sidebar-subitem sidebar-button" style="font-size:1rem; background-color:#01345B;color:white" href="{% url 'select-supplier' %}">
-                             <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" class="bi bi-cart-fill" viewBox="0 0 16 16">-->
+                        <li> <a class="sidebar-text sidebar-button" style="font-family: 'Alkalami'" href="{% url 'select-supplier' %}">
+                          <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" class="bi bi-cart-fill" viewBox="0 0 16 16">
                             <path d="M0 1.5A.5.5 0 0 1 .5 1H2a.5.5 0 0 1 .485.379L2.89 3H14.5a.5.5 0 0 1 .491.592l-1.5 8A.5.5 0 0 1 13 12H4a.5.5 0 0 1-.491-.408L2.01 3.607 1.61 2H.5a.5.5 0 0 1-.5-.5zM5 12a2 2 0 1 0 0 4 2 2 0 0 0 0-4zm7 0a2 2 0 1 0 0 4 2 2 0 0 0 0-4zm-7 1a1 1 0 1 1 0 2 1 1 0 0 1 0-2zm7 0a1 1 0 1 1 0 2 1 1 0 0 1 0-2z"/>-->
-                        </svg> Non-Consumable</a>
-                        </li>
-                           </ul>
+                        </svg> Non-Consumable </a> </li>
+
+                    </ul>
+
                 </li>
 
                         <li>
@@ -230,18 +231,17 @@ left:0px;
 
 
                 <li>
-                    <a href="#UserSubmenu" data-toggle="collapse" class="dropdown-toggle sidebar-text right-arrow sidebar-button">
+                    <a href="#UserSubmenu" data-toggle="collapse" class="dropdown-toggle sidebar-text right-arrow sidebar-button" >
                         <i class="fas fa-user-circle"></i> {{ request.user.username }}</a>
 
-                    <ul class="collapse list-unstyled" id="UserSubmenu">
+                    <ul class="collapse list-unstyled" id="UserSubmenu" >
                         {% if request.user.is_superuser %}
                         {% endif %}
-                        <li> <a class="sidebar-text sidebar-subitem sidebar-button"  style="font-family: 'Alkalami'" href="{% url 'logout' %}">
+                        <li> <a class="sidebar-text sidebar-subitem sidebar-button" style="font-family: 'Alkalami'"  href="{% url 'logout' %} ">
                             <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" class="bi bi-door-open-fill" viewBox="0 0 16 16">
                                 <path d="M1.5 15a.5.5 0 0 0 0 1h13a.5.5 0 0 0 0-1H13V2.5A1.5 1.5 0 0 0 11.5 1H11V.5a.5.5 0 0 0-.57-.495l-7 1A.5.5 0 0 0 3 1.5V15H1.5zM11 2h.5a.5.5 0 0 1 .5.5V15h-1V2zm-2.5 8c-.276 0-.5-.448-.5-1s.224-1 .5-1 .5.448.5 1-.224 1-.5 1z"/>
                             </svg><font size="4">
                             Logout</font></a>
-
                         </li>
 
                     </ul>

@@ -60,12 +60,22 @@
     </div>
 
 <br>
-<div class="container" >
+<script>
+.container-fluid{
+
+  width: 100%;
+    padding-right: 0%;
+    padding-left:0%;
+    margin-right: auto;
+    margin-left: auto;
+}
+</script>
+<div class="container-fluid" >
         <div class="row" style="font-family: 'Alkalami'">
             <div class="col-sm-3 mb-2">
                 <div class="card" style="background-color:#85C1E9 ;text-color:white ;height:90%;width:100%">
                     <div class="card-body">
-                        <b><h5 class="card-title">Total Inward (Consumable)</h5></b>
+                        <b><h5 class="card-title">Total Inward <br>(Consumable)</h5></b>
                         <span class="h2 font-weight-bold mb-0">{{ incount }}</span>
                     </div>
                 </div>
@@ -73,7 +83,7 @@
             <div class="col-sm-3 mb-2">
                 <div class="card" style="background-color:#85C1E9;height:90%;width:100% ">
                     <div class="card-body">
-                     <h5 class="card-title">Total Outward (Consumable)</h5>
+                     <h5 class="card-title">Total Outward <br>(Consumable)</h5>
                         <span class="h2 font-weight-bold mb-0">{{ outcount }}</span>
                     </div>
                 </div>
