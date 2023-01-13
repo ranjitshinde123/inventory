@@ -16,6 +16,10 @@ class HomeView(View):
         data = []        
         stockqueryset = Stock.objects.filter(is_deleted=False).order_by('-quantity')
         incount=Stock.objects.aggregate(s=Sum('quantity'))['s']
+        incount1=Stock.objects.all().count()
+        outcount1=SaleItem.objects.all().count()
+        incount2=NonStock.objects.all().count()
+        outcount2=NonSaleItem.objects.all().count()
         nonincount=NonStock.objects.aggregate(ns=Sum('quantity'))['ns']
         outcount=SaleItem.objects.aggregate(sb=Sum('quantity'))['sb']
         nonoutcount=NonSaleItem.objects.aggregate(sn=Sum('quantity'))['sn']
@@ -39,6 +43,10 @@ class HomeView(View):
             'purchases' : purchases,
             'nonpurchases' : nonpurchases,
             'incount' : incount,
+            'incount1' : incount1,
+            'outcount1' : outcount1,
+            'incount2' : incount2,
+            'outcount2' : outcount2,
             'outcount':outcount,
             'nonoutcount':nonoutcount,
             'nonincount':nonincount,
