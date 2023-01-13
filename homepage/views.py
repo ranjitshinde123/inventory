@@ -1,5 +1,6 @@
 from django.contrib.auth.decorators import login_required
 from django.contrib.auth.forms import AuthenticationForm
+from django.db.models import Sum
 from django.shortcuts import render, redirect
 from django.utils.decorators import method_decorator
 from django.views.generic import View, TemplateView
@@ -14,6 +15,11 @@ class HomeView(View):
         labels = []
         data = []        
         stockqueryset = Stock.objects.filter(is_deleted=False).order_by('-quantity')
+        incount=Stock.objects.aggregate(s=Sum('quantity'))['s']
+        nonincount=NonStock.objects.aggregate(ns=Sum('quantity'))['ns']
+        outcount=SaleItem.objects.aggregate(sb=Sum('quantity'))['sb']
+        nonoutcount=NonSaleItem.objects.aggregate(sn=Sum('quantity'))['sn']
+        print(outcount)
         for item in stockqueryset:
             labels.append(item.quantity)
             data.append(item.quantity)
@@ -31,7 +37,11 @@ class HomeView(View):
             'inward'     : inward,
             'noninward'     : noninward,
             'purchases' : purchases,
-            'nonpurchases' : nonpurchases
+            'nonpurchases' : nonpurchases,
+            'incount' : incount,
+            'outcount':outcount,
+            'nonoutcount':nonoutcount,
+            'nonincount':nonincount,
         }
         return render(request, self.template_name, context)
 
@@ -69,8 +79,6 @@ def signout(request):
 
 class AboutView(TemplateView):
     template_name = "about.html"
-
-
 
 
 

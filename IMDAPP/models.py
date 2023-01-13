@@ -58,7 +58,7 @@ class Description(models.Model):
 
 class Supplier(models.Model):
     id=models.AutoField(primary_key=True)
-    name=models.CharField(max_length=255)
+    name=models.CharField(max_length=50)
     phone = models.CharField(max_length=12,unique=True)
     address = models.TextField()
     email = models.EmailField(max_length=100)
@@ -71,7 +71,7 @@ class Supplier(models.Model):
 
 class Consumer(models.Model):
     id=models.AutoField(primary_key=True)
-    name=models.CharField(max_length=255)
+    name=models.CharField(max_length=50)
     phone = models.CharField(max_length=12 ,unique=True)
     address = models.TextField()
     email = models.EmailField(max_length=100)

@@ -1,3 +1,4 @@
-from django.test import TestCase
-
-# Create your tests here.
+a="1234mm"
+b="132cm"
+c=int(a)
+print(type(c))
