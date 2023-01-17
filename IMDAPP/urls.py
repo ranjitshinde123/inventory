@@ -58,9 +58,9 @@ urlpatterns = [
     path('outwardslip/', views.outwardslip, name='outwardslip'),
     path('nonoutwardslip/', views.nonoutwardslip, name='nonoutwardslip'),
     path('nonoutwardslip/', views.nonoutwardslip, name='nonoutwardslip'),
-    # path('inwardslip/', views.inwardstock, name='inwardslip'),
+    # path('stockinwardslip/', views.inwardstock, name='stockinwardslip'),
     path('inwardslip/', views.inwardslip, name='inwardslip'),
-    # path('noninwardslip/', views.noninwardstock, name='noninwardslip'),
+    # path('stocknoninwardslip/', views.noninwardstock, name='stocknoninwardslip'),
     path('noninwardslip/', views.noninwardslip, name='noninwardslip'),
 
 #Export
@@ -103,7 +103,7 @@ urlpatterns = [
 
     #History
     path('historypage/', views.get_trs, name="trs"),
-    # path('verify_gstin/ ', views.verify_gstin, name="gstin-verify"),
+    # path('verify_gstin/ ',views.gstinverify, name="gstin-verify"),
     # path('gmail/ ', views.send_emails, name="gmail"),
 
 ]

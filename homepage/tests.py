@@ -1,11 +1,18 @@
-from django.test import TestCase
+import requests
+# import pandas as pd
+import json
 
-# Create your tests here.
-import re
+d=input("enter the ")
+url = ("http://sheet.gstincheck.co.in/check/16b30b08fa1fb7a99d49cf16fcb935cc/"+d)
 
-a=input('Enter the email')
-b=re.fullmatch('[A-Za-z0-9.]@gmail[.]com',a)
-if b:
-    print("Right")
+r = requests.get(url)
+a=r.json()
+e=a['flag']
+print(e)
+if e==True:
+    b = a['data']['lgnm']
+    c = a['data']['pradr']['adr']
+    print('Name:', b)
+    print("address:", c)
 else:
-    print("Wrong")
+    print("GST Number is invalid Please Fill valid GST Number")

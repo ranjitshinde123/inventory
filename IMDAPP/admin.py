@@ -8,9 +8,11 @@ from .models import Category, Subcategory, Description, Stock, Supplier, Purchas
     InwardBillDetails, NonInwardBillDetails, Unit, Consumer
 
 admin.site.register(Stock)
+
 admin.site.register(Unit)
 admin.site.register(Consumer)
 admin.site.register(NonStock)
+
 admin.site.register(PurchaseBill)
 admin.site.register(PurchaseBillDetails)
 admin.site.register(InwardBillDetails)

@@ -4,7 +4,7 @@ from django.contrib.auth.decorators import login_required
 from django.core.exceptions import ObjectDoesNotExist, MultipleObjectsReturned
 from django.shortcuts import render
 from django.db.models import Q
-from django.http import HttpResponse, JsonResponse, request, Http404, HttpResponseRedirect
+from django.http import HttpResponse, JsonResponse, request, Http404, HttpResponseRedirect, response
 import csv
 from django.shortcuts import render, redirect, get_object_or_404
 from django.urls import reverse
@@ -79,8 +79,81 @@ class ConsumerCreateView(SuccessMessageMixin, CreateView):
         return context
     # used to update a supplier's info
 
-@method_decorator(login_required, name='dispatch')
 
+##gsTIN FUNCTION
+# import requests
+# # import pandas as pd
+# import json
+# # d=input("enter the ")
+# def gstinverify(request):
+#     if request.method == "POST":
+#         form = ConsumerForm(request.POST)
+#         # b=form.data['gstin']
+#         # print(b)
+#         print('GST Number Is:', request.POST.get('gstin'))
+#         d = request.POST.get('gstin')
+#         # data = request.GET['gstin']
+#         # gstin = form.c["gstin"]
+#         print(type(d))
+#
+#         # d = input("enter the ")
+#         url = ("http://sheet.gstincheck.co.in/check/c8d32c0513c2085348a30fe514b39c77/" + d)
+#
+#         r = requests.get(url)
+#         a = r.json()
+#         e = a['flag']
+#         print(e)
+#         if e == True:
+#             b = a['data']['lgnm']
+#             c = a['data']['pradr']['adr']
+#             print('Name:', b)
+#             print("address:", c)
+#             # return render(request,'suppliers/viewgstindetails.html',{'a':a,'b':b})
+#             # return HttpResponse(request,f"name:{b} and address: {c}")
+#             return render(request,'suppliers\edit_consumer.html',{'b':b},{'c':c})
+#         else:
+#             print("GST Number is invalid Please Fill valid GST Number")
+#
+#     else:
+#         form = ConsumerForm()
+#     return render(request, 'suppliers\edit_consumer.html',{'form':form})
+
+    # form = ConsumerForm(request.POST)
+    # gstin = (request.POST.get('gstin'))
+    # # data=(request.POST.get('gstin'))
+    # print(gstin)
+    # # if form.is_valid():
+    #
+    #
+    # #     gstin = form.cleaned_data['gstin']
+    # #     if Consumer.objects.filter(gstin=gstin).exists():
+    # # data = request.GET['']
+    #
+    # # print(data)
+    # url = ("http://sheet.gstincheck.co.in/check/16b30b08fa1fb7a99d49cf16fcb935cc/" +gstin)
+    #
+    # r = requests.get(url)
+    # a = r.json()
+    # print(a)
+    # # import  pdb
+    # # pdb.set_trace()
+    # e = a['flag']
+    # # print(e)
+    # if e == False:
+    #     b = a['data']['lgnm']
+    #     c = a['data']['pradr']['adr']
+    #     print('Name:', b)
+    #     print("address:", c)
+    # else:
+    #     # messages.info(request,'GST Number is invalid Please Fill valid GST Number')
+    #     # return response
+    #     return HttpResponse('GST Number is invalid Please Fill valid GST Number')
+    #     # print("GST Number is invalid Please Fill valid GST Number")
+    # return render(request,'suppliers\edit_consumer.html')
+    # # m = ConsumerForm.objects.filter(gstin=gstin)
+    #
+
+@method_decorator(login_required, name='dispatch')
 class ConsumerUpdateView(SuccessMessageMixin, UpdateView):
     model = Consumer
     form_class = ConsumerForm
@@ -606,7 +679,7 @@ def inwardslip(request):
             'bills': bills,
         }
         return render(request, 'purchases/inwardslip.html', context)
-
+#Inward slip
 # def inwardstock(request):
 #     if request.method =="POST":
 #         try:
@@ -615,15 +688,15 @@ def inwardslip(request):
 #                 fromdate = datetime.datetime.strptime(request.POST.get('fromdate'), '%Y-%m-%d')
 #                 todate = datetime.datetime.strptime(request.POST.get('todate'), '%Y-%m-%d')
 #                 bills = Stock.objects.filter(Q(time__gte=fromdate) & Q(time__lte=todate))
-#                 return render(request, 'purchases/inwardslip.html', {"bills": bills})
+#                 return render(request, 'purchases/inwardslipstock.html', {"bills": bills})
 #             else:
 #                 error = "yes"
 #                 bills = Stock.objects.all()
-#                 return render(request, 'purchases/inwardslip.html', {"bills": bills})
+#                 return render(request, 'purchases/inwardslipstock.html', {"bills": bills})
 #
 #         except:
 #             error = "yes"
-#         return render(request, 'purchases/inwardslip.html', locals())
+#         return render(request, 'purchases/inwardslipstock.html', locals())
 #     else:
 #         list = Stock.objects.all()
 #         page = request.GET.get('page', 1)
@@ -639,7 +712,7 @@ def inwardslip(request):
 #         context = {
 #             'bills': bills,
 #         }
-#         return render(request, 'purchases/inwardslip.html', context)
+#         return render(request, 'purchases/inwardslipstock.html', context)
 
 
 # @method_decorator(login_required, name='dispatch')
@@ -678,6 +751,9 @@ def noninwardslip(request):
             'bills': bills,
         }
         return render(request, 'purchases/noninwardslip.html', context)
+
+
+##non Inward slip
 # def noninwardstock(request):
 #     if request.method =="POST":
 #         try:
@@ -686,15 +762,15 @@ def noninwardslip(request):
 #                 fromdate = datetime.datetime.strptime(request.POST.get('fromdate'), '%Y-%m-%d')
 #                 todate = datetime.datetime.strptime(request.POST.get('todate'), '%Y-%m-%d')
 #                 bills = NonStock.objects.filter(Q(time__gte=fromdate) & Q(time__lte=todate))
-#                 return render(request, 'purchases/noninwardslip.html', {"bills": bills})
+#                 return render(request, 'purchases/noninwardslipstock.html', {"bills": bills})
 #             else:
 #                 error = "yes"
 #                 bills = NonStock.objects.all()
-#                 return render(request, 'purchases/noninwardslip.html', {"bills": bills})
+#                 return render(request, 'purchases/noninwardslipstock.html', {"bills": bills})
 #
 #         except:
 #             error = "yes"
-#         return render(request, 'purchases/noninwardslip.html', locals())
+#         return render(request, 'purchases/noninwardslipstock.html', locals())
 #     else:
 #         list = NonStock.objects.all()
 #         page = request.GET.get('page', 1)
@@ -710,11 +786,11 @@ def noninwardslip(request):
 #         context = {
 #             'bills': bills,
 #         }
-#         return render(request, 'purchases/noninwardslip.html', context)
-
-
-
-
+#         return render(request, 'purchases/noninwardslipstock.html', context)
+#
+#
+#
+#
 
 # def noninwardslip(request):
 #     try:
@@ -852,6 +928,7 @@ class SaleCreateView(View):
                     billitem.billno = billobj  # links the bill object to the items
                     # gets the stock item
                     stock = get_object_or_404(Stock,pk=billitem.stock.pk)
+
 
                     # stock = get_object_or_404(Stock, name=billitem.stock.name
                     # billitem.totalprice = billitem.perprice * billitem.quantity
@@ -1295,6 +1372,9 @@ class StockCreateView(View):
                     billitem.billno = billobj  # links the bill object to the items
                     # gets the stock item
                     stock = get_object_or_404(Stock, name=billitem.name)##change
+                    # stock1=get_object_or_404(Stock1)
+                    # stock1.save()
+
                     # print(request.GET)
                     # stock = get_object_or_404(Stock, name=billitem.stock.subcategory)
                     # stock.quantity += billitem.quantity

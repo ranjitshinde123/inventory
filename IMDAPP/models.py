@@ -185,6 +185,37 @@ class Stock(models.Model):
         totalprice = self.quantity * self.perprice
         return totalprice
 
+# class Stock1(models.Model):
+#
+#     CONDITION = [
+#         ('GOOD', 'GOOD'),
+#         ('TORN', 'TORN'),
+#         ('DAMAGED', 'DAMAGED'),
+#     ]
+#     # MODE_OF_DELIVERY = [
+#     #     ('BY-HAND', 'BY-HAND'),
+#     #     ('COURIER', 'COURIER'),
+#     #     ('OTHER', 'OTHER'),
+#     #
+#     # ]
+#
+#     billno = models.AutoField(primary_key=True)
+#     time = models.DateTimeField(auto_now=True)
+#     category=models.ForeignKey(Category,on_delete=models.CASCADE)
+#     subcategory=models.ForeignKey(Subcategory,on_delete=models.CASCADE)
+#     description=models.ForeignKey(Description,on_delete=models.CASCADE)
+#     name=models.ForeignKey(Consumer,on_delete=models.CASCADE)
+#     unit=models.ForeignKey(Unit,on_delete=models.CASCADE)
+#     Mode_of_delivery = models.CharField(max_length=50)
+#     # Mode_of_delivery = models.CharField(max_length=24, choices=MODE_OF_DELIVERY, default=MODE_OF_DELIVERY)
+#     label_code = models.CharField(max_length=20, default="")
+#     condition = models.CharField(max_length=50, choices=CONDITION)
+#     quantity = models.IntegerField(default=1)
+#     perprice = models.IntegerField(default=1)
+#     totalprice = models.IntegerField(default=1)
+#     is_deleted = models.BooleanField(default=False)
+
+
 
 class InwardBillDetails(models.Model):
     billno = models.ForeignKey(Stock, on_delete=models.CASCADE, related_name='inwarddetailsbillno')
@@ -294,6 +325,7 @@ class NonStock(models.Model):
         totalprice = 0
         totalprice = self.quantity * self.perprice
         return totalprice
+
 
 
 class NonInwardBillDetails(models.Model):
