@@ -2125,7 +2125,7 @@ def gst(request):
             email = request.POST['email']
             address = request.POST['address']
             if Consumer.objects.filter(gstin=gstin).exists():
-                messages.success(request, 'GST Number is already exits !')
+                messages.success(request, 'GST Number is already exits. !')
             else:
                 Consumer(name=name, phone=phone, address=address, email=email, gstin=gstin).save()
                 return redirect('consumer-list')
