@@ -101,7 +101,7 @@ class ConsumerCreateView(SuccessMessageMixin, CreateView):
                 else:
                     Consumer(name=name, phone=phone, address=address, email=email, gstin=gstin).save()
                 # return HttpResponse(f"Name:{b} and Address:{c}")
-            return render(request, 'suppliers\demo.html', {'b': b, 'c': c, 'd': body})
+            return render(request, 'suppliers/demo.html', {'b': b, 'c': c, 'd': body})
         else:
             print("GST Number is invalid Please Fill  valid GST Number")
             return HttpResponse("invalid GST Number")
@@ -2046,13 +2046,13 @@ def my_form(request):
         print('Name:', b)
         print("address:", c)
         # return HttpResponse(f"Name:{b} and Address:{c}")
-        return render(request,'suppliers\demo.html',{'b':b,'c':c,'d':d})
+        return render(request,'suppliers/demo.html',{'b':b,'c':c,'d':d})
     else:
         print("GST Number is invalid Please Fill valid GST Number")
         return HttpResponse("invalid GST Number")
   else:
       form = ConsumerForm()
-  return render(request,'suppliers\edit_consumer.html', {'form': form})
+  return render(request,'suppliers/edit_consumer.html', {'form': form})
 
 
 
@@ -2081,7 +2081,7 @@ def gstverify(request):
             print('Name:', b)
             print("address:", c)
             return redirect('gst')
-        return render(request,'suppliers\demo1.html')
+        return render(request,'suppliers/demo1.html')
 
 def gstverify1(request):
     # if request.method=="POST":
@@ -2108,7 +2108,7 @@ def gstverify1(request):
             print('Name:', b)
             print("address:", c)
             return redirect('gst1')
-        return render(request,'suppliers\demo1.html')
+        return render(request,'suppliers/demo1.html')
 
 
 
@@ -2129,7 +2129,7 @@ def gst(request):
             else:
                 Consumer(name=name, phone=phone, address=address, email=email, gstin=gstin).save()
                 return redirect('consumer-list')
-        return render(request, 'suppliers\demo.html', {'b': b, 'c': c, 'd': body})
+        return render(request, 'suppliers/demo.html', {'b': b, 'c': c, 'd': body})
 
 
 def gst1(request):
@@ -2148,6 +2148,6 @@ def gst1(request):
         else:
             Supplier(name=name, phone=phone, address=address, email=email, gstin=gstin).save()
             return redirect('suppliers-list')
-    return render(request, 'suppliers\demo.html', {'b': b, 'c': c, 'd': body})
+    return render(request, 'suppliers/demo.html', {'b': b, 'c': c, 'd': body})
 
 
