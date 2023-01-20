@@ -2052,7 +2052,7 @@ def my_form(request):
         return HttpResponse("invalid GST Number")
   else:
       form = ConsumerForm()
-  return render(request, r'C:\Users\DELL\PycharmProjects\imd\IMDAPP\templates\suppliers\edit_consumer.html', {'form': form})
+  return render(request,'suppliers\edit_consumer.html', {'form': form})
 
 
 
