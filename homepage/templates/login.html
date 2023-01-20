@@ -72,6 +72,8 @@
 <!--</html>-->
 
 
+
+
 {% load static %}
 <head xmlns="http://www.w3.org/1999/html">
  <meta charset="utf-8">
@@ -85,10 +87,11 @@
 
 <link rel="stylesheet" href="https://use.fontawesome.com/releases/v5.7.0/css/all.css" integrity="sha384-lZN37f5QGtY3VHgisS14W3ExzMWZxybE1SJSEsQp9S+oqd12jhcu+A56Ebc1zFSJ" crossorigin="anonymous">
 </head>
-<body style="font-family: 'Alkalami'">
-<div class="row">
+<!--<body style="font-family: 'Alkalami'" >-->
+<body style="background-image:url({% static 'css/images/img_1.jpg' %});opacity:0.9;">
+<div class="row" >
  <div class="col-lg-7 m-auto">
-  <div class="card mt-5 border border-dark" >
+  <div class="card  border border-dark"style="margin-top: 10rem;  background: rgba(0.5, 0.5, 0.5, 0.5);" >
    <div class="card-title text-center mt-3">
     <fieldset class="form-group">
      <center><img src="https://internal.imd.gov.in/section/satmet/lightning/logof.png" style="height:200px;margin-top: -20px; margin-bottom: -20px;"></center>
@@ -102,7 +105,7 @@
         <i class="fa fa-user fa-2x"></i>
        </span>
       </div>
-      <input type="text" name="username" class="form-control py-4" placeholder="Username">
+      <input type="text" name="username" class="form-control py-4"color="black" placeholder="Username">
      </div>
 
      <div class="input-group mb-3">
@@ -111,15 +114,11 @@
         <i class="fa fa-lock fa-2x"></i>
        </span>
       </div>
-      <input type="password" name="password" class="form-control py-4" placeholder="Password" id="myInput">
-
-
-<!-- <i class="far fa-eye" id="togglePassword" style="margin-left: -5px; cursor: pointer;"></i>-->
-<!--       </span>-->
+      <input type="password" name="password" class="form-control py-4" color="black" placeholder="Password" id="myInput">
      </div>
-  <input type="checkbox" onclick="myFunction()"> Show Password
+     <input type="checkbox"  style="text-white" onclick="myFunction()"> <font color="white">Show Password</font>
      <center><input type="submit" value="Login" class="btn btn-success px-5"></center>
-     <a href="{% url 'home' %}" class="float-right text-white mt-2">Go Back To Home</a>
+
 
     </form>
 
@@ -129,6 +128,9 @@
  </div>
 </div>
 </body>
+
+
+
 {% if error == "no" %}
 <script>
     alert('login successfully');

@@ -272,7 +272,7 @@ class ConsumerForm(forms.ModelForm):
 
 
 
-# form used to get customer details
+# form used to get outward details
 class SaleForm(forms.ModelForm):
     def __init__(self, *args, **kwargs):
         super().__init__(*args, **kwargs)

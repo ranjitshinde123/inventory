@@ -24,7 +24,7 @@ urlpatterns = [
 #Consumer
 
     path('consumers/', views.ConsumerListView.as_view(), name='consumer-list'),
-    path('consumers/new', views.ConsumerCreateView.as_view(), name='new-consumer'),
+    # path('consumers/new', views.ConsumerCreateView.as_view(), name='new-consumer'),
     path('consumers/<pk>/edit', views.ConsumerUpdateView.as_view(), name='edit-consumer'),
     path('consumers/<pk>/delete', views.ConsumerDeleteView.as_view(), name='delete-consumer'),
     path('consumers/<name>', views.ConsumerView.as_view(), name='consumer'),
@@ -105,6 +105,14 @@ urlpatterns = [
     path('historypage/', views.get_trs, name="trs"),
     # path('verify_gstin/ ',views.gstinverify, name="gstin-verify"),
     # path('gmail/ ', views.send_emails, name="gmail"),
+
+#Gstin verify
+    path('demogst',views.my_form,name="gstin"),
+    # path('gstdata',views.gstdata,name="gstdata"),
+    path("gstver",views.gstverify,name='gstver'),
+    path("gstver1",views.gstverify1,name='gstver1'),
+    path("gstveri",views.gst,name='gst'),
+    path("gstveri1",views.gst1,name='gst1')
 
 ]
 

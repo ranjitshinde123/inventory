@@ -135,6 +135,7 @@ color:black;
 .table-bordered td{
     border:1px solid black;
 }
+
 /* .btn-primary {
   border: none;
   color: white;
@@ -219,11 +220,10 @@ background-color:blue;
   font-weight: 500;
 }
 .container-fluid{
-
  width: 100%;
    padding-right: 0%;
    padding-left:0%;
-margin-right: auto;
+   margin-right: auto;
    margin-left: auto;
    }
 

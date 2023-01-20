@@ -7,22 +7,29 @@ from django.views.generic import View, TemplateView
 from IMDAPP.models import *
 from django.contrib.auth import authenticate, login as loginuser,logout
 
+#DashBord View
 
 @method_decorator(login_required, name='dispatch')
+
 class HomeView(View):
     template_name = "home.html"
     def get(self, request):        
         labels = []
         data = []        
         stockqueryset = Stock.objects.filter(is_deleted=False).order_by('-quantity')
+
         incount=Stock.objects.aggregate(s=Sum('quantity'))['s']
+
         incount1=Stock.objects.all().count()
         outcount1=SaleItem.objects.all().count()
+
         incount2=NonStock.objects.all().count()
         outcount2=NonSaleItem.objects.all().count()
+
         nonincount=NonStock.objects.aggregate(ns=Sum('quantity'))['ns']
         outcount=SaleItem.objects.aggregate(sb=Sum('quantity'))['sb']
         nonoutcount=NonSaleItem.objects.aggregate(sn=Sum('quantity'))['sn']
+
         print(outcount)
         for item in stockqueryset:
             labels.append(item.quantity)
@@ -54,6 +61,8 @@ class HomeView(View):
         return render(request, self.template_name, context)
 
 
+#Login
+
 def login(request):
 
    if request.method =='GET':
@@ -80,10 +89,13 @@ def login(request):
            }
            return render(request, 'login.html', context=context)
 
+#Signout
+
 def signout(request):
     logout(request)
     return redirect('login')
 
+#AboutUs
 
 class AboutView(TemplateView):
     template_name = "about.html"

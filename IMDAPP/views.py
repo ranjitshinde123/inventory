@@ -14,7 +14,7 @@ from django.contrib.messages.views import SuccessMessageMixin
 from django.contrib import messages
 from django.core.paginator import Paginator, EmptyPage, PageNotAnInteger
 import datetime
-
+#Generic
 from django.views.generic import (
     View,
     ListView,
@@ -33,6 +33,7 @@ from .models import (
     NonPurchaseBillDetails, NonPurchaseItem, Supplier, NonSaleBill, NonSaleItem, NonSaleBillDetails,
     trs, Category, NonCategory, InwardBillDetails, NonInwardBillDetails, Unit, Consumer
 )
+#form
 from .forms import (
     StockForm,
     PurchaseItemFormset,
@@ -48,7 +49,10 @@ from .forms import (
 )
 
 # Create your views here
+#Consumer
+
 @method_decorator(login_required, name='dispatch')
+
 class ConsumerListView(ListView):
     model = Consumer
     template_name = "suppliers/consumer_list.html"
@@ -57,24 +61,59 @@ class ConsumerListView(ListView):
 
 
 # used to add a new supplier
+
 @method_decorator(login_required, name='dispatch')
 
 class ConsumerCreateView(SuccessMessageMixin, CreateView):
     model = Consumer
     form_class = ConsumerForm
+
     success_url = '/inventory/consumers'
     success_message = "Supplier added successfully"
     template_name = "suppliers/edit_consumer.html"
 
     def post(self, request, *args, **kwargs):
-        response = super().post(request, *args, **kwargs)
+        # response = super().post(request, *args, **kwargs)
+        # print(response)
+        body = request.POST.get('gstin')
+        print('GST NUmber:',body)
+        print(type(body))
+        url = ("http://sheet.gstincheck.co.in/check/b4f172412d80fe4c01754af22c82abed/" + body)
+        r = requests.get(url)
+        a = r.json()
+        e = a['flag']
+        print(e)
+        if e == True:
+            b = a['data']['lgnm']
+            c = a['data']['pradr']['adr']
+            print('Name:', b)
+            print("address:", c)
+            if request.method == "POST":
+                name = request.POST['name']
+                phone = request.POST['phone']
+                gstin = request.POST['gstin']
+                email = request.POST['email']
+                address = request.POST['address']
+                print(name, phone, gstin, email, address)
+
+                if name=="" and phone=="" and gstin=="" and email=="" and address=="":
+                   breakpoint()
+                else:
+                    Consumer(name=name, phone=phone, address=address, email=email, gstin=gstin).save()
+                # return HttpResponse(f"Name:{b} and Address:{c}")
+            return render(request, 'suppliers\demo.html', {'b': b, 'c': c, 'd': body})
+        else:
+            print("GST Number is invalid Please Fill  valid GST Number")
+            return HttpResponse("invalid GST Number")
+
         if not self.object:
             messages.info(request, 'Supplier already exist!!')
-        return response
+            return response
 
     def get_context_data(self, **kwargs):
         context = super().get_context_data(**kwargs)
         context["title"] = 'New Supplier'
+        context['verify']='Verify'
         context["savebtn"] = 'Add Supplier'
         return context
     # used to update a supplier's info
@@ -110,7 +149,8 @@ class ConsumerCreateView(SuccessMessageMixin, CreateView):
 #             print("address:", c)
 #             # return render(request,'suppliers/viewgstindetails.html',{'a':a,'b':b})
 #             # return HttpResponse(request,f"name:{b} and address: {c}")
-#             return render(request,'suppliers\edit_consumer.html',{'b':b},{'c':c})
+#             # return render(request,'suppliers\edit_consumer.html',{'b':b},{'c':c})
+#             return redirect('new-consumer',{'Name':b},{'Address':c})
 #         else:
 #             print("GST Number is invalid Please Fill valid GST Number")
 #
@@ -154,6 +194,9 @@ class ConsumerCreateView(SuccessMessageMixin, CreateView):
     #
 
 @method_decorator(login_required, name='dispatch')
+
+#update Supplier details
+
 class ConsumerUpdateView(SuccessMessageMixin, UpdateView):
     model = Consumer
     form_class = ConsumerForm
@@ -190,7 +233,7 @@ class ConsumerDeleteView(View):
 
 # used to view a supplier's profile
 @method_decorator(login_required, name='dispatch')
-
+#show supplier details
 class ConsumerView(View):
     def get(self, request,name):
         consumerobj = get_object_or_404(Consumer, name=name)
@@ -215,7 +258,7 @@ class ConsumerView(View):
 
 
 
-#new supplier
+#supplier List
 @method_decorator(login_required, name='dispatch')
 
 class SupplierListView(ListView):
@@ -252,6 +295,7 @@ class SupplierCreateView(SuccessMessageMixin, CreateView):
 
 
     # used to update a supplier's info
+
 @method_decorator(login_required, name='dispatch')
 
 
@@ -271,6 +315,7 @@ class SupplierUpdateView(SuccessMessageMixin, UpdateView):
 
 
 # used to delete a supplier
+
 @method_decorator(login_required, name='dispatch')
 
 class SupplierDeleteView(View):
@@ -290,6 +335,7 @@ class SupplierDeleteView(View):
 
 
 # used to view a supplier's profile
+
 @method_decorator(login_required, name='dispatch')
 
 class SupplierView(View):
@@ -325,6 +371,7 @@ class PurchaseView(ListView):
 
 
 # used to select the supplier
+
 @method_decorator(login_required, name='dispatch')
 
 class SelectConsumerView(View):
@@ -335,7 +382,7 @@ class SelectConsumerView(View):
         form = self.form_class
         return render(request, self.template_name, {'form': form})
 
-    def post(self, request, *args, **kwargs):  # gets selected supplier and redirects to 'PurchaseCreateView' class
+    def post(self, request, *args, **kwargs):  # gets selected supplier and redirects to 'InwardCreateView' class
         form = self.form_class(request.POST)
         if form.is_valid():
             consumerid = request.POST.get("consumer")
@@ -400,6 +447,8 @@ class PurchaseCreateView(View):
 
 @method_decorator(login_required, name='dispatch')
 
+#deleted add item
+
 class PurchaseDeleteView(SuccessMessageMixin, DeleteView):
     model = PurchaseBill
     template_name = "purchases/delete_purchase.html"
@@ -418,6 +467,8 @@ class PurchaseDeleteView(SuccessMessageMixin, DeleteView):
 
 @method_decorator(login_required, name='dispatch')
 
+#List Non-consumable item
+
 class NonPurchaseView(ListView):
     model = NonPurchaseBill
     template_name = "purchases/nonpurchases_list.html"
@@ -426,6 +477,8 @@ class NonPurchaseView(ListView):
     paginate_by = 10
 
 @method_decorator(login_required, name='dispatch')
+
+#select supplier
 
 class SelectSupplierView(View):
     form_class = SelectSupplierForm
@@ -446,6 +499,8 @@ class SelectSupplierView(View):
 
 
 @method_decorator(login_required, name='dispatch')
+
+#create new non-consumable item
 
 class NonPurchaseCreateView(View):
     template_name = 'purchases/non_purchase.html'
@@ -498,6 +553,8 @@ class NonPurchaseCreateView(View):
 # used to delete a bill object
 @method_decorator(login_required, name='dispatch')
 
+#deleted non-consumable item
+
 class NonPurchaseDeleteView(SuccessMessageMixin, DeleteView):
     model = NonPurchaseBill
     template_name = "purchases/delete_nonpurchase.html"
@@ -515,7 +572,9 @@ class NonPurchaseDeleteView(SuccessMessageMixin, DeleteView):
         return super(NonPurchaseDeleteView, self).delete(*args, **kwargs)
 
 #OutwardSlip(consumable,Non-consumable)
+
 # @method_decorator(login_required, name='dispatch')
+
 @login_required(login_url='login')
 
 def outwardslip(request):
@@ -644,6 +703,9 @@ def nonoutwardslip(request):
 
 #
 # @method_decorator(login_required, name='dispatch')
+
+#InwardSlip Consumable and Non-Consumable
+
 @login_required(login_url='login')
 
 def inwardslip(request):
@@ -809,8 +871,10 @@ def noninwardslip(request):
 #     return render(request, 'purchases/noninwardslip.html',locals())
 
 
-##inward
+##inward  consumable csv file
+
 # @method_decorator(login_required, name='dispatch')
+
 @login_required(login_url='login')
 
 def export_csv(request):
@@ -828,6 +892,8 @@ def export_csv(request):
 # @method_decorator(login_required, name='dispatch')
 @login_required(login_url='login')
 
+#Inward Non-consumable csv file
+
 def nonexport_csv(request):
     response = HttpResponse(content_type='text/csv')
     response['Content-Disposition'] = 'attachment; filename=Expenses' +str(datetime.datetime.now()) + '.csv'
@@ -844,7 +910,10 @@ def nonexport_csv(request):
 # #outward
 #
 # @method_decorator(login_required, name='dispatch')
+
 @login_required(login_url='login')
+
+#Outward Consumable csv file
 
 def outwardexport_csv(request):
     response = HttpResponse(content_type='text/csv')
@@ -859,7 +928,10 @@ def outwardexport_csv(request):
     return response
 
 # @method_decorator(login_required, name='dispatch')
+
 @login_required(login_url='login')
+
+#outward Non-Consumable csv File
 
 def outwardnonexport_csv(request):
     response = HttpResponse(content_type='text/csv')
@@ -876,8 +948,9 @@ def outwardnonexport_csv(request):
 
 
 # shows the list of bills of all sales
+
 @method_decorator(login_required, name='dispatch')
-#
+
 class SaleView(ListView):
     model = SaleBill
     template_name = "sales/sales_list.html"
@@ -960,6 +1033,8 @@ class SaleCreateView(View):
 
 @method_decorator(login_required, name='dispatch')
 
+#Deleted send  consumable item
+
 class SaleDeleteView(SuccessMessageMixin, DeleteView):
     model = SaleBill
     template_name = "sales/delete_sale.html"
@@ -977,6 +1052,8 @@ class SaleDeleteView(SuccessMessageMixin, DeleteView):
         return super(SaleDeleteView, self).delete(*args, **kwargs)
 
 @method_decorator(login_required, name='dispatch')
+
+#Show view Bill
 
 class SaleBillView(View):
     model = SaleBill
@@ -1008,7 +1085,7 @@ class SaleBillView(View):
 
 
 
-##nonconsumable sale
+##nonconsumable send item
 
 @method_decorator(login_required, name='dispatch')
 
@@ -1021,6 +1098,7 @@ class NonSaleView(ListView):
 
 
 # used to generate a bill object and save items
+
 @method_decorator(login_required, name='dispatch')
 
 class NonSaleCreateView(View):
@@ -1084,6 +1162,8 @@ class NonSaleCreateView(View):
 
 @method_decorator(login_required, name='dispatch')
 
+#Deleted Non-consumable item
+
 class NonSaleDeleteView(SuccessMessageMixin, DeleteView):
     model = NonSaleBill
     template_name = "sales/delete_nonsale.html"
@@ -1101,7 +1181,7 @@ class NonSaleDeleteView(SuccessMessageMixin, DeleteView):
         return super(NonSaleDeleteView, self).delete(*args, **kwargs)
 
 @method_decorator(login_required, name='dispatch')
-
+#view  non-comsumable bill
 class NonSaleBillView(View):
     model = NonSaleBill
     template_name = "bill/nonsale_bill.html"
@@ -1133,7 +1213,10 @@ class NonSaleBillView(View):
 # used to delete a bill object
 
 # used to display the purchase bill object
+
 @method_decorator(login_required, name='dispatch')
+
+#Add consumable bill  view
 
 class PurchaseBillView(View):
     model = PurchaseBill
@@ -1201,6 +1284,8 @@ class NonPurchaseBillView(View):
 
 
 @method_decorator(login_required, name='dispatch')
+
+# Consumable List
 
 class StockListView(FilterView):
     filterset_class = StockFilter
@@ -1300,6 +1385,9 @@ class StockListView(FilterView):
 #         }
 #         return render(request, self.template_name, context, locals())
 #
+
+#add new stock in inventory
+
 class StockCreateView(View):
     model = Stock
     form_class = StockForm
@@ -1408,6 +1496,8 @@ class StockCreateView(View):
 
 @method_decorator(login_required, name='dispatch')
 
+# Update stock
+
 class StockUpdateView(SuccessMessageMixin, UpdateView):  # updateview class to edit stock, mixin used to display message
     model = Stock  # setting 'Stock' model as model
     form_class = StockForm  # setting 'StockForm' form as form
@@ -1485,6 +1575,8 @@ class StockView(View):
 
 @method_decorator(login_required, name='dispatch')
 
+#Non-consumable List
+
 class NonStockListView(FilterView):
     filterset_class = NonStockFilter
     queryset = NonStock.objects.filter(is_deleted=False).order_by('-quantity')
@@ -1493,6 +1585,7 @@ class NonStockListView(FilterView):
 
 
 @method_decorator(login_required, name='dispatch')
+#add new non-consumable item
 
 class NonStockCreateView(View):
     model = NonStock
@@ -1681,6 +1774,8 @@ class NonStockView(View):
 # @method_decorator(login_required, name='dispatch')
 @login_required(login_url='login')
 
+#Add New Category
+
 def addcategory(request):
     form=CategoryForm(request.POST)
     try:
@@ -1705,6 +1800,8 @@ def addcategory(request):
 # @method_decorator(login_required, name='dispatch')
 @login_required(login_url='login')
 
+#Add new Unit
+
 def addunit(request):
     form=UnitForm(request.POST)
     try:
@@ -1727,6 +1824,8 @@ def addunit(request):
 # @method_decorator(login_required, name='dispatch')
 @login_required(login_url='login')
 
+# Add New SubCategory
+
 def addsubcategory(request):
     form=SubcategoryForm(request.POST or None)
     try:
@@ -1742,6 +1841,8 @@ def addsubcategory(request):
 # @method_decorator(login_required, name='dispatch')
 @login_required(login_url='login')
 
+#Add New Description
+
 def adddescription(request):
     form=DescriptionForm(request.POST or None)
     try:
@@ -1755,6 +1856,8 @@ def adddescription(request):
     return render(request, "Master/adddescription.html", locals())
 # @method_decorator(login_required, name='dispatch')
 @login_required(login_url='login')
+
+# Add New Non-Consumable Category
 
 def addnoncategory(request):
     form=NonCategoryForm(request.POST)
@@ -1777,6 +1880,8 @@ def addnoncategory(request):
 # @method_decorator(login_required, name='dispatch')
 @login_required(login_url='login')
 
+# Add New Non-Consumable SubCategory
+
 def addnonsubcategory(request):
     form=NonSubcategoryForm(request.POST or None)
     try:
@@ -1793,6 +1898,8 @@ def addnonsubcategory(request):
 # @method_decorator(login_required, name='dispatch')
 @login_required(login_url='login')
 
+# Add New Non-Consumable Description
+
 def addnondescription(request):
     form=NonDescriptionForm(request.POST or None)
     try:
@@ -1808,12 +1915,16 @@ def addnondescription(request):
 # @method_decorator(login_required, name='dispatch')
 @login_required(login_url='login')
 
+# Master Page
+
 def master(request):
     return render(request,'Master/master.html')
 
 
 # @method_decorator(login_required, name='dispatch')
 @login_required(login_url='login')
+
+# Sorted SubCategory with category
 
 def subcategorys(request):
     data = json.loads(request.body)
@@ -1824,6 +1935,8 @@ def subcategorys(request):
 # @method_decorator(login_required, name='dispatch')
 @login_required(login_url='login')
 
+# Sorted Description on category,SbCategory
+
 def descriptions(request):
     data = json.loads(request.body)
     subcategory_id=data['id']
@@ -1831,8 +1944,12 @@ def descriptions(request):
     return JsonResponse(list(descriptions.values("id","description")), safe=False)
 
 
+
 # @method_decorator(login_required, name='dispatch')
+
 @login_required(login_url='login')
+
+# Sorted Description on category,SbCategory
 
 def nonsubcategorys(request):
     data = json.loads(request.body)
@@ -1841,8 +1958,10 @@ def nonsubcategorys(request):
     return JsonResponse(list(subcategorys.values("id","subcategory")), safe=False)
 
 # @method_decorator(login_required, name='dispatch')
+
 @login_required(login_url='login')
 
+# Sorted Non-consumale Description
 def nondescriptions(request):
     data = json.loads(request.body)
     subcategory_id=data['id']
@@ -1862,7 +1981,7 @@ def nondescriptions(request):
 # #History
 # @method_decorator(login_required, name='dispatch')
 @login_required(login_url='login')
-
+# Display History Page
 def get_trs(request):
     object_list=trs.objects.all()
     page = request.GET.get('page', 1)
@@ -1902,6 +2021,133 @@ def get_trs(request):
 # def gstin_verify(request,gstin):
 #     gstin=request.GET.filter(gstin)
 #     return render(request,'gstin_verity',gstin)
+import requests
+    # import pandas as pd
+import json
+def my_form(request):
+  if request.method == "POST":
+    form = ConsumerForm(request)
+    # b=form.data['gstin']
+    # print(b)
+    print('GST Number Is:',request.POST.get('gstin'))
+    d=request.POST.get('gstin')
+    # data = request.GET['gstin']
+    # gstin = form.c["gstin"]
+    print(type(d))
+    # d = input("enter the ")
+    url = ("http://sheet.gstincheck.co.in/check/b4f172412d80fe4c01754af22c82abed/" + d)
+    r = requests.get(url)
+    a = r.json()
+    e = a['flag']
+    print(e)
+    if e == True:
+        b = a['data']['lgnm']
+        c = a['data']['pradr']['adr']
+        print('Name:', b)
+        print("address:", c)
+        # return HttpResponse(f"Name:{b} and Address:{c}")
+        return render(request,'suppliers\demo.html',{'b':b,'c':c,'d':d})
+    else:
+        print("GST Number is invalid Please Fill valid GST Number")
+        return HttpResponse("invalid GST Number")
+  else:
+      form = ConsumerForm()
+  return render(request, r'C:\Users\DELL\PycharmProjects\imd\IMDAPP\templates\suppliers\edit_consumer.html', {'form': form})
 
+
+
+def gstverify(request):
+    # if request.method=="POST":
+    #     username = request.GET.get('username')
+        global e
+        global a
+        global body
+        # global name,body,address
+        name = request.GET.get('name')
+        phone = request.GET.get('phone')
+        body = request.GET.get('gstin')
+        email = request.GET.get('email')
+        address = request.GET.get('address')
+        print(name,phone,email,address)
+        print(body)
+        url = ("http://sheet.gstincheck.co.in/check/b4f172412d80fe4c01754af22c82abed/" + str(body))
+        r = requests.get(url)
+        a = r.json()
+        e = a['flag']
+        print(e)
+        if e == True:
+            b = a['data']['lgnm']
+            c = a['data']['pradr']['adr']
+            print('Name:', b)
+            print("address:", c)
+            return redirect('gst')
+        return render(request,'suppliers\demo1.html')
+
+def gstverify1(request):
+    # if request.method=="POST":
+    #     username = request.GET.get('username')
+        global e
+        global a
+        global body
+        # global name,body,address
+        name = request.GET.get('name')
+        phone = request.GET.get('phone')
+        body = request.GET.get('gstin')
+        email = request.GET.get('email')
+        address = request.GET.get('address')
+        print(name,phone,email,address)
+        print(body)
+        url = ("http://sheet.gstincheck.co.in/check/b4f172412d80fe4c01754af22c82abed/" + str(body))
+        r = requests.get(url)
+        a = r.json()
+        e = a['flag']
+        print(e)
+        if e == True:
+            b = a['data']['lgnm']
+            c = a['data']['pradr']['adr']
+            print('Name:', b)
+            print("address:", c)
+            return redirect('gst1')
+        return render(request,'suppliers\demo1.html')
+
+
+
+
+def gst(request):
+        b = a['data']['lgnm']
+        c = a['data']['pradr']['adr']
+        print('Name:', b)
+        print("address:", c)
+        if request.method == "POST":
+            name = request.POST['name']
+            phone = request.POST['phone']
+            gstin = request.POST['gstin']
+            email = request.POST['email']
+            address = request.POST['address']
+            if Consumer.objects.filter(gstin=gstin).exists():
+                messages.success(request, 'GST Number is already exits !')
+            else:
+                Consumer(name=name, phone=phone, address=address, email=email, gstin=gstin).save()
+                return redirect('consumer-list')
+        return render(request, 'suppliers\demo.html', {'b': b, 'c': c, 'd': body})
+
+
+def gst1(request):
+    b = a['data']['lgnm']
+    c = a['data']['pradr']['adr']
+    print('Name:', b)
+    print("address:", c)
+    if request.method == "POST":
+        name = request.POST['name']
+        phone = request.POST['phone']
+        gstin = request.POST['gstin']
+        email = request.POST['email']
+        address = request.POST['address']
+        if Supplier.objects.filter(gstin=gstin).exists():
+            messages.success(request, 'GST Number is already exits !')
+        else:
+            Supplier(name=name, phone=phone, address=address, email=email, gstin=gstin).save()
+            return redirect('suppliers-list')
+    return render(request, 'suppliers\demo.html', {'b': b, 'c': c, 'd': body})
 
 

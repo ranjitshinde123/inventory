@@ -23,6 +23,7 @@ class trs(models.Model):
     class Meta:
         db_table = 'trs'
 
+#CATEGORY
 
 class Category(models.Model):
     category=models.CharField(max_length=255)
@@ -30,6 +31,7 @@ class Category(models.Model):
     def __str__(self):
         return self.category
 
+# SUBCATEGORY
 
 class Subcategory(models.Model):
     subcategory=models.CharField(max_length=255)
@@ -37,12 +39,11 @@ class Subcategory(models.Model):
     is_consumable=models.BooleanField(default=False)
 
 
-
-
     def __str__(self):
         return self.subcategory
 
 
+# DESCRIPTION
 
 class Description(models.Model):
     category = models.ForeignKey(Category, on_delete=models.CASCADE)
@@ -54,7 +55,7 @@ class Description(models.Model):
 
 
 
-
+# SUPPLIER
 
 class Supplier(models.Model):
     id=models.AutoField(primary_key=True)
@@ -68,6 +69,7 @@ class Supplier(models.Model):
     def __str__(self):
         return str(self.name)
 
+# CONSUMER
 
 class Consumer(models.Model):
     id=models.AutoField(primary_key=True)
@@ -77,6 +79,7 @@ class Consumer(models.Model):
     email = models.EmailField(max_length=100)
     gstin = models.CharField(max_length=15, unique=True)
     is_deleted = models.BooleanField(default=False)
+
 
     def __str__(self):
         return str(self.name)
@@ -133,11 +136,13 @@ class Consumer(models.Model):
 #     def __str__(self):
 #         return str(self.subcategory)+ ", Label Code = " + self.label_code
 
+# UNIT
 class Unit(models.Model):
     unit = models.CharField(max_length=20)
 
     def __str__(self):
         return self.unit
+# STOCK
 
 class Stock(models.Model):
 
@@ -216,6 +221,7 @@ class Stock(models.Model):
 #     is_deleted = models.BooleanField(default=False)
 
 
+# INWARD STOCK
 
 class InwardBillDetails(models.Model):
     billno = models.ForeignKey(Stock, on_delete=models.CASCADE, related_name='inwarddetailsbillno')
@@ -226,12 +232,14 @@ class InwardBillDetails(models.Model):
 
 #nonconsumable
 
+# Category
 
 class NonCategory(models.Model):
     category=models.CharField(max_length=255)
     def __str__(self):
         return self.category
 
+# Subcategory
 
 class NonSubcategory(models.Model):
     subcategory=models.CharField(max_length=255)
@@ -240,6 +248,7 @@ class NonSubcategory(models.Model):
     def __str__(self):
         return self.subcategory
 
+# Description
 
 class NonDescription(models.Model):
     category = models.ForeignKey(NonCategory, on_delete=models.CASCADE)
@@ -283,6 +292,7 @@ class NonDescription(models.Model):
 
 
 
+# NON-CONSUMABLE STOCK
 
 class NonStock(models.Model):
 
@@ -327,6 +337,7 @@ class NonStock(models.Model):
         return totalprice
 
 
+# NON-CONSUMABLE INWARD BILL
 
 class NonInwardBillDetails(models.Model):
     billno = models.ForeignKey(NonStock, on_delete=models.CASCADE, related_name='noninwarddetailsbillno')
@@ -335,6 +346,7 @@ class NonInwardBillDetails(models.Model):
     def __str__(self):
         return "Bill no: " + str(self.billno.billno)
 
+# ADD ITEM BILL
 
 class PurchaseBill(models.Model):
     billno = models.AutoField(primary_key=True)
@@ -354,6 +366,7 @@ class PurchaseBill(models.Model):
             total += item.totalprice
         return total
 
+# ADD ITEM BILL DETAILS
 
 class PurchaseBillDetails(models.Model):
     billno = models.ForeignKey(PurchaseBill, on_delete=models.CASCADE, related_name='purchasedetailsbillno')
@@ -362,6 +375,8 @@ class PurchaseBillDetails(models.Model):
 
     def __str__(self):
         return "Bill no: " + str(self.billno.billno)
+
+# ADD INWARD ITEM
 
 class PurchaseItem(models.Model):
     billno = models.ForeignKey(PurchaseBill, on_delete=models.CASCADE, related_name='purchasebillno')
@@ -375,7 +390,7 @@ class PurchaseItem(models.Model):
         return "Bill no: " + str(self.billno.billno) + ", Item = " + str(self.stock.subcategory)
 
 
-#nonconsumable
+#nonconsumable BILL
 class NonPurchaseBill(models.Model):
     billno = models.AutoField(primary_key=True)
     time = models.DateTimeField(auto_now=True)
@@ -417,7 +432,7 @@ class NonPurchaseItem(models.Model):
         return "Bill no: " + str(self.billno.billno) + ", Item = " + str(self.nonstock.subcategory)
 
 
-
+# NON-CONSUMABLE SALE
 class NonSaleBill(models.Model):
     CONDITION = [
         ('GOOD', 'GOOD'),
@@ -462,6 +477,8 @@ class NonSaleBill(models.Model):
 
 
 # contains the sale stocks made
+# NON-CONSUMABLE SALE ITEM
+
 class NonSaleItem(models.Model):
     billno = models.ForeignKey(NonSaleBill, on_delete=models.CASCADE, related_name='nonsalebillno')
     nonstock = models.ForeignKey(NonStock, on_delete=models.CASCADE, related_name='nonsaleitem')
