@@ -78,7 +78,7 @@ class ConsumerCreateView(SuccessMessageMixin, CreateView):
         body = request.POST.get('gstin')
         print('GST NUmber:',body)
         print(type(body))
-        url = ("http://sheet.gstincheck.co.in/check/b4f172412d80fe4c01754af22c82abed/" + body)
+        url = ("http://sheet.gstincheck.co.in/check/b004cc84c1bcac9b3acec346eddf6a1d/" + body)
         r = requests.get(url)
         a = r.json()
         e = a['flag']
@@ -2035,7 +2035,7 @@ def my_form(request):
     # gstin = form.c["gstin"]
     print(type(d))
     # d = input("enter the ")
-    url = ("http://sheet.gstincheck.co.in/check/b4f172412d80fe4c01754af22c82abed/" + d)
+    url = ("http://sheet.gstincheck.co.in/check/b004cc84c1bcac9b3acec346eddf6a1d/" + d)
     r = requests.get(url)
     a = r.json()
     e = a['flag']
@@ -2070,7 +2070,7 @@ def gstverify(request):
         address = request.GET.get('address')
         print(name,phone,email,address)
         print(body)
-        url = ("http://sheet.gstincheck.co.in/check/b4f172412d80fe4c01754af22c82abed/" + str(body))
+        url = ("http://sheet.gstincheck.co.in/check/b004cc84c1bcac9b3acec346eddf6a1d/" + str(body))
         r = requests.get(url)
         a = r.json()
         e = a['flag']
@@ -2097,7 +2097,7 @@ def gstverify1(request):
         address = request.GET.get('address')
         print(name,phone,email,address)
         print(body)
-        url = ("http://sheet.gstincheck.co.in/check/b4f172412d80fe4c01754af22c82abed/" + str(body))
+        url = ("http://sheet.gstincheck.co.in/check/b004cc84c1bcac9b3acec346eddf6a1d/" + str(body))
         r = requests.get(url)
         a = r.json()
         e = a['flag']
