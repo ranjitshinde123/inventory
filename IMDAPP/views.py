@@ -2081,9 +2081,6 @@ def gstverify(request):
             print('Name:', b)
             print("address:", c)
             return redirect('gst')
-        else:
-             return HttpResponse("invalid GST Number")
-
         return render(request,'suppliers/demo1.html')
 
 def gstverify1(request):
