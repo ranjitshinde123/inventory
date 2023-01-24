@@ -2026,6 +2026,8 @@ def get_trs(request):
 import requests
     # import pandas as pd
 import json
+@login_required(login_url='login')
+
 def my_form(request):
   if request.method == "POST":
     form = ConsumerForm(request)
@@ -2057,6 +2059,7 @@ def my_form(request):
   return render(request,'suppliers/edit_consumer.html', {'form': form})
 
 
+@login_required(login_url='login')
 
 def gstverify(request):
     # if request.method=="POST":
@@ -2088,6 +2091,7 @@ def gstverify(request):
 
 
 
+@login_required(login_url='login')
 
 def gstverify1(request):
     # if request.method=="POST":
@@ -2119,6 +2123,7 @@ def gstverify1(request):
 
 
 
+@login_required(login_url='login')
 
 def gst(request):
         b = a['data']['lgnm']
@@ -2138,6 +2143,7 @@ def gst(request):
                 return redirect('consumer-list')
         return render(request, 'suppliers/demo.html', {'b': b, 'c': c, 'd': body})
 
+@login_required(login_url='login')
 
 def gst1(request):
     b = a['data']['lgnm']

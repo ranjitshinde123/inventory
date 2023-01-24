@@ -185,7 +185,7 @@ class Stock(models.Model):
     unit=models.ForeignKey(Unit,on_delete=models.CASCADE)
     Mode_of_delivery = models.CharField(max_length=50)
     # Mode_of_delivery = models.CharField(max_length=24, choices=MODE_OF_DELIVERY, default=MODE_OF_DELIVERY)
-    label_code = models.CharField(max_length=20, default="")
+    label_code = models.CharField(max_length=50, default="")
     condition = models.CharField(max_length=50, choices=CONDITION)
     quantity = models.IntegerField(default=1)
     perprice = models.IntegerField(default=1)
@@ -318,7 +318,7 @@ class NonStock(models.Model):
     name=models.ForeignKey(Supplier,on_delete=models.CASCADE)
     unit=models.ForeignKey(Unit,on_delete=models.CASCADE)
     Mode_of_delivery = models.CharField(max_length=50)  # received by
-    label_code = models.CharField(max_length=20, default="")
+    label_code = models.CharField(max_length=50, default="")
     condition = models.CharField(max_length=50, choices=CONDITION)
     quantity = models.IntegerField(default=1)
     perprice = models.IntegerField(default=1)
