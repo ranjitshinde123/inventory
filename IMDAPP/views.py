@@ -1,5 +1,4 @@
 import json
-
 from django.contrib.auth.decorators import login_required
 from django.core.exceptions import ObjectDoesNotExist, MultipleObjectsReturned
 from django.shortcuts import render
@@ -78,7 +77,7 @@ class ConsumerCreateView(SuccessMessageMixin, CreateView):
         body = request.POST.get('gstin')
         print('GST NUmber:',body)
         print(type(body))
-        url = ("http://sheet.gstincheck.co.in/check/b004cc84c1bcac9b3acec346eddf6a1d/" + body)
+        url = ("http://sheet.gstincheck.co.in/check/0054e2519032c87541e99364df401c02/" + body)
         r = requests.get(url)
         a = r.json()
         e = a['flag']
@@ -1390,6 +1389,7 @@ class StockListView(FilterView):
 
 class StockCreateView(View):
     model = Stock
+
     form_class = StockForm
     template_name = "inventory/edit_stock.html"
     # success_url = 'inward-bill'
@@ -1455,6 +1455,7 @@ class StockCreateView(View):
 
                     form = StockForm(request.POST)
 
+
                     billitem = form.save(commit=False)
 
                     billitem.billno = billobj  # links the bill object to the items
@@ -1480,6 +1481,7 @@ class StockCreateView(View):
                 pass
 
             messages.success(request, "Received item successfully")
+
             return redirect('inward-bill', billno=billobj.billno)
         form = StockForm(request.GET or None)
         inwarditems = InwardBillDetails(request.GET or None)
@@ -2035,7 +2037,7 @@ def my_form(request):
     # gstin = form.c["gstin"]
     print(type(d))
     # d = input("enter the ")
-    url = ("http://sheet.gstincheck.co.in/check/b004cc84c1bcac9b3acec346eddf6a1d/" + d)
+    url = ("http://sheet.gstincheck.co.in/check/0054e2519032c87541e99364df401c02/" + d)
     r = requests.get(url)
     a = r.json()
     e = a['flag']
@@ -2070,7 +2072,7 @@ def gstverify(request):
         address = request.GET.get('address')
         print(name,phone,email,address)
         print(body)
-        url = ("http://sheet.gstincheck.co.in/check/b004cc84c1bcac9b3acec346eddf6a1d/" + str(body))
+        url = ("http://sheet.gstincheck.co.in/check/0054e2519032c87541e99364df401c02/" + str(body))
         r = requests.get(url)
         a = r.json()
         e = a['flag']
@@ -2081,7 +2083,14 @@ def gstverify(request):
             print('Name:', b)
             print("address:", c)
             return redirect('gst')
-        return render(request,'suppliers/demo1.html')
+
+        if e == False:
+            messages.info(request, "First you have to enter GSTIN number")
+        return render(request, 'suppliers/demo1.html', locals())
+
+
+
+
 
 def gstverify1(request):
     # if request.method=="POST":
@@ -2097,7 +2106,7 @@ def gstverify1(request):
         address = request.GET.get('address')
         print(name,phone,email,address)
         print(body)
-        url = ("http://sheet.gstincheck.co.in/check/b004cc84c1bcac9b3acec346eddf6a1d/" + str(body))
+        url = ("http://sheet.gstincheck.co.in/check/0054e2519032c87541e99364df401c02/" + str(body))
         r = requests.get(url)
         a = r.json()
         e = a['flag']
@@ -2108,6 +2117,8 @@ def gstverify1(request):
             print('Name:', b)
             print("address:", c)
             return redirect('gst1')
+        if e == False:
+            messages.info(request, "First you have to enter GSTIN number")
         return render(request,'suppliers/demo1.html')
 
 

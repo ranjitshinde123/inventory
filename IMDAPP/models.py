@@ -31,6 +31,10 @@ class Category(models.Model):
     def __str__(self):
         return self.category
 
+    class Meta:
+        db_table = 'Category'
+
+
 # SUBCATEGORY
 
 class Subcategory(models.Model):
@@ -41,6 +45,9 @@ class Subcategory(models.Model):
 
     def __str__(self):
         return self.subcategory
+
+    class Meta:
+        db_table = 'Subcategory'
 
 
 # DESCRIPTION
@@ -53,6 +60,8 @@ class Description(models.Model):
     def __str__(self):
         return self.description
 
+    class Meta:
+        db_table = 'Description'
 
 
 # SUPPLIER
@@ -69,6 +78,9 @@ class Supplier(models.Model):
     def __str__(self):
         return str(self.name)
 
+    class Meta:
+        db_table = 'Supplier'
+
 # CONSUMER
 
 class Consumer(models.Model):
@@ -83,6 +95,9 @@ class Consumer(models.Model):
 
     def __str__(self):
         return str(self.name)
+
+    class Meta:
+        db_table = 'Consumer'
 
 
 
@@ -142,6 +157,9 @@ class Unit(models.Model):
 
     def __str__(self):
         return self.unit
+
+    class Meta:
+        db_table = 'Unit'
 # STOCK
 
 class Stock(models.Model):
@@ -190,35 +208,8 @@ class Stock(models.Model):
         totalprice = self.quantity * self.perprice
         return totalprice
 
-# class Stock1(models.Model):
-#
-#     CONDITION = [
-#         ('GOOD', 'GOOD'),
-#         ('TORN', 'TORN'),
-#         ('DAMAGED', 'DAMAGED'),
-#     ]
-#     # MODE_OF_DELIVERY = [
-#     #     ('BY-HAND', 'BY-HAND'),
-#     #     ('COURIER', 'COURIER'),
-#     #     ('OTHER', 'OTHER'),
-#     #
-#     # ]
-#
-#     billno = models.AutoField(primary_key=True)
-#     time = models.DateTimeField(auto_now=True)
-#     category=models.ForeignKey(Category,on_delete=models.CASCADE)
-#     subcategory=models.ForeignKey(Subcategory,on_delete=models.CASCADE)
-#     description=models.ForeignKey(Description,on_delete=models.CASCADE)
-#     name=models.ForeignKey(Consumer,on_delete=models.CASCADE)
-#     unit=models.ForeignKey(Unit,on_delete=models.CASCADE)
-#     Mode_of_delivery = models.CharField(max_length=50)
-#     # Mode_of_delivery = models.CharField(max_length=24, choices=MODE_OF_DELIVERY, default=MODE_OF_DELIVERY)
-#     label_code = models.CharField(max_length=20, default="")
-#     condition = models.CharField(max_length=50, choices=CONDITION)
-#     quantity = models.IntegerField(default=1)
-#     perprice = models.IntegerField(default=1)
-#     totalprice = models.IntegerField(default=1)
-#     is_deleted = models.BooleanField(default=False)
+    class Meta:
+        db_table = 'Stock'
 
 
 # INWARD STOCK
@@ -230,6 +221,9 @@ class InwardBillDetails(models.Model):
     def __str__(self):
         return "Bill no: " + str(self.billno.billno)
 
+    class Meta:
+        db_table = 'InwardBillDetails'
+
 #nonconsumable
 
 # Category
@@ -238,6 +232,9 @@ class NonCategory(models.Model):
     category=models.CharField(max_length=255)
     def __str__(self):
         return self.category
+
+    class Meta:
+        db_table = 'NonCategory'
 
 # Subcategory
 
@@ -248,6 +245,9 @@ class NonSubcategory(models.Model):
     def __str__(self):
         return self.subcategory
 
+    class Meta:
+        db_table = 'NonSubcategory'
+
 # Description
 
 class NonDescription(models.Model):
@@ -257,6 +257,9 @@ class NonDescription(models.Model):
 
     def __str__(self):
         return self.description
+
+    class Meta:
+        db_table = 'NonDescription'
 
 
 # class NonStock(models.Model):
@@ -336,6 +339,9 @@ class NonStock(models.Model):
         totalprice = self.quantity * self.perprice
         return totalprice
 
+    class Meta:
+        db_table = 'NonStock'
+
 
 # NON-CONSUMABLE INWARD BILL
 
@@ -345,6 +351,9 @@ class NonInwardBillDetails(models.Model):
 
     def __str__(self):
         return "Bill no: " + str(self.billno.billno)
+
+    class Meta:
+        db_table = 'NonInwardBillDetails'
 
 # ADD ITEM BILL
 
@@ -366,6 +375,8 @@ class PurchaseBill(models.Model):
             total += item.totalprice
         return total
 
+    class Meta:
+        db_table = 'PurchaseBill'
 # ADD ITEM BILL DETAILS
 
 class PurchaseBillDetails(models.Model):
@@ -375,6 +386,9 @@ class PurchaseBillDetails(models.Model):
 
     def __str__(self):
         return "Bill no: " + str(self.billno.billno)
+
+    class Meta:
+        db_table = 'PurchaseBillDetails'
 
 # ADD INWARD ITEM
 
@@ -388,6 +402,9 @@ class PurchaseItem(models.Model):
 
     def __str__(self):
         return "Bill no: " + str(self.billno.billno) + ", Item = " + str(self.stock.subcategory)
+
+    class Meta:
+        db_table = 'PurchaseItem'
 
 
 #nonconsumable BILL
@@ -409,6 +426,9 @@ class NonPurchaseBill(models.Model):
             total += item.totalprice
         return total
 
+    class Meta:
+        db_table = 'NonPurchaseBill'
+
 
 
 class NonPurchaseBillDetails(models.Model):
@@ -420,6 +440,9 @@ class NonPurchaseBillDetails(models.Model):
     def __str__(self):
         return "Bill no: " + str(self.billno.billno)
 
+    class Meta:
+        db_table = 'NonPurchaseBillDetails'
+
 class NonPurchaseItem(models.Model):
     billno = models.ForeignKey(NonPurchaseBill, on_delete=models.CASCADE, related_name='nonpurchasebillno')
     nonstock = models.ForeignKey(NonStock, on_delete=models.CASCADE, related_name='nonpurchaseitem')
@@ -430,6 +453,9 @@ class NonPurchaseItem(models.Model):
 
     def __str__(self):
         return "Bill no: " + str(self.billno.billno) + ", Item = " + str(self.nonstock.subcategory)
+
+    class Meta:
+        db_table = 'NonPurchaseItem'
 
 
 # NON-CONSUMABLE SALE
@@ -468,6 +494,8 @@ class NonSaleBill(models.Model):
     def get_items_list(self):
         return NonSaleItem.objects.filter(billno=self)
 
+    class Meta:
+        db_table = 'NonSaleBill'
     # def get_total_price(self):
     #     saleitems = NonSaleItem.objects.filter(billno=self)
     #     total = 0
@@ -489,6 +517,9 @@ class NonSaleItem(models.Model):
     def __str__(self):
         return "Bill no: " + str(self.billno.billno)
 
+    class Meta:
+        db_table = 'NonSaleItem'
+
 
 
 # contains the other details in the sales bill
@@ -499,6 +530,9 @@ class NonSaleBillDetails(models.Model):
 
     def __str__(self):
         return "Bill no: " + str(self.billno.billno)
+
+    class Meta:
+        db_table = 'NonSaleBillDetails'
 
 
 
@@ -536,6 +570,9 @@ class SaleBill(models.Model):
     def get_items_list(self):
         return SaleItem.objects.filter(billno=self)
 
+    class Meta:
+        db_table = 'SaleBill'
+
     # def get_total_price(self):
     #     saleitems = SaleItem.objects.filter(billno=self)
     #     total = 0
@@ -555,6 +592,9 @@ class SaleItem(models.Model):
     def __str__(self):
         return "Bill no: " + str(self.billno.billno)
 
+    class Meta:
+        db_table = 'SaleItem'
+
 
 
 # contains the other details in the sales bill
@@ -565,6 +605,9 @@ class SaleBillDetails(models.Model):
 
     def __str__(self):
         return "Bill no: " + str(self.billno.billno)
+
+    class Meta:
+        db_table = 'SaleBillDetails'
 
 
 

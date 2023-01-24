@@ -107,12 +107,12 @@ urlpatterns = [
     # path('gmail/ ', views.send_emails, name="gmail"),
 
 #Gstin verify
-    path('demogst',views.my_form,name="gstin"),
+    path('verify',views.my_form,name="gstin"),
     # path('gstdata',views.gstdata,name="gstdata"),
-    path("gstver",views.gstverify,name='gstver'),
-    path("gstver1",views.gstverify1,name='gstver1'),
-    path("gstveri",views.gst,name='gst'),
-    path("gstveri1",views.gst1,name='gst1')
+    path("gstverify",views.gstverify,name='gstver'),
+    path("gstverify1",views.gstverify1,name='gstver1'),
+    path("gstverifyc",views.gst,name='gst'),
+    path("gstverifyc1",views.gst1,name='gst1')
 
 ]
 
