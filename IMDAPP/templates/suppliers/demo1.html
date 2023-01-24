@@ -76,6 +76,12 @@
     <script type="text/javascript" src="{% static 'js/jquery-3.2.1.slim.min.js' %}"></script>
     <script type="text/javascript" src="{% static 'js/dialogbox.js' %}"></script>
 <!--    <script src="script.js"></script>-->
+
+{% if e == False and gstin != None %}
+<script>
+    alert("Invalid GST Number")
+</script>
+{% endif %}
 {% endblock content %}
 
 

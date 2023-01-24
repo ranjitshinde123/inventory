@@ -2083,10 +2083,7 @@ def gstverify(request):
             print('Name:', b)
             print("address:", c)
             return redirect('gst')
-
-        if e == False:
-            messages.info(request, "First you have to enter GSTIN number")
-        return render(request, 'suppliers/demo1.html', locals())
+        return render(request, 'suppliers/demo1.html',{'e':e,'gstin':body})
 
 
 
@@ -2117,9 +2114,8 @@ def gstverify1(request):
             print('Name:', b)
             print("address:", c)
             return redirect('gst1')
-        if e == False:
-            messages.info(request, "First you have to enter GSTIN number")
-        return render(request,'suppliers/demo1.html')
+
+        return render(request,'suppliers/demo1.html',{'e':e,'gstin':body})
 
 
 
