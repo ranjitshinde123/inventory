@@ -1418,21 +1418,19 @@ class StockCreateView(View):
                 category = form.cleaned_data['category']
                 subcategory = form.cleaned_data['subcategory']
                 description = form.cleaned_data['description']
-                # category = form.cleaned_data['category']
+                name = form.cleaned_data['name']
+                unit = form.cleaned_data['unit']
+                Mode_of_delivery = form.cleaned_data['Mode_of_delivery']  # received by
+                label_code = form.cleaned_data['label_code']
+                condition = form.cleaned_data['condition']
+                print(category,subcategory,description,name,unit,Mode_of_delivery,label_code,condition)
+
                 if Stock.objects.filter(category=category,subcategory=subcategory,description=description).exists():
 
                     messages.info(
                         request, 'Add stock from here')
-
-                    # return render(request,r'inventory\edit_stock.html',{'form':form})
-                    # return HttpResponse("Go to Add Stock")
                     return redirect('select-consumer')
-                    # return render(request,'purchases/select_consumer.html',locals())
-                    # return HttpResponseRedirect(reverse('select-consumer', kwargs={'error': error}))
 
-                # category = form.save(commit=False)
-                # category.save()
-                # error = "yes"
         except:
            pass
         # formset = InwardItemFormset(request.POST)
