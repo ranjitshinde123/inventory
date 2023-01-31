@@ -14,49 +14,6 @@ from .models import (
     NonPurchaseBill, NonPurchaseBillDetails, NonPurchaseItem, NonSaleBill, NonSaleBillDetails, NonSaleItem,
     InwardBillDetails, NonInwardBillDetails, Unit, Consumer
 )
-# class StockForm(forms.ModelForm):
-#     def __init__(self, *args, **kwargs):
-#             super().__init__(*args, **kwargs)
-#             self.fields['subcategory'].queryset = Subcategory.objects.none()
-#
-#             if 'category' in self.data:
-#                 try:
-#                     category_id = int(self.data.get('category'))
-#                     self.fields['subcategory'].queryset = Subcategory.objects.filter(category_id=category_id).order_by(
-#                         'category')
-#                 except (ValueError, TypeError):
-#                     pass  # invalid input from the client; ignore and fallback to empty City queryset
-#             elif self.instance.pk:
-#                 self.fields['subcategory'].queryset = self.instance.category.subcategory_set.order_by('subcategory')
-#
-#             self.fields['description'].queryset = Description.objects.none()
-#             if 'subcategory' in self.data:
-#                 try:
-#                     subcategory_id = int(self.data.get('subcategory'))
-#                     self.fields['description'].queryset = Description.objects.filter(
-#                         subcategory_id=subcategory_id).order_by(
-#                         'subcategory')
-#                 except (ValueError, TypeError):
-#                     pass  # invalid input from the client; ignore and fallback to empty City queryset
-#             elif self.instance.pk:
-#                 self.fields['description'].queryset = self.instance.subcategory.description_set.order_by('description')
-#             self.fields['name'].widget.attrs.update({'class': 'textinput form-control', 'pattern' : '[a-zA-Z\s]{1,50}', 'title' : 'Alphabets and Spaces only'})
-#             self.fields['category'].widget.attrs.update({'class': 'textinput form-control'})
-#             self.fields['subcategory'].widget.attrs.update({'class': 'textinput form-control'})
-#             self.fields['description'].widget.attrs.update({'class': 'textinput form-control'})
-#             self.fields['quantity'].widget.attrs.update({'class': 'textinput form-control', 'min': '0'})
-#             self.fields['unit'].widget.attrs.update({'class': 'textinput form-control'})
-#             self.fields['Mode_of_delivery'].widget.attrs.update({'class': 'textinput form-control'})
-#             self.fields['condition'].widget.attrs.update({'class': 'textinput form-control'})
-#             self.fields['label_code'].widget.attrs.update({'class': 'textinput form-control'})
-#
-#
-#
-#
-#     class Meta:
-#         model = Stock
-#
-#         fields = ['name','category','subcategory','description','quantity','unit','Mode_of_delivery','condition','label_code']
 
 class StockForm(forms.ModelForm):
     def __init__(self, *args, **kwargs):
@@ -90,7 +47,7 @@ class StockForm(forms.ModelForm):
         self.fields['subcategory'].widget.attrs.update({'class': 'textinput form-control'})
         self.fields['description'].widget.attrs.update({'class': 'textinput form-control'})
         self.fields['unit'].widget.attrs.update({'class': 'textinput form-control'})
-        self.fields['Mode_of_delivery'].widget.attrs.update({'class': 'textinput form-control'})
+        # self.fields['Mode_of_delivery'].widget.attrs.update({'class': 'textinput form-control'})
         self.fields['condition'].widget.attrs.update({'class': 'textinput form-control'})
         self.fields['label_code'].widget.attrs.update({'class': 'textinput form-control'})
         self.fields['quantity'].widget.attrs.update({'class': 'textinput form-control setprice quantity', 'min': '0', 'required': 'true'})
@@ -98,7 +55,7 @@ class StockForm(forms.ModelForm):
 
     class Meta:
         model = Stock
-        fields = ['name', 'category', 'subcategory', 'description', 'unit', 'Mode_of_delivery', 'condition','label_code', 'quantity', 'perprice']
+        fields = ['name', 'category', 'subcategory', 'description', 'unit', 'condition','label_code', 'quantity', 'perprice']
 
 
 class InwardDetailsForm(forms.ModelForm):
@@ -139,7 +96,7 @@ class NonStockForm(forms.ModelForm):
             self.fields['description'].widget.attrs.update({'class': 'textinput form-control'})
             self.fields['unit'].widget.attrs.update({'class': 'textinput form-control'})
             self.fields['quantity'].widget.attrs.update({'class': 'textinput form-control', 'min': '0'})
-            self.fields['Mode_of_delivery'].widget.attrs.update({'class': 'textinput form-control'})
+            # self.fields['Mode_of_delivery'].widget.attrs.update({'class': 'textinput form-control'})
             self.fields['condition'].widget.attrs.update({'class': 'textinput form-control'})
             self.fields['label_code'].widget.attrs.update({'class': 'textinput form-control'})
             self.fields['quantity'].widget.attrs.update({'class': 'textinput form-control setprice quantity', 'min': '0', 'required': 'true'})
@@ -150,7 +107,7 @@ class NonStockForm(forms.ModelForm):
 
     class Meta:
         model = NonStock
-        fields = ['name','category','subcategory','description','unit','quantity','Mode_of_delivery','condition','label_code','quantity','perprice']
+        fields = ['name','category','subcategory','description','unit','quantity','condition','label_code','quantity','perprice']
 
 class NonInwardDetailsForm(forms.ModelForm):
     class Meta:
@@ -281,7 +238,7 @@ class SaleForm(forms.ModelForm):
         self.fields['email'].widget.attrs.update({'class': 'textinput form-control'})
         self.fields['address'].widget.attrs.update({'class': 'textinput form-control', 'pattern' : '[a-zA-Z\s]{1,50}', 'title' : 'Alphabets and Spaces only', 'required': 'true'})
         self.fields['issued_to'].widget.attrs.update({'class': 'textinput form-control', 'pattern' : '[a-zA-Z\s]{1,50}', 'title' : 'Alphabets and Spaces only', 'required': 'true'})
-        self.fields['Mode_of_delivery'].widget.attrs.update({'class': 'textinput form-control'})
+        # self.fields['Mode_of_delivery'].widget.attrs.update({'class': 'textinput form-control'})
         # self.fields['label_code'].widget.attrs.update({'class': 'textinput form-control'})
 
 
@@ -289,7 +246,7 @@ class SaleForm(forms.ModelForm):
 
     class Meta:
         model = SaleBill
-        fields = ['name', 'phone', 'email','address','issued_to','Mode_of_delivery']
+        fields = ['name', 'phone', 'email','address','issued_to']
 
 
 
@@ -326,13 +283,13 @@ class NonSaleForm(forms.ModelForm):
         self.fields['email'].widget.attrs.update({'class': 'textinput form-control'})
         self.fields['address'].widget.attrs.update({'class': 'textinput form-control', 'pattern' : '[a-zA-Z\s]{1,50}', 'title' : 'Alphabets and Spaces only', 'required': 'true'})
         self.fields['issued_to'].widget.attrs.update({'class': 'textinput form-control', 'pattern' : '[a-zA-Z\s]{1,50}', 'title' : 'Alphabets and Spaces only', 'required': 'true'})
-        self.fields['Mode_of_delivery'].widget.attrs.update({'class': 'textinput form-control'})
+        # self.fields['Mode_of_delivery'].widget.attrs.update({'class': 'textinput form-control'})
         # self.fields['label_code'].widget.attrs.update({'class': 'textinput form-control'})
 
 
     class Meta:
         model = NonSaleBill
-        fields = ['name', 'phone', 'email','address','issued_to','Mode_of_delivery']
+        fields = ['name', 'phone', 'email','address','issued_to']
 
 
 

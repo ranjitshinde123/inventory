@@ -72,20 +72,6 @@
                     {{ form.address }}
                 </div>
 
-<!--            <div class="form-row">-->
-<!--                <div class="form-group form-group col-md-6">-->
-<!--                    {{ form.category.errors }}-->
-<!--                    <label for="{{ form.category.id_for_label }}" style="font-size:22px">Category:</label>-->
-<!--                    {{ form.category}}-->
-<!--                </div>-->
-
-<!--                <div class="form-group form-group col-md-6">-->
-<!--                    {{ form.subcategory.errors }}-->
-<!--                    <label for="{{ form.subcategory.id_for_label }}" style=)6"font-size:22px">Sub-Category:</label>-->
-<!--                    {{ form.subcategory }}-->
-<!--                </div>-->
-<!--            </div>-->
-
             <div class="form-row">
                 <div class="form-group form-group col-md-6">
                     {{ form.issued_to.errors }}
@@ -93,24 +79,21 @@
                     {{ form.issued_to }}
                 </div>
 
-<!--                <div class="form-group form-group col-md-4">-->
-<!--                    {{ form.label_code.errors }}-->
-<!--                    <label for="{{ form.label_code.id_for_label }}" style="font-size:22px">Label No:</label>-->
-<!--                    {{ form.label_code }}-->
-<!--                </div>-->
 
-                <div class="form-group form-group col-md-6">
-                    {{ form.Mode_of_delivery.errors }}
-                    <label for="{{ form.Mode_of_delivery.id_for_label }}" style="font-size:22px">Mode of Delivery:</label>
-                    {{ form.Mode_of_delivery }}
-                </div>
+
+                <div class="form-group form-group col-md-6" id="a">
+    <label>Mode Of Delivery:</label>
+           <select name="v" class="form-control" onchange='CheckColors(this.value);'>
+    <option>------</option>
+               <option value="By-Hand" name="By-Hand"><b>By-Hand</b></option>
+    <option value="Courier" name="Courier"><b>Courier</b></option>
+    <option><b>Others</b></option>
+  </select><br>
+               <input type="text" class="form-control" name="mod" id="color" style='display:none;'/>
+</div>
             </div>
 
-<!--            <div class="form-group ">-->
-<!--                {{ form.description.errors }}-->
-<!--                <label for="{{ form.description.id_for_label }}" style="font-size:22px">Description:</label>-->
-<!--                {{ form.description }}-->
-<!--            </div>-->
+
 
             <br>
 
@@ -300,6 +283,15 @@
 
 
 
+</script>
+          <script type="text/javascript">
+function CheckColors(val){
+ var element=document.getElementById('color');
+ if(val=='Others')
+   element.style.display='block';
+ else
+   element.style.display='none';
+}
 </script>
           <script>
 function getCookie(name) {

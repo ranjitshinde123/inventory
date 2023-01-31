@@ -118,79 +118,6 @@ class ConsumerCreateView(SuccessMessageMixin, CreateView):
     # used to update a supplier's info
 
 
-##gsTIN FUNCTION
-# import requests
-# # import pandas as pd
-# import json
-# # d=input("enter the ")
-# def gstinverify(request):
-#     if request.method == "POST":
-#         form = ConsumerForm(request.POST)
-#         # b=form.data['gstin']
-#         # print(b)
-#         print('GST Number Is:', request.POST.get('gstin'))
-#         d = request.POST.get('gstin')
-#         # data = request.GET['gstin']
-#         # gstin = form.c["gstin"]
-#         print(type(d))
-#
-#         # d = input("enter the ")
-#         url = ("http://sheet.gstincheck.co.in/check/c8d32c0513c2085348a30fe514b39c77/" + d)
-#
-#         r = requests.get(url)
-#         a = r.json()
-#         e = a['flag']
-#         print(e)
-#         if e == True:
-#             b = a['data']['lgnm']
-#             c = a['data']['pradr']['adr']
-#             print('Name:', b)
-#             print("address:", c)
-#             # return render(request,'suppliers/viewgstindetails.html',{'a':a,'b':b})
-#             # return HttpResponse(request,f"name:{b} and address: {c}")
-#             # return render(request,'suppliers\edit_consumer.html',{'b':b},{'c':c})
-#             return redirect('new-consumer',{'Name':b},{'Address':c})
-#         else:
-#             print("GST Number is invalid Please Fill valid GST Number")
-#
-#     else:
-#         form = ConsumerForm()
-#     return render(request, 'suppliers\edit_consumer.html',{'form':form})
-
-    # form = ConsumerForm(request.POST)
-    # gstin = (request.POST.get('gstin'))
-    # # data=(request.POST.get('gstin'))
-    # print(gstin)
-    # # if form.is_valid():
-    #
-    #
-    # #     gstin = form.cleaned_data['gstin']
-    # #     if Consumer.objects.filter(gstin=gstin).exists():
-    # # data = request.GET['']
-    #
-    # # print(data)
-    # url = ("http://sheet.gstincheck.co.in/check/16b30b08fa1fb7a99d49cf16fcb935cc/" +gstin)
-    #
-    # r = requests.get(url)
-    # a = r.json()
-    # print(a)
-    # # import  pdb
-    # # pdb.set_trace()
-    # e = a['flag']
-    # # print(e)
-    # if e == False:
-    #     b = a['data']['lgnm']
-    #     c = a['data']['pradr']['adr']
-    #     print('Name:', b)
-    #     print("address:", c)
-    # else:
-    #     # messages.info(request,'GST Number is invalid Please Fill valid GST Number')
-    #     # return response
-    #     return HttpResponse('GST Number is invalid Please Fill valid GST Number')
-    #     # print("GST Number is invalid Please Fill valid GST Number")
-    # return render(request,'suppliers\edit_consumer.html')
-    # # m = ConsumerForm.objects.filter(gstin=gstin)
-    #
 
 @method_decorator(login_required, name='dispatch')
 
@@ -648,60 +575,12 @@ def nonoutwardslip(request):
         return render(request, 'sales/nonoutward_slip.html', context)
 
 
-#
-#
-# def verify_gstin(request):
-#     return redirect("https://services.gst.gov.in/services/searchtp")
-    # return redirect("https://www.mastersindia.co/gst-number-search-and-gstin-verification/")
-    # return redirect("https://cleartax.in/gst-number-search/")
+
 
 
 #inward Slip(consumable,Non-Consumable)
 
-#
-# def inwardslip(request):
-#     try:
-#         error="no"
-#         if request.method == "POST":
-#             fromdate = datetime.datetime.strptime(request.POST.get('fromdate'), '%Y-%m-%d')
-#             todate = datetime.datetime.strptime(request.POST.get('todate'), '%Y-%m-%d')
-#             bills = PurchaseBill.objects.filter(Q(time__gte=fromdate) & Q(time__lte=todate))
-#         try:
-#
-#             bills = paginator.page(page)
-#         except PageNotAnInteger:
-#             bills = paginator.page(1)
-#         except EmptyPage:
-#             bills = paginator.page(paginator.num_pages)
-#
-#         context = {
-#         'bills': bills,
-#             }
-#         return render(request, 'purchases/inwardslip.html', context)
-#     finally:
-#
-#         return render(request, 'purchases/inwardslip.html')
 
-
-##try
-# def inwardslip(request,page=1):
-#     bills = PurchaseBill.objects.all()
-#     paginator = Paginator(bills, 2)  # 5 users per page
-#
-#     # We don't need to handle the case where the `page` parameter
-#     # is not an integer because our URL only accepts integers
-#     try:
-#         bills = paginator.page(page)
-#     except EmptyPage:
-#         # if we exceed the page limit we return the last page
-#         bills = paginator.page(paginator.num_pages)
-#
-#     return render(request, 'purchases/inwardslip.html', {'bills': bills})
-
-#
-
-#
-# @method_decorator(login_required, name='dispatch')
 
 #InwardSlip Consumable and Non-Consumable
 
@@ -740,43 +619,7 @@ def inwardslip(request):
             'bills': bills,
         }
         return render(request, 'purchases/inwardslip.html', context)
-#Inward slip
-# def inwardstock(request):
-#     if request.method =="POST":
-#         try:
-#             error = "no"
-#             if request.method == "POST":
-#                 fromdate = datetime.datetime.strptime(request.POST.get('fromdate'), '%Y-%m-%d')
-#                 todate = datetime.datetime.strptime(request.POST.get('todate'), '%Y-%m-%d')
-#                 bills = Stock.objects.filter(Q(time__gte=fromdate) & Q(time__lte=todate))
-#                 return render(request, 'purchases/inwardslipstock.html', {"bills": bills})
-#             else:
-#                 error = "yes"
-#                 bills = Stock.objects.all()
-#                 return render(request, 'purchases/inwardslipstock.html', {"bills": bills})
-#
-#         except:
-#             error = "yes"
-#         return render(request, 'purchases/inwardslipstock.html', locals())
-#     else:
-#         list = Stock.objects.all()
-#         page = request.GET.get('page', 1)
-#         paginator = Paginator(list,10)
-#
-#         try:
-#             bills = paginator.page(page)
-#         except PageNotAnInteger:
-#             bills = paginator.page(1)
-#         except EmptyPage:
-#             bills = paginator.page(paginator.num_pages)
-#
-#         context = {
-#             'bills': bills,
-#         }
-#         return render(request, 'purchases/inwardslipstock.html', context)
 
-
-# @method_decorator(login_required, name='dispatch')
 @login_required(login_url='login')
 
 def noninwardslip(request):
@@ -814,65 +657,6 @@ def noninwardslip(request):
         return render(request, 'purchases/noninwardslip.html', context)
 
 
-##non Inward slip
-# def noninwardstock(request):
-#     if request.method =="POST":
-#         try:
-#             error = "no"
-#             if request.method == "POST":
-#                 fromdate = datetime.datetime.strptime(request.POST.get('fromdate'), '%Y-%m-%d')
-#                 todate = datetime.datetime.strptime(request.POST.get('todate'), '%Y-%m-%d')
-#                 bills = NonStock.objects.filter(Q(time__gte=fromdate) & Q(time__lte=todate))
-#                 return render(request, 'purchases/noninwardslipstock.html', {"bills": bills})
-#             else:
-#                 error = "yes"
-#                 bills = NonStock.objects.all()
-#                 return render(request, 'purchases/noninwardslipstock.html', {"bills": bills})
-#
-#         except:
-#             error = "yes"
-#         return render(request, 'purchases/noninwardslipstock.html', locals())
-#     else:
-#         list = NonStock.objects.all()
-#         page = request.GET.get('page', 1)
-#         paginator = Paginator(list,10)
-#
-#         try:
-#             bills = paginator.page(page)
-#         except PageNotAnInteger:
-#             bills = paginator.page(1)
-#         except EmptyPage:
-#             bills = paginator.page(paginator.num_pages)
-#
-#         context = {
-#             'bills': bills,
-#         }
-#         return render(request, 'purchases/noninwardslipstock.html', context)
-#
-#
-#
-#
-
-# def noninwardslip(request):
-#     try:
-#         error="no"
-#         if request.method == "POST":
-#             fromdate = datetime.datetime.strptime(request.POST.get('fromdate'), '%Y-%m-%d')
-#             todate = datetime.datetime.strptime(request.POST.get('todate'), '%Y-%m-%d')
-#             bills = NonPurchaseBill.objects.filter(Q(time__gte=fromdate) & Q(time__lte=todate))
-#             return render(request, 'purchases/noninwardslip.html', {"bills": bills})
-#         else:
-#             error = "yes"
-#             bills = NonPurchaseBill.objects.all()
-#             return render(request, 'purchases/noninwardslip.html', {"bills": bills})
-#     except:
-#         error="yes"
-#     return render(request, 'purchases/noninwardslip.html',locals())
-
-
-##inward  consumable csv file
-
-# @method_decorator(login_required, name='dispatch')
 
 @login_required(login_url='login')
 
@@ -981,14 +765,31 @@ class SaleCreateView(View):
         form = SaleForm(request.POST)
         formset = SaleItemFormset(request.POST)
         stocks = Stock.objects.filter(is_deleted=False)
-        form = SaleForm(request.POST)
 
-       # gets the supplier object
+
+        global c
+        global d
+        c = request.POST.get('mod')
+        d = request.POST.get('v')
+        print(c,d)
 
         # recieves a post method for the formset
         if form.is_valid() and formset.is_valid():
             # saves bill
-            billobj = form.save(commit=False)
+            # billobj = form.save(commit=False)
+            name = form.cleaned_data['name']
+            phone = form.cleaned_data['phone']
+            email = form.cleaned_data['email']
+            address = form.cleaned_data['address']
+            issued_to = form.cleaned_data['issued_to']
+            if d == "Others":
+                billobj = SaleBill( name=name,
+                                 Mode_of_delivery=c, phone=phone, email=email,
+                                address=address, issued_to=issued_to)
+            else:
+                billobj = SaleBill(name=name,
+                                   Mode_of_delivery=d, phone=phone, email=email,
+                                   address=address, issued_to=issued_to)
             billobj.save()
             # create bill details object
             billdetailsobj = SaleBillDetails(billno=billobj)
@@ -1000,7 +801,6 @@ class SaleCreateView(View):
                     billitem.billno = billobj  # links the bill object to the items
                     # gets the stock item
                     stock = get_object_or_404(Stock,pk=billitem.stock.pk)
-
 
                     # stock = get_object_or_404(Stock, name=billitem.stock.name
                     # billitem.totalprice = billitem.perprice * billitem.quantity
@@ -1107,6 +907,7 @@ class NonSaleCreateView(View):
         form = NonSaleForm(request.GET or None)
         formset = NonSaleItemFormset(request.GET or None)  # renders an empty formset
         stocks = NonStock.objects.filter(is_deleted=False)
+
         # purch/stocks = Purchase/Stock.objects.filter(is_deleted=False)
         context = {
             'form': form,
@@ -1115,15 +916,35 @@ class NonSaleCreateView(View):
         }
         return render(request, self.template_name, context)
 
-    def post(self, request, *args, **kwargs):
+    def post(self,request,*args, **kwargs):
         form = NonSaleForm(request.POST)
         formset = NonSaleItemFormset(request.POST)
-        # gets the supplier object
+        stocks = NonStock.objects.filter(is_deleted=False)
+        form = NonSaleForm(request.POST)
+
+        global c
+        global d
+        c = request.POST.get('mod')
+        d = request.POST.get('v')
+        print(c, d)
 
         # recieves a post method for the formset
         if form.is_valid() and formset.is_valid():
             # saves bill
-            billobj = form.save(commit=False)
+            # billobj = form.save(commit=False)
+            name = form.cleaned_data['name']
+            phone = form.cleaned_data['phone']
+            email = form.cleaned_data['email']
+            address = form.cleaned_data['address']
+            issued_to = form.cleaned_data['issued_to']
+            if d == "Others":
+                billobj = NonSaleBill( name=name,
+                                 Mode_of_delivery=c, phone=phone, email=email,
+                                address=address, issued_to=issued_to)
+            else:
+                billobj = NonSaleBill(name=name,
+                                   Mode_of_delivery=d, phone=phone, email=email,
+                                   address=address, issued_to=issued_to)
             billobj.save()
             # create bill details object
             billdetailsobj = NonSaleBillDetails(billno=billobj)
@@ -1134,13 +955,13 @@ class NonSaleCreateView(View):
                     billitem = form.save(commit=False)
                     billitem.billno = billobj  # links the bill object to the items
                     # gets the stock item
-                    nonstock = get_object_or_404(NonStock, pk=billitem.nonstock.pk)
-                    print(request.GET)
-                    # stock = get_object_or_404(Stock, name=billitem.stock.name
+                    nonstock = get_object_or_404(NonStock,pk=billitem.nonstock.pk)
 
+                    # stock = get_object_or_404(Stock, name=billitem.stock.name
                     # billitem.totalprice = billitem.perprice * billitem.quantity
                     # updates quantity in stock db
                     nonstock.quantity -= billitem.quantity
+                    # stock.description = billitem.description
                     # saves bill item and stock
 
                     nonstock.save()
@@ -1153,11 +974,14 @@ class NonSaleCreateView(View):
             return redirect('nonsale-bill', billno=billobj.billno)
         form = NonSaleForm(request.GET or None)
         formset = NonSaleItemFormset(request.GET or None)
+        stocks = NonStock.objects.filter(is_deleted=False)
+
         context = {
             'form': form,
             'formset': formset,
-        }
-        return render(request, self.template_name, context, locals())
+            'stocks':stocks
+         }
+        return render(request, self.template_name, context,locals())
 
 @method_decorator(login_required, name='dispatch')
 
@@ -1389,7 +1213,6 @@ class StockListView(FilterView):
 
 class StockCreateView(View):
     model = Stock
-
     form_class = StockForm
     template_name = "inventory/edit_stock.html"
     # success_url = 'inward-bill'
@@ -1410,87 +1233,50 @@ class StockCreateView(View):
 
     def post(self, request, *args, **kwargs):
         form = StockForm(request.POST)
-        form1=SelectConsumerForm(request.POST)
-        # form = CategoryForm(request.POST)
-        try:
+        form1 = SelectConsumerForm(request.POST)
+        global c
+        global d
+        c = request.POST.get('mod')
+        d = request.POST.get('v')
+        print(c,d)
+        if  form.is_valid() :
+            category = form.cleaned_data.get('category')
+            subcategory = form.cleaned_data['subcategory']
+            description = form.cleaned_data['description']
+            name = form.cleaned_data['name']
+            unit = form.cleaned_data['unit']
+            label_code = form.cleaned_data['label_code']
+            condition = form.cleaned_data['condition']
+            quntity = form.cleaned_data['quantity']
+            perprice = form.cleaned_data['perprice']
+            print(category, subcategory)
+            if Stock.objects.filter(category=category, subcategory=subcategory, description=description).exists():
+                messages.info(
+                    request, 'Add stock from here')
+                return redirect('select-consumer')
+            else:
+                if d == "Others":
+                    billobj = Stock(category=category, subcategory=subcategory, description=description, name=name,
+                                    unit=unit, Mode_of_delivery=c, label_code=label_code, condition=condition,
+                                    quantity=quntity, perprice=perprice)
+                else:
+                    billobj = Stock(category=category, subcategory=subcategory, description=description, name=name,
+                                    unit=unit, Mode_of_delivery=d, label_code=label_code, condition=condition,
+                                    quantity=quntity, perprice=perprice)
 
-            if form.is_valid():
-                category = form.cleaned_data['category']
-                subcategory = form.cleaned_data['subcategory']
-                description = form.cleaned_data['description']
-                name = form.cleaned_data['name']
-                unit = form.cleaned_data['unit']
-                Mode_of_delivery = form.cleaned_data['Mode_of_delivery']  # received by
-                label_code = form.cleaned_data['label_code']
-                condition = form.cleaned_data['condition']
-                print(category,subcategory,description,name,unit,Mode_of_delivery,label_code,condition)
-
-                if Stock.objects.filter(category=category,subcategory=subcategory,description=description).exists():
-
-                    messages.info(
-                        request, 'Add stock from here')
-                    return redirect('select-consumer')
-
-        except:
-           pass
-        # formset = InwardItemFormset(request.POST)
-        # gets the supplier object
-
-        # recieves a post method for the formset
-        if form.is_valid() :
-            form = StockForm(request.POST)
-
-            # billdetailsobj = PurchaseBillDetails.objects.get(billno=billno)
-
-            # saves bill
-            billobj = form.save(commit=False)
             billobj.save()
-            # create bill details object
             billdetailsobj = InwardBillDetails(billno=billobj)
             billdetailsobj.save()
-            try:
-                for form in form:
-
-                    form = StockForm(request.POST)
-
-
-                    billitem = form.save(commit=False)
-
-                    billitem.billno = billobj  # links the bill object to the items
-                    # gets the stock item
-                    stock = get_object_or_404(Stock, name=billitem.name)##change
-                    # stock1=get_object_or_404(Stock1)
-                    # stock1.save()
-
-                    # print(request.GET)
-                    # stock = get_object_or_404(Stock, name=billitem.stock.subcategory)
-                    # stock.quantity += billitem.quantity
-
-                    totalprice = billitem.perprice * billitem.quantity
-                    # print(billitem.totalprice)
-                    # # updates quantity in stock db
-
-                    # saves bill item and stock
-
-                    # stock.save()
-                    # billitem.save()
-
-            except (ObjectDoesNotExist, MultipleObjectsReturned):
-                pass
-
-            messages.success(request, "Received item successfully")
-
+            messages.success(request,"Received item successfully")
             return redirect('inward-bill', billno=billobj.billno)
-        form = StockForm(request.GET or None)
-        inwarditems = InwardBillDetails(request.GET or None)
+            form = StockForm(request.GET or None)
+            inwarditems = InwardBillDetails(request.GET or None)
+            context = {
+                'form': form,
+                'inwarditems': inwarditems,
+            }
+            return render(request, self.template_name,context, locals())
 
-        # formset = InwardItemFormset(request.GET or None)
-        context = {
-            'form': form,
-            'inwarditems':inwarditems,
-            # 'formset': formset,
-        }
-        return render(request, self.template_name, context, locals())
 
 
 
@@ -1609,78 +1395,50 @@ class NonStockCreateView(View):
 
     def post(self, request, *args, **kwargs):
         form = NonStockForm(request.POST)
-        try:
-            error = "no"
-            if form.is_valid():
-                category = form.cleaned_data['category']
-                subcategory = form.cleaned_data['subcategory']
-                description = form.cleaned_data['description']
-                # category = form.cleaned_data['category']
-                if NonStock.objects.filter(category=category, subcategory=subcategory, description=description).exists():
-                    messages.info(
-                        request, 'Add stock from here ')
-                    return redirect('select-supplier')
+        form1 = SelectSupplierForm(request.POST)
+        global c
+        global d
+        c = request.POST.get('mod')
+        d = request.POST.get('v')
+        print(c,d)
+        if  form.is_valid() :
+            category = form.cleaned_data.get('category')
+            subcategory = form.cleaned_data['subcategory']
+            description = form.cleaned_data['description']
+            name = form.cleaned_data['name']
+            unit = form.cleaned_data['unit']
+            label_code = form.cleaned_data['label_code']
+            condition = form.cleaned_data['condition']
+            quntity = form.cleaned_data['quantity']
+            perprice = form.cleaned_data['perprice']
+            print(category, subcategory)
+            if NonStock.objects.filter(category=category, subcategory=subcategory, description=description).exists():
+                messages.info(
+                    request, 'Add stock from here')
+                return redirect('select-supplier')
+            else:
+                if d == "Others":
+                    billobj = NonStock(category=category, subcategory=subcategory, description=description, name=name,
+                                    unit=unit, Mode_of_delivery=c, label_code=label_code, condition=condition,
+                                    quantity=quntity, perprice=perprice)
+                else:
+                    billobj = NonStock(category=category, subcategory=subcategory, description=description, name=name,
+                                    unit=unit, Mode_of_delivery=d, label_code=label_code, condition=condition,
+                                    quantity=quntity, perprice=perprice)
 
-                    # return render(request, r'inventory\edit_nonstock.html', {'form': form})
-                    # return HttpResponse("Go to Add Stock")
-
-                # category = form.save(commit=False)
-                # category.save()
-                # error = "yes"
-        except:
-            pass
-        # formset = InwardItemFormset(request.POST)
-        # gets the supplier object
-
-        # recieves a post method for the formset
-        if form.is_valid() :
-            form = NonStockForm(request.POST)
-            # billdetailsobj = PurchaseBillDetails.objects.get(billno=billno)
-
-            # saves bill
-            billobj = form.save(commit=False)
             billobj.save()
-            # create bill details object
             billdetailsobj = NonInwardBillDetails(billno=billobj)
             billdetailsobj.save()
-            try:
-                for form in form:
-
-                    form = NonStockForm(request.POST)
-
-                    billitem = form.save(commit=False)
-
-                    billitem.billno = billobj  # links the bill object to the items
-                    # gets the stock item
-                    nonstock = get_object_or_404(NonStock, name=billitem.name)
-                    # print(request.GET)
-                    # stock = get_object_or_404(Stock, name=billitem.stock.name
-                    # stock.quantity += billitem.quantity
-
-                    totalprice = billitem.perprice * billitem.quantity
-                    # print(billitem.totalprice)
-                    # # updates quantity in stock db
-
-                    # saves bill item and stock
-
-                    nonstock.save()
-                    # billitem.save()
-
-            except (ObjectDoesNotExist, MultipleObjectsReturned):
-                pass
-
-            messages.success(request, "Received item successfully")
+            messages.success(request,"Received item successfully")
             return redirect('inwardnc-bill', billno=billobj.billno)
-        form = NonStockForm(request.GET or None)
-        inwarditems = NonInwardBillDetails(request.GET or None)
+            form = NonStockForm(request.GET or None)
+            inwarditems = NonInwardBillDetails(request.GET or None)
+            context = {
+                'form': form,
+                'inwarditems': inwarditems,
+            }
+            return render(request, self.template_name,context, locals())
 
-        # formset = InwardItemFormset(request.GET or None)
-        context = {
-            'form': form,
-            'inwarditems':inwarditems,
-            # 'formset': formset,
-        }
-        return render(request, self.template_name, context, locals())
 
 @method_decorator(login_required, name='dispatch')
 
@@ -1970,13 +1728,6 @@ def nondescriptions(request):
 
 
 
-# def get_trs(request):
-#     object_list=trs.objects.all()
-#     context = {
-#             'object_list': object_list,
-#         }
-#     return render(request, 'History/trs_list.html', context)
-
 
 # #History
 # @method_decorator(login_required, name='dispatch')
@@ -1998,29 +1749,6 @@ def get_trs(request):
     }
     return render(request, 'History/trs_list.html', context)
 
-#
-# from django.core.mail import EmailMultiAlternatives
-# from django.template.loader import render_to_string
-#
-# def send_emails(request):
-#     merge_data = {
-#         'greetings': "hello"
-#     }
-#     html_tbody = render_to_string("bill_base/inward_bill.html", merge_data)
-#
-#     message = EmailMultiAlternatives(
-#        subject='Django HTML Email',
-#        body="mail testing",
-#        from_email='monikagavate99@gmail.com',
-#        to=['komalp.mobicloud@gmail.com']
-#     )
-#     message.attach_alternative(html_tbody, "bill_base/inward_bill.html")
-#     message.send(fail_silently=False)
-
-#
-# def gstin_verify(request,gstin):
-#     gstin=request.GET.filter(gstin)
-#     return render(request,'gstin_verity',gstin)
 import requests
     # import pandas as pd
 import json

@@ -103,12 +103,9 @@ urlpatterns = [
 
     #History
     path('historypage/', views.get_trs, name="trs"),
-    # path('verify_gstin/ ',views.gstinverify, name="gstin-verify"),
-    # path('gmail/ ', views.send_emails, name="gmail"),
 
 #Gstin verify
     path('verify',views.my_form,name="gstin"),
-    # path('gstdata',views.gstdata,name="gstdata"),
     path("gstverify",views.gstverify,name='gstver'),
     path("gstverify1",views.gstverify1,name='gstver1'),
     path("gstverifyc",views.gst,name='gst'),

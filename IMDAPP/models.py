@@ -100,57 +100,6 @@ class Consumer(models.Model):
         db_table = 'Consumer'
 
 
-
-
-# class Stock(models.Model):
-#
-#     CONDITION = [
-#         ('GOOD', 'GOOD'),
-#         ('TORN', 'TORN'),
-#         ('DAMAGED', 'DAMAGED'),
-#     ]
-#     MODE_OF_DELIVERY = [
-#         ('BY-HAND', 'BY-HAND'),
-#         ('COURIER', 'COURIER'),
-#         ('OTHER', 'OTHER'),
-#
-#     ]
-#
-#     STATUS_UNIT = [
-#         ('mtr', 'mtr'),
-#         ('cm', 'cm'),
-#         ('mm', 'mm'),
-#         ('kg', 'kg'),
-#         ('gm', 'gm'),
-#         ('ltr', 'ltr'),
-#         ('sqmtr', 'sqmtr'),
-#         ('sqcm', 'sqcm'),
-#         ('cum', 'cum'),
-#         ('ream', 'ream'),
-#         ('doz', 'doz'),
-#         ('pkts', 'pkts'),
-#         ('pairs', 'pairs'),
-#         ('rolls', 'rolls'),
-#         ('inches', 'inches'),
-#     ]
-#
-#
-#
-#     category=models.ForeignKey(Category,on_delete=models.CASCADE)
-#     subcategory=models.ForeignKey(Subcategory,on_delete=models.CASCADE)
-#     description=models.ForeignKey(Description,on_delete=models.CASCADE)
-#     name=models.ForeignKey(Consumer,on_delete=models.CASCADE)
-#     unit = models.CharField(max_length=50, choices=STATUS_UNIT)
-#     id = models.AutoField(primary_key=True)
-#     quantity = models.IntegerField(default=1)
-#     Mode_of_delivery = models.CharField(max_length=50, choices=MODE_OF_DELIVERY)  # received by
-#     label_code = models.CharField(max_length=20, default="")
-#     condition = models.CharField(max_length=50, choices=CONDITION)
-#     is_deleted = models.BooleanField(default=False)
-#
-#     def __str__(self):
-#         return str(self.subcategory)+ ", Label Code = " + self.label_code
-
 # UNIT
 class Unit(models.Model):
     unit = models.CharField(max_length=20)
@@ -260,36 +209,6 @@ class NonDescription(models.Model):
 
     class Meta:
         db_table = 'NonDescription'
-
-
-# class NonStock(models.Model):
-#
-#     CONDITION = [
-#         ('GOOD', 'GOOD'),
-#         ('TORN', 'TORN'),
-#         ('DAMAGED', 'DAMAGED'),
-#     ]
-#     MODE_OF_DELIVERY = [
-#         ('BY-HAND', 'BY-HAND'),
-#         ('COURIER', 'COURIER'),
-#         ('OTHER', 'OTHER'),
-#
-#     ]
-#
-#
-#     category=models.ForeignKey(NonCategory,on_delete=models.CASCADE)
-#     subcategory=models.ForeignKey(NonSubcategory,on_delete=models.CASCADE)
-#     description=models.ForeignKey(NonDescription,on_delete=models.CASCADE)
-#     name=models.ForeignKey(Supplier,on_delete=models.CASCADE)
-#     id = models.AutoField(primary_key=True)
-#     quantity = models.IntegerField(default=1)
-#     Mode_of_delivery = models.CharField(max_length=50, choices=MODE_OF_DELIVERY)  # received by
-#     label_code = models.CharField(max_length=20, default="")
-#     condition = models.CharField(max_length=50, choices=CONDITION)
-#     is_deleted = models.BooleanField(default=False)
-#
-#     def __str__(self):
-#         return str(self.subcategory)  + ",Label Code= " + self.label_code
 #
 
 

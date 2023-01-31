@@ -65,7 +65,7 @@
                 <td class="align-middle">{% for item in sale.get_items_list %} {{ item.quantity }} <br> {% endfor %}</td>
                 <td class="align-middle">{% for item in sale.get_items_list %} {{ sale.issued_to }} <br> {% endfor %}</td>
                 <td class="align-middle">{% for item in sale.get_items_list %} {{ item.nonstock.label_code }} <br> {% endfor %}</td>
-                <td class="align-middle">{% for item in sale.get_items_list %} {{ item.nonstock.Mode_of_delivery }} <br> {% endfor %}</td>
+                <td class="align-middle">{{ sale.Mode_of_delivery }} <br> </td>
                 <td class="align-middle">{% for item in sale.get_items_list %} {{ item.nonstock.description }} <br> {% endfor %}</td>
                 <td class="align-middle">
                     <a href="{% url 'nonsale-bill' sale.billno %}" class="btn btn-info btn-sm"><svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" class="bi bi-eye" viewBox="0 0 16 16">
