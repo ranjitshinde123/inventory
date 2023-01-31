@@ -782,7 +782,7 @@ class SaleCreateView(View):
             email = form.cleaned_data['email']
             address = form.cleaned_data['address']
             issued_to = form.cleaned_data['issued_to']
-            if d == "Others":
+            if d == "OTHER":
                 billobj = SaleBill( name=name,
                                  Mode_of_delivery=c, phone=phone, email=email,
                                 address=address, issued_to=issued_to)
@@ -937,7 +937,7 @@ class NonSaleCreateView(View):
             email = form.cleaned_data['email']
             address = form.cleaned_data['address']
             issued_to = form.cleaned_data['issued_to']
-            if d == "Others":
+            if d == "OTHER":
                 billobj = NonSaleBill( name=name,
                                  Mode_of_delivery=c, phone=phone, email=email,
                                 address=address, issued_to=issued_to)
@@ -1255,7 +1255,7 @@ class StockCreateView(View):
                     request, 'Add stock from here')
                 return redirect('select-consumer')
             else:
-                if d == "Others":
+                if d == "OTHER":
                     billobj = Stock(category=category, subcategory=subcategory, description=description, name=name,
                                     unit=unit, Mode_of_delivery=c, label_code=label_code, condition=condition,
                                     quantity=quntity, perprice=perprice)
@@ -1417,7 +1417,7 @@ class NonStockCreateView(View):
                     request, 'Add stock from here')
                 return redirect('select-supplier')
             else:
-                if d == "Others":
+                if d == "OTHER":
                     billobj = NonStock(category=category, subcategory=subcategory, description=description, name=name,
                                     unit=unit, Mode_of_delivery=c, label_code=label_code, condition=condition,
                                     quantity=quntity, perprice=perprice)

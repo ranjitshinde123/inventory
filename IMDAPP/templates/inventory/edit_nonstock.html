@@ -79,9 +79,9 @@
     <label>Mode Of Delivery:</label>
            <select name="v" class="form-control" onchange='CheckColors(this.value);'>
     <option>------</option>
-               <option value="By-Hand" name="By-Hand"><b>By-Hand</b></option>
-    <option value="Courier" name="Courier"><b>Courier</b></option>
-    <option><b>Others</b></option>
+               <option value="By-Hand" name="By-Hand"><b>BY-HAND</b></option>
+    <option value="Courier" name="Courier"><b>COURIER</b></option>
+    <option><b>OTHER</b></option>
   </select><br>
                <input type="text" class="form-control" name="mod" id="color" style='display:none;'/>
 </div>
@@ -295,7 +295,7 @@ break;
 <script type="text/javascript">
 function CheckColors(val){
  var element=document.getElementById('color');
- if(val=='Others')
+ if(val=='OTHER')
    element.style.display='block';
  else
    element.style.display='none';

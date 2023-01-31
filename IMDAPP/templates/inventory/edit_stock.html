@@ -87,9 +87,9 @@
     <label>Mode Of Delivery:</label>
            <select name="v" class="form-control" onchange='CheckColors(this.value);'>
     <option>------</option>
-               <option value="By-Hand" name="By-Hand"><b>By-Hand</b></option>
-    <option value="Courier" name="Courier"><b>Courier</b></option>
-    <option><b>Others</b></option>
+               <option value="By-Hand" name="By-Hand"><b>BY-HAND</b></option>
+    <option value="Courier" name="Courier"><b>COURIER</b></option>
+    <option><b>OTHER</b></option>
   </select><br>
                <input type="text" class="form-control" name="mod" id="color" style='display:none;'/>
 </div>
@@ -124,8 +124,6 @@
       </div>
     </div>
   </div>
-<!--    <div style="color:#0F2557; font-style: bold; font-size: 3.5rem; border-bottom: 1px solid white;">INWARD ITEMS</div>-->
-<!--    <div style="color:#575757; font-style: bold; font-size: 3rem; border-bottom: 1px solid white;">{{title}}</div> -->
  <br>
 
    <script type="text/javascript" src="{% static 'js/jquery-3.2.1.slim.min.js' %}"></script>
@@ -311,7 +309,7 @@ window.location=('{% url 'select-consumer' %}');
 <script type="text/javascript">
 function CheckColors(val){
  var element=document.getElementById('color');
- if(val=='Others')
+ if(val=='OTHER')
    element.style.display='block';
  else
    element.style.display='none';

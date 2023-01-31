@@ -85,9 +85,9 @@
     <label>Mode Of Delivery:</label>
            <select name="v" class="form-control" onchange='CheckColors(this.value);'>
     <option>------</option>
-               <option value="By-Hand" name="By-Hand"><b>By-Hand</b></option>
-    <option value="Courier" name="Courier"><b>Courier</b></option>
-    <option><b>Others</b></option>
+               <option value="By-Hand" name="By-Hand"><b>BY-HAND</b></option>
+    <option value="Courier" name="Courier"><b>COURIER</b></option>
+    <option><b>OTHER</b></option>
   </select><br>
                <input type="text" class="form-control" name="mod" id="color" style='display:none;'/>
 </div>
@@ -112,28 +112,16 @@
                                     <label class="panel-body-text">Stock:</label>
                                     {{ iform.stock }}
                                 </div>
-<!--                                <div class="form-group col-md-3">-->
-<!--                                    <label class="panel-body-text">Price per item:</label>-->
-<!--                                    {{ iform.perprice }}-->
-<!--                                </div>-->
+
                                 <div class="form-group col-md-4">
                                     {{ iform.quantity.errors }}
                                     <label class="panel-body-text">Quantity:</label>
                                     {{ iform.quantity }}
                                 </div>
-<!--                                <div class="form-group col-md-2">-->
-<!--                                    <label class="panel-body-text">Price:</label>-->
-<!--                                    <input type="text" class="textinput form-control totalprice" disabled required>-->
-<!--                                </div>&lt;!&ndash; Log on to codeastro.com for more projects &ndash;&gt;-->
-<!--                                <div class="form-group col-md-2">-->
-<!--                                    <label class="panel-body-text" style="color: #000">.</label>-->
-<!--                                    <button class="form-control btn btn-danger remove-form-row">Delete</button>-->
-<!--                                </div>-->
+
                             </div>
                         {% endfor %}
-<!--                            <div style="text-align: right;">-->
-<!--                                <a href="#" class="add-form-row">+ Add More</a>-->
-<!--                            </div>-->
+
                         </div>
                     </div>
 
@@ -287,7 +275,7 @@
           <script type="text/javascript">
 function CheckColors(val){
  var element=document.getElementById('color');
- if(val=='Others')
+ if(val=='OTHER')
    element.style.display='block';
  else
    element.style.display='none';
