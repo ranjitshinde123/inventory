@@ -30,7 +30,7 @@ from .models import (
     SaleItem,
     SaleBillDetails, Stock, NonStock, Subcategory, Description, NonSubcategory, NonDescription, NonPurchaseBill,
     NonPurchaseBillDetails, NonPurchaseItem, Supplier, NonSaleBill, NonSaleItem, NonSaleBillDetails,
-    trs, Category, NonCategory, InwardBillDetails, NonInwardBillDetails, Unit, Consumer
+    trs, Category, NonCategory, InwardBillDetails, NonInwardBillDetails, Unit, Consumer, History, HNonStock
 )
 #form
 from .forms import (
@@ -77,7 +77,7 @@ class ConsumerCreateView(SuccessMessageMixin, CreateView):
         body = request.POST.get('gstin')
         print('GST NUmber:',body)
         print(type(body))
-        url = ("http://sheet.gstincheck.co.in/check/dc7fa9d0809130b6fc69ad3dc806d813/" + body)
+        url = ("http://sheet.gstincheck.co.in/check/e33d005358c1ecc5bc0229186afa1adc/" + body)
         r = requests.get(url)
         a = r.json()
         e = a['flag']
@@ -1247,8 +1247,9 @@ class StockCreateView(View):
             unit = form.cleaned_data['unit']
             label_code = form.cleaned_data['label_code']
             condition = form.cleaned_data['condition']
-            quntity = form.cleaned_data['quantity']
+            quantity = form.cleaned_data['quantity']
             perprice = form.cleaned_data['perprice']
+            totalprice = quantity * perprice
             print(category, subcategory)
             if Stock.objects.filter(category=category, subcategory=subcategory, description=description).exists():
                 messages.info(
@@ -1258,11 +1259,18 @@ class StockCreateView(View):
                 if d == "OTHER":
                     billobj = Stock(category=category, subcategory=subcategory, description=description, name=name,
                                     unit=unit, Mode_of_delivery=c, label_code=label_code, condition=condition,
-                                    quantity=quntity, perprice=perprice)
+                                    quantity=quantity, perprice=perprice,totalprice=totalprice)
+                    History(category=category, subcategory=subcategory, description=description, name=name,
+                            unit=unit, Mode_of_delivery=c, label_code=label_code, condition=condition,
+                            quantity=quantity, perprice=perprice, totalprice=totalprice).save()
                 else:
                     billobj = Stock(category=category, subcategory=subcategory, description=description, name=name,
                                     unit=unit, Mode_of_delivery=d, label_code=label_code, condition=condition,
-                                    quantity=quntity, perprice=perprice)
+                                    quantity=quantity, perprice=perprice,totalprice=totalprice)
+                    History(category=category, subcategory=subcategory, description=description, name=name,
+                            unit=unit, Mode_of_delivery=d, label_code=label_code, condition=condition,
+                            quantity=quantity, perprice=perprice, totalprice=totalprice).save()
+
 
             billobj.save()
             billdetailsobj = InwardBillDetails(billno=billobj)
@@ -1346,6 +1354,34 @@ class StockBillView(View):
         }
         return render(request, self.template_name, context)
 
+class HStockBillView(View):
+    model = History
+    template_name = "bill/inwardbillhistory.html"
+    bill_base = "bill/bill_base.html"
+
+    def get(self, request, billno):
+        context = {
+            'bill': History.objects.get(billno=billno),
+            'items': History.objects.filter(billno=billno),
+            'bill_base': self.bill_base,
+        }
+        return render(request, self.template_name, context)
+
+
+class NONHStockBillView(View):
+    model = HNonStock
+    template_name = "bill/noninwardbillhistory.html"
+    bill_base = "bill/bill_base.html"
+
+    def get(self, request, billno):
+        context = {
+            'bill': HNonStock.objects.get(billno=billno),
+            'items': HNonStock.objects.filter(billno=billno),
+            'bill_base': self.bill_base,
+        }
+        return render(request, self.template_name, context)
+
+
 @method_decorator(login_required, name='dispatch')
 
 class StockView(View):
@@ -1409,8 +1445,10 @@ class NonStockCreateView(View):
             unit = form.cleaned_data['unit']
             label_code = form.cleaned_data['label_code']
             condition = form.cleaned_data['condition']
-            quntity = form.cleaned_data['quantity']
+            quantity = form.cleaned_data['quantity']
             perprice = form.cleaned_data['perprice']
+            totalprice = quantity * perprice
+
             print(category, subcategory)
             if NonStock.objects.filter(category=category, subcategory=subcategory, description=description).exists():
                 messages.info(
@@ -1420,11 +1458,17 @@ class NonStockCreateView(View):
                 if d == "OTHER":
                     billobj = NonStock(category=category, subcategory=subcategory, description=description, name=name,
                                     unit=unit, Mode_of_delivery=c, label_code=label_code, condition=condition,
-                                    quantity=quntity, perprice=perprice)
+                                    quantity=quantity, perprice=perprice,totalprice=totalprice)
+                    HNonStock(category=category, subcategory=subcategory, description=description, name=name,
+                              unit=unit, Mode_of_delivery=c, label_code=label_code, condition=condition,
+                              quantity=quantity, perprice=perprice, totalprice=totalprice).save()
                 else:
                     billobj = NonStock(category=category, subcategory=subcategory, description=description, name=name,
                                     unit=unit, Mode_of_delivery=d, label_code=label_code, condition=condition,
-                                    quantity=quntity, perprice=perprice)
+                                    quantity=quantity, perprice=perprice,totalprice=totalprice)
+                    HNonStock(category=category, subcategory=subcategory, description=description, name=name,
+                              unit=unit, Mode_of_delivery=d, label_code=label_code, condition=condition,
+                              quantity=quantity, perprice=perprice, totalprice=totalprice).save()
 
             billobj.save()
             billdetailsobj = NonInwardBillDetails(billno=billobj)
@@ -1765,7 +1809,7 @@ def my_form(request):
     # gstin = form.c["gstin"]
     print(type(d))
     # d = input("enter the ")
-    url = ("http://sheet.gstincheck.co.in/check/dc7fa9d0809130b6fc69ad3dc806d813/" + d)
+    url = ("http://sheet.gstincheck.co.in/check/e33d005358c1ecc5bc0229186afa1adc/" + d)
     r = requests.get(url)
     a = r.json()
     e = a['flag']
@@ -1801,7 +1845,7 @@ def gstverify(request):
         address = request.GET.get('address')
         print(name,phone,email,address)
         print(body)
-        url = ("http://sheet.gstincheck.co.in/check/dc7fa9d0809130b6fc69ad3dc806d813/" + str(body))
+        url = ("http://sheet.gstincheck.co.in/check/e33d005358c1ecc5bc0229186afa1adc/" + str(body))
         r = requests.get(url)
         a = r.json()
         e = a['flag']
@@ -1833,7 +1877,7 @@ def gstverify1(request):
         address = request.GET.get('address')
         print(name,phone,email,address)
         print(body)
-        url = ("http://sheet.gstincheck.co.in/check/dc7fa9d0809130b6fc69ad3dc806d813/" + str(body))
+        url = ("http://sheet.gstincheck.co.in/check/e33d005358c1ecc5bc0229186afa1adc/" + str(body))
         r = requests.get(url)
         a = r.json()
         e = a['flag']
@@ -1889,4 +1933,79 @@ def gst1(request):
             return redirect('suppliers-list')
     return render(request, 'suppliers/demo.html', {'b': b, 'c': c, 'd': body})
 
+@login_required(login_url='login')
+def inwardsliphistory(request):
+    if request.method =="POST":
+        try:
+            error = "no"
+            if request.method == "POST":
+                fromdate = datetime.datetime.strptime(request.POST.get('fromdate'), '%Y-%m-%d')
+                todate = datetime.datetime.strptime(request.POST.get('todate'), '%Y-%m-%d')
+                bills = PurchaseBill.objects.filter(Q(time__gte=fromdate) & Q(time__lte=todate))
+                return render(request, 'purchases/inwardsliphistory.html', {"bills": bills})
+            else:
+                error = "yes"
+                bills = PurchaseBill.objects.all()
+                return render(request, 'purchases/inwardsliphistory.html', {"bills": bills})
 
+        except:
+            error = "yes"
+        return render(request, 'purchases/inwardsliphistory.html', locals())
+    else:
+        list = PurchaseBill.objects.all()
+        page = request.GET.get('page', 1)
+        paginator = Paginator(list,10)
+
+        try:
+            bills = paginator.page(page)
+        except PageNotAnInteger:
+            bills = paginator.page(1)
+        except EmptyPage:
+            bills = paginator.page(paginator.num_pages)
+
+        context = {
+            'bills': bills,
+        }
+        return render(request, 'purchases/inwardsliphistory.html', context)
+@login_required(login_url='login')
+def noninwardsliphistory(request):
+    if request.method =="POST":
+        try:
+            error = "no"
+            if request.method == "POST":
+                fromdate = datetime.datetime.strptime(request.POST.get('fromdate'), '%Y-%m-%d')
+                todate = datetime.datetime.strptime(request.POST.get('todate'), '%Y-%m-%d')
+                bills = NonPurchaseBill.objects.filter(Q(time__gte=fromdate) & Q(time__lte=todate))
+                return render(request, 'purchases/noninwardsliphistory.html', {"bills": bills})
+            else:
+                error = "yes"
+                bills = NonPurchaseBill.objects.all()
+                return render(request, 'purchases/noninwardsliphistory.html', {"bills": bills})
+
+        except:
+            error = "yes"
+        return render(request, 'purchases/noninwardsliphistory.html', locals())
+    else:
+        list = NonPurchaseBill.objects.all()
+        page = request.GET.get('page', 1)
+        paginator = Paginator(list,10)
+
+        try:
+            bills = paginator.page(page)
+        except PageNotAnInteger:
+            bills = paginator.page(1)
+        except EmptyPage:
+            bills = paginator.page(paginator.num_pages)
+
+        context = {
+            'bills': bills,
+        }
+        return render(request, 'purchases/noninwardsliphistory.html', context)
+
+def inwardHistory(request):
+    obj = History.objects.all()
+    return render(request, 'purchases/inwardsliphistory.html', {'bills': obj})
+
+def noninwardHistory(request):
+    obj = HNonStock.objects.all()
+    return render(request, 'purchases/noninwardsliphistory.html', {'bills': obj})

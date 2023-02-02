@@ -109,7 +109,16 @@ urlpatterns = [
     path("gstverify",views.gstverify,name='gstver'),
     path("gstverify1",views.gstverify1,name='gstver1'),
     path("gstverifyc",views.gst,name='gst'),
-    path("gstverifyc1",views.gst1,name='gst1')
+    path("gstverifyc1",views.gst1,name='gst1'),
+
+
+#inward History
+    path("inwardhistory",views.inwardHistory),
+    path("noninwardhistory",views.noninwardHistory),
+    path("inwardhistory/<billno>", views.HStockBillView.as_view(), name='hinward-bill'),
+    path("noninwardhistory/<billno>", views.NONHStockBillView.as_view(), name='nonhinward-bill'),
+    path("inwardhistory", views.inwardsliphistory, name='inwardhistory'),
+    path("noninwardhistory", views.noninwardsliphistory, name='noninwardhistory'),
 
 ]
 

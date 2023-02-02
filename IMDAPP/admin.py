@@ -5,12 +5,15 @@ from import_export.admin import ImportExportModelAdmin
 from .models import Category, Subcategory, Description, Stock, Supplier, PurchaseBill, PurchaseBillDetails, \
     PurchaseItem, SaleBill, SaleItem, SaleBillDetails, NonDescription, NonSubcategory, NonCategory, NonStock, \
     NonPurchaseBillDetails, NonPurchaseItem, NonPurchaseBill, NonSaleBill, NonSaleItem, NonSaleBillDetails, trs, \
-    InwardBillDetails, NonInwardBillDetails, Unit, Consumer
+    InwardBillDetails, NonInwardBillDetails, Unit, Consumer, History, HNonStock
 
 admin.site.register(Stock)
 admin.site.register(Unit)
 admin.site.register(Consumer)
 admin.site.register(NonStock)
+
+admin.site.register(History)
+admin.site.register(HNonStock)
 
 admin.site.register(PurchaseBill)
 admin.site.register(PurchaseBillDetails)

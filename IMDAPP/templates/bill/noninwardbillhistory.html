@@ -1,0 +1,133 @@
+{% extends bill_base %}
+{% load static %}
+
+
+{% block title %} Purchases Bill No : {{ bill.billno }}{% endblock title %}
+
+
+{% block content %}
+
+    <div style="color:#01345B;text-align:center; font-style: bold; font-size: 3rem;  border-bottom: 1px solid white;font-family:'Alkalami'">Inward Bill No : {{ bill.billno }}</div>
+
+    <!-- <br><br> --><!-- Log on to codeastro.com for more projects -->
+    
+    <form method="post">
+    {% csrf_token %}
+
+        <div class="bg">
+        
+            <br>
+
+            <div id="printArea" class="bg" style="font-family:'Alkalami'">
+
+                <table class="outer-box inner-box" style="width: 840px; margin-left: auto; margin-right: auto;font-family:'Alkalami'">
+                    <tbody>
+                        
+                        <tr style="height: 1px;">
+                            <td> <p style="text-align: center;margin-top:2rem">NON-CONSUMABLE INVOICE</p> </td>
+                        </tr>
+                        
+                        <tr style="text-align: center;">
+                            <td >
+
+                                <span style="font-size: 1.5rem;"> India Meteorological Department</span> <br>
+                                <span><img src="https://internal.imd.gov.in/section/satmet/lightning/logof.png" style="height:7rem"></span> <br>
+                                <span style="font-weight: bold;font-size: 1rem;"></span> Shivaji Nagar,Pune<br>
+                                <span style="font-weight: bold;font-size: 1rem;"></span> Ministry of Earth Sciences<br>
+                                <span>E-mail : mr.ranalkar@imd.gov.in</span> <br><br>
+                            </td>
+                        </tr>
+                        
+                        <tr>
+                            <td>
+                            <table class="outer-box" style="width: 800px; margin-left: auto; margin-right: auto;text-align: center;">
+                                <tbody>
+                                    <tr>
+                                        <td class="inner-box" style="width: 10%; font-weight: bold;">&nbsp;INVOICE NO</td>
+                                        <td class="inner-box" style="width: 20%; font-weight: bold;">&nbsp;NAME OF SUPPLIER</td>
+                                        <td class="inner-box" style="width: 20%; font-weight: bold;">&nbsp;GSTIN NO</td>
+                                        <td class="inner-box" style="width: 10%; font-weight: bold;">&nbsp;DATE</td>
+
+                                    </tr>
+
+                                    <tr>
+                                        <td class="inner-box" style="width: 10%;">&nbsp;{{ bill.billno }}</td>
+                                        <td class="inner-box" style="width: 20%;">&nbsp;{{ bill.name }}</td>
+                                        <td class="inner-box" style="width: 20%;">&nbsp;{{ bill.name.gstin }}</td>
+                                        <td class="inner-box" style="width: 10%;">&nbsp;{{ bill.time.date }}</td>
+                                    </tr>
+
+                                 </tbody>
+                            </table>
+                            </td>
+                        </tr>
+                        <br>
+                        <br>
+                        <tr>
+                            <td>
+                            <table class="outer-box" style="width: 800px; margin-left: auto; margin-right: auto;text-align: center;">
+                                <tbody>
+                                    <tr>
+                                        <td class="inner-box" style="width: 05%; font-weight: bold; text-align: center;">&nbsp;SL</td>
+                                        <td class="inner-box" style="width: 30%; font-weight: bold; text-align: center;">ITEM</td>
+                                        <td class="inner-box" style="width: 12%; font-weight: bold; text-align: center;">QUANTITY </td>
+                                        <td class="inner-box" style="width: 12%; font-weight: bold; text-align: center;">PER PRICE</td>
+                                        <td class="inner-box" style="width: 12%; font-weight: bold; text-align: center;">AMOUNT </td>
+
+                                    {% for item in items %}
+                                        <tr style="height: auto;">
+                                            <td class="inner-box" style="width: 5%;">&nbsp; {{ forloop.counter }}</td>
+                                            <td class="inner-box" style="width: 30%;">&nbsp; {{ item.subcategory }}</td>
+                                            <td class="inner-box" style="width: 12%;">&nbsp; {{ item.quantity }}</td>
+                                            <td class="inner-box" style="width: 12%;">&nbsp; ₹{{ item.perprice }}</td>
+                                            <td class="inner-box" style="width: 12%;">&nbsp;₹{{ item.totalprice }}</td>
+
+                                        </tr>
+                                    {% endfor %}
+                                </tbody>
+                            </table>
+                            </td>
+                        </tr>
+                        
+
+
+                        <tr>
+                            <td style="text-align: right;">
+                                <span style="font-weight: bold;margin-right:5rem"> <br><br><br><br> Signature</span>
+                            </td>
+                        </tr>
+
+                        <tr>
+                            <td style="text-align: center;">
+                                <!-- FINAL TEXT -->
+                            </td>
+                        </tr>
+
+                    </tbody>
+                </table>
+            </div>
+
+
+        </div>
+
+        <br><br>
+
+        <div class="wrapper" style="font-family:'Alkalami'">
+            <button class="center btn btn-primary" onclick="printpage('printArea')">Print</button>
+            <a href="{% url 'home' %}" class=" btn center btn-secondary">Back To Home</a>
+
+        </div>
+
+    </form>
+
+    <script>
+        function printpage(divName) {
+            var printContents = document.getElementById(divName).innerHTML;
+            var originalContents = document.body.innerHTML;
+            document.body.innerHTML = printContents;
+            window.print();
+            document.body.innerHTML = originalContents;
+        }       
+        </script>
+
+{% endblock %}

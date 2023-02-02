@@ -530,3 +530,62 @@ class SaleBillDetails(models.Model):
 
 
 
+class History(models.Model):
+
+    CONDITION = [
+        ('GOOD', 'GOOD'),
+        ('TORN', 'TORN'),
+        ('DAMAGED', 'DAMAGED'),
+    ]
+
+
+    billno = models.AutoField(primary_key=True)
+    time = models.DateTimeField(auto_now=True)
+    category=models.ForeignKey(Category,on_delete=models.CASCADE)
+    subcategory=models.ForeignKey(Subcategory,on_delete=models.CASCADE)
+    description=models.ForeignKey(Description,on_delete=models.CASCADE)
+    name=models.ForeignKey(Consumer,on_delete=models.CASCADE)
+    unit=models.ForeignKey(Unit,on_delete=models.CASCADE)
+    Mode_of_delivery = models.CharField(max_length=50)
+    # Mode_of_delivery = models.CharField(max_length=24, choices=MODE_OF_DELIVERY, default=MODE_OF_DELIVERY)
+    label_code = models.CharField(max_length=50, default="")
+    condition = models.CharField(max_length=50, choices=CONDITION)
+    quantity = models.IntegerField(default=1)
+    perprice = models.IntegerField(default=1)
+    totalprice = models.IntegerField(default=1)
+    is_deleted = models.BooleanField(default=False)
+    def __str__(self):
+        return  str(self.subcategory) +   " \n ,Label code=" + str(self.label_code)  +   "\n ,Description=" + str(self.description)
+
+    class Meta:
+        db_table = 'History'
+
+
+class HNonStock(models.Model):
+
+    CONDITION = [
+        ('GOOD', 'GOOD'),
+        ('TORN', 'TORN'),
+        ('DAMAGED', 'DAMAGED'),
+    ]
+    billno = models.AutoField(primary_key=True)
+    time = models.DateTimeField(auto_now=True)
+    category=models.ForeignKey(NonCategory,on_delete=models.CASCADE)
+    subcategory=models.ForeignKey(NonSubcategory,on_delete=models.CASCADE)
+    description=models.ForeignKey(NonDescription,on_delete=models.CASCADE)
+    name=models.ForeignKey(Supplier,on_delete=models.CASCADE)
+    unit=models.ForeignKey(Unit,on_delete=models.CASCADE)
+    Mode_of_delivery = models.CharField(max_length=50)  # received by
+    label_code = models.CharField(max_length=50, default="")
+    condition = models.CharField(max_length=50, choices=CONDITION)
+    quantity = models.IntegerField(default=1)
+    perprice = models.IntegerField(default=1)
+    totalprice = models.IntegerField(default=1)
+    is_deleted = models.BooleanField(default=False)
+
+    def __str__(self):
+        return  str(self.subcategory) +   " \n ,Label code=" + str(self.label_code)  +   "\n ,Description=" + str(self.description)
+    class Meta:
+        db_table = 'HNonStock'
+
+
