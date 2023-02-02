@@ -1081,7 +1081,7 @@ class NonPurchaseBillView(View):
         context = {
             'bill': NonPurchaseBill.objects.get(billno=billno),
             'items': NonPurchaseItem.objects.filter(billno=billno),
-            'billdetails': NonPurchaseBillDetails.objects.get(billno=billno),
+            'billdetails': NonPurchaseBillDetails.objects.filter(billno=billno),
             'bill_base': self.bill_base,
         }
         return render(request, self.template_name, context)
