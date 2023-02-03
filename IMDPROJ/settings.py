@@ -96,10 +96,10 @@ WSGI_APPLICATION = 'IMDPROJ.wsgi.application'
 DATABASES = {
     'default': {
         'ENGINE': 'django.db.backends.postgresql_psycopg2',
-        'NAME': 'eaeadmin',
-        'USER': 'eaeuser',
-        'PASSWORD': 'denny@123',
-        'HOST':'localhost',
+        'NAME': 'testdb_pz7a',
+        'USER': 'testdb_pz7a_user',
+        'PASSWORD': 'xLCMrnJT4PZZc5hvuPmUFg6iuqiMoeJx',
+        'HOST':'dpg-cfe8p41mbjsqnjli1gdg-a',
         'PORT':'5432',
     }
 }
