@@ -32,7 +32,7 @@ SECRET_KEY = 'django-insecure-9(qoxn594k57a^ie(rt225liumt$(7_r2^ej2fbj*q#zgybt0s
 DEBUG=True
 
 ALLOWED_HOSTS =['*']
-CSRF_TRUSTED_ORIGINS = ['https://*.up.railway.app','https://*.127.0.0.1/']
+# CSRF_TRUSTED_ORIGINS = ['https://*.up.railway.app','https://*.127.0.0.1/']
 
 
 
@@ -88,11 +88,25 @@ TEMPLATES = [
 
 WSGI_APPLICATION = 'IMDPROJ.wsgi.application'
 
+#
+# DATABASES = {
+#         'default': dj_database_url.parse(os.environ.get(bytes+"DATABASE_URL"))
+# }
+
+
+
 DATABASES = {
-    "default" : dj_database_url.parse(os.environ.get("DATABASE_URL"))
+
+    'default': {
+
+        'ENGINE': 'django.db.backends.sqlite3',
+
+        'NAME': BASE_DIR / 'db.sqlite3',
+
+    }
+
 }
-
-
+#
 # DATABASES = {
 #     'default': {
 #         'ENGINE': 'django.db.backends.postgresql_psycopg2',
@@ -104,6 +118,18 @@ DATABASES = {
 #     }
 # }
 
+
+#
+# DATABASES = {
+#     'default': {
+#         'ENGINE': 'django.db.backends.postgresql_psycopg2',
+#         'NAME': 'testdb_61y7',
+#         'USER': 'testdb_61y7_user',
+#         'PASSWORD': '5VNtiw0CkM9zqo99fuKrHwt7fGiiybSD',
+#         'HOST':'postgres://testdb_61y7_user:5VNtiw0CkM9zqo99fuKrHwt7fGiiybSD@dpg-cfeals6n6mpu0uc3io9g-a.oregon-postgres.render.com/testdb_61y7',
+#         'PORT':'5432',
+#     }
+# }
 # Password validation
 # https://docs.djangoproject.com/en/4.1/ref/settings/#auth-password-validators
 
