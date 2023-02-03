@@ -32,7 +32,7 @@ SECRET_KEY = 'django-insecure-9(qoxn594k57a^ie(rt225liumt$(7_r2^ej2fbj*q#zgybt0s
 DEBUG=True
 
 ALLOWED_HOSTS =['*']
-# CSRF_TRUSTED_ORIGINS = ['https://*.up.railway.app','https://*.127.0.0.1/']
+CSRF_TRUSTED_ORIGINS = ['https://*.up.railway.app','https://*.127.0.0.1/']
 
 
 
@@ -95,28 +95,28 @@ WSGI_APPLICATION = 'IMDPROJ.wsgi.application'
 
 
 
-DATABASES = {
-
-    'default': {
-
-        'ENGINE': 'django.db.backends.sqlite3',
-
-        'NAME': BASE_DIR / 'db.sqlite3',
-
-    }
-
-}
-#
 # DATABASES = {
+#
 #     'default': {
-#         'ENGINE': 'django.db.backends.postgresql_psycopg2',
-#         'NAME': 'eaeadmin',
-#         'USER': 'eaeuser',
-#         'PASSWORD': 'denny@123',
-#         'HOST':'localhost',
-#         'PORT':'5432',
+#
+#         'ENGINE': 'django.db.backends.sqlite3',
+#
+#         'NAME': BASE_DIR / 'db.sqlite3',
+#
 #     }
+#
 # }
+#
+DATABASES = {
+    'default': {
+        'ENGINE': 'django.db.backends.postgresql_psycopg2',
+        'NAME': 'eaeadmin',
+        'USER': 'eaeuser',
+        'PASSWORD': 'denny@123',
+        'HOST':'localhost',
+        'PORT':'5432',
+    }
+}
 
 
 #
