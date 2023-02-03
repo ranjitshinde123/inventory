@@ -89,12 +89,12 @@ TEMPLATES = [
 WSGI_APPLICATION = 'IMDPROJ.wsgi.application'
 
 #
-DATABASES = {
-    'default': dj_database_url.parse(os.environ.get('DATABASE_URL'), conn_max_age=600),
-}
+# DATABASES = {
+#         'default': dj_database_url.parse(os.environ.get(bytes+"DATABASE_URL"))
+# }
 
-
-
+#
+#
 # DATABASES = {
 #
 #     'default': {
@@ -107,16 +107,16 @@ DATABASES = {
 #
 # }
 #
-# DATABASES = {
-#     'default': {
-#         'ENGINE': 'django.db.backends.postgresql_psycopg2',
-#         'NAME': 'eaeadmin',
-#         'USER': 'eaeuser',
-#         'PASSWORD': 'denny@123',
-#         'HOST':'localhost',
-#         'PORT':'5432',
-#     }
-# }
+DATABASES = {
+    'default': {
+        'ENGINE': 'django.db.backends.postgresql_psycopg2',
+        'NAME': 'eaeadmin',
+        'USER': 'eaeuser',
+        'PASSWORD': 'denny@123',
+        'HOST':'localhost',
+        'PORT':'5432',
+    }
+}
 
 
 #
