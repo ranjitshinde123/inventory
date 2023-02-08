@@ -83,6 +83,7 @@ class Supplier(models.Model):
 
 # CONSUMER
 
+
 class Consumer(models.Model):
     id=models.AutoField(primary_key=True)
     name=models.CharField(max_length=50)

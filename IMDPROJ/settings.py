@@ -32,9 +32,7 @@ SECRET_KEY = 'django-insecure-9(qoxn594k57a^ie(rt225liumt$(7_r2^ej2fbj*q#zgybt0s
 DEBUG=True
 
 ALLOWED_HOSTS =['*']
-# CSRF_TRUSTED_ORIGINS = ['https://*.up.railway.app','https://*.127.0.0.1/']
-
-
+CSRF_TRUSTED_ORIGINS = ['https://*.up.railway.app','https://*.127.0.0.1/']
 
 
 # Application definition
@@ -88,7 +86,7 @@ TEMPLATES = [
 
 WSGI_APPLICATION = 'IMDPROJ.wsgi.application'
 
-
+#
 # DATABASES = {
 #         'default': dj_database_url.parse(os.environ.get(bytes+"DATABASE_URL"))
 # }
@@ -106,7 +104,7 @@ WSGI_APPLICATION = 'IMDPROJ.wsgi.application'
 #     }
 #
 # }
-# #
+#
 DATABASES = {
     'default': {
         'ENGINE': 'django.db.backends.postgresql_psycopg2',
