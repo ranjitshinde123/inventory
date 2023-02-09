@@ -44,7 +44,6 @@ from .forms import (
     SupplierForm,
     NonPurchaseDetailsForm, NonSaleForm, NonSaleItemFormset, InwardDetailsForm,
     NonInwardDetailsForm, UnitForm, ConsumerForm, SelectConsumerForm,
-
 )
 
 # Create your views here
