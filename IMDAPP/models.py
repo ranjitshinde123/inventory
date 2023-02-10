@@ -6,6 +6,7 @@ from django.db import models
 ## History Table
 
 class trs(models.Model):
+    id=models.IntegerField(primary_key=True)
     kdno=models.CharField(max_length=255)
     sors_sink=models.CharField(max_length=255)
     ref1=models.CharField(max_length=255)
