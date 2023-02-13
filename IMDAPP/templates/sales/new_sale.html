@@ -112,17 +112,11 @@
                                     <label class="panel-body-text">Stock:</label>
                                     {{ iform.stock }}
                                 </div>
-                                <div class="form-group col-md-2">
-                                    <label for="astock" class="panel-body-text">Available Stock:</label>
-                                    <input type="text" value=""  name="astock" class="form-control textinput" id="astock" readonly>
-                                </div>
-
-                                <div class="form-group col-md-2">
+                                <div class="form-group col-md-4">
                                     {{ iform.quantity.errors }}
                                     <label class="panel-body-text">Quantity:</label>
                                     {{ iform.quantity }}
                                 </div>
-
                             </div>
                         {% endfor %}
 
@@ -247,13 +241,9 @@
                 var pk = stocks[i].pk;
                 var squantity = stocks[i].quantity;
                 if(stock == pk) {
-                    quantity =squantity - 1;
-                    astock.value=quantity
-
-
                     //checks if ordered stock is more than available stock
                     if(quantity > squantity){
-                        quantity =squantity - 1;
+                        quantity = quantity - 1;
                         if(quantity <= 1){
                             //no stocks are available. Attempts to delete field
 <!--                            custom_alert.render('Stocks are currently unavailable. Field will be removed;');-->
@@ -262,12 +252,13 @@
                             deleteForm('form', element);
                         }
                          else {
-                            element.parents('.form-row').find('.astock').val(squantity-1);
+                            element.parents('.form-row').find('.quantity').val(squantity-1);
                             quantity = squantity - 1;
                             custom_alert.render('Stocks are currently unavailable.');
                         }
                     }
                 }
+
             });
             //calculates the total
             var tprice = quantity * perprice;
@@ -275,24 +266,6 @@
             element.parents('.form-row').find('.totalprice').val(tprice);
             return false;
         });
-
-
-
-<!--//updates the total price by multiplying 'price per item' and 'quantity'-->
-<!--        $(document).on('change', '.setprice', function(e){-->
-<!--            e.preventDefault();-->
-<!--            //gets the values-->
-<!--            var element = $(this);-->
-<!--            var stock = element.parents('.form-row').find('.stock').val();-->
-<!--            var astock = element.parents('.form-row').find('.astock').val();-->
-<!--            var perprice = element.parents('.form-row').find('.price').val();-->
-<!--            //calculates the total-->
-<!--            var tprice = quantity * perprice;-->
-<!--            //sets it to field-->
-<!--            element.parents('.form-row').find('.totalprice').val(tprice);-->
-<!--            return false;-->
-<!--        });-->
-
 
 
 </script>
