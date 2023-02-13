@@ -3,7 +3,7 @@
 {% load widget_tweaks %}
 
 
-{% block title %}Inward(Consumable) Slip {% endblock title %}
+{% block title %}Inward(Non-Consumable) Slip {% endblock title %}
 
 
 
@@ -11,7 +11,7 @@
 <div class="card text-left">
       <div class="card-header" style="background-color:#01345B">
         <div class="row" style="color: white; font-style: bold; font-size: 3.5rem">
-        <div class="col-md-8" style="font-family: 'Alkalami'" >Inwards Slip(Consumable)</div>
+        <div class="col-md-8" style="font-family: 'Alkalami'" >Inwards Slip(Non-Consumable)</div>
         </div>
       </div>
     <div class="card-body" style="font-family: 'Alkalami'">
@@ -22,7 +22,7 @@
     <input id="myInput" type="text" class="search form-control"  placeholder="Search">
 </div>
 
-<form method="post" action="{% url 'inwardslip' %}" >
+<form action="{% url 'noninwardhistory' %}" method="POST" >
         {% csrf_token %}
     <div style="font-family:'Alkalami'">
         From: <input type="date" name="fromdate">
@@ -90,7 +90,7 @@
 <br>
 
 <div style="font-family:'Alkalami'">
-            <a href="{% url 'stockre' %}" class="btn btn-info">Export</a>
+            <a href="{% url 'hnonstockre' %}" class="btn btn-info">Export</a>
 
 </div>
 
@@ -166,7 +166,7 @@ $(document).ready(function(){
 {% if error == "yes" %}
 <script>
 alert('Please Select Date');
-window.location=('{% url 'inwardslip' %}');
+window.location=('{% url 'noninwardhistory' %}');
 </script>
 {% endif %}
 

@@ -668,10 +668,36 @@ def export_csv(request):
     expenses = PurchaseItem.objects.all()
 
     for x in expenses:
-        writer.writerow([x.billno.billno, x.billno.time,x.stock.name, x.stock.subcategory, x.stock.description,x.stock.quantity, x.stock.Mode_of_delivery, x.stock.condition ])
+        writer.writerow([x.billno.billno, x.billno.time,x.stock.name, x.stock.subcategory, x.stock.description,x.quantity, x.stock.Mode_of_delivery, x.stock.condition ])
     return response
 
 # @method_decorator(login_required, name='dispatch')
+
+
+def hexport_csv(request):
+    response = HttpResponse(content_type='text/csv')
+    response['Content-Disposition'] = 'attachment; filename=Expenses' +str(datetime.datetime.now()) + '.csv'
+    writer = csv.writer(response)
+    writer.writerow(['Billno', 'Date', 'From Whom Received','Item Name', 'Description Of Store', 'Quantity', 'Recd.By','Condition'])
+
+    expenses = History.objects.all()
+
+    for x in expenses:
+        writer.writerow([x.billno, x.time,x.name, x.subcategory, x.description,x.quantity, x.Mode_of_delivery, x.condition ])
+    return response
+
+
+def hnonexport_csv(request):
+    response = HttpResponse(content_type='text/csv')
+    response['Content-Disposition'] = 'attachment; filename=Expenses' +str(datetime.datetime.now()) + '.csv'
+    writer = csv.writer(response)
+    writer.writerow(['Billno', 'Date', 'From Whom Received','Item Name', 'Description Of Store', 'Quantity', 'Recd.By','Condition'])
+
+    expenses = HNonStock.objects.all()
+
+    for x in expenses:
+        writer.writerow([x.billno, x.time,x.name, x.subcategory, x.description,x.quantity, x.Mode_of_delivery, x.condition ])
+    return response
 @login_required(login_url='login')
 
 #Inward Non-consumable csv file
@@ -1940,18 +1966,18 @@ def inwardsliphistory(request):
             if request.method == "POST":
                 fromdate = datetime.datetime.strptime(request.POST.get('fromdate'), '%Y-%m-%d')
                 todate = datetime.datetime.strptime(request.POST.get('todate'), '%Y-%m-%d')
-                bills = PurchaseBill.objects.filter(Q(time__gte=fromdate) & Q(time__lte=todate))
+                bills = History.objects.filter(Q(time__gte=fromdate) & Q(time__lte=todate))
                 return render(request, 'purchases/inwardsliphistory.html', {"bills": bills})
             else:
                 error = "yes"
-                bills = PurchaseBill.objects.all()
+                bills = History.objects.all()
                 return render(request, 'purchases/inwardsliphistory.html', {"bills": bills})
 
         except:
             error = "yes"
         return render(request, 'purchases/inwardsliphistory.html', locals())
     else:
-        list = PurchaseBill.objects.all()
+        list = History.objects.all()
         page = request.GET.get('page', 1)
         paginator = Paginator(list,10)
 
@@ -1974,18 +2000,18 @@ def noninwardsliphistory(request):
             if request.method == "POST":
                 fromdate = datetime.datetime.strptime(request.POST.get('fromdate'), '%Y-%m-%d')
                 todate = datetime.datetime.strptime(request.POST.get('todate'), '%Y-%m-%d')
-                bills = NonPurchaseBill.objects.filter(Q(time__gte=fromdate) & Q(time__lte=todate))
+                bills = HNonStock.objects.filter(Q(time__gte=fromdate) & Q(time__lte=todate))
                 return render(request, 'purchases/noninwardsliphistory.html', {"bills": bills})
             else:
                 error = "yes"
-                bills = NonPurchaseBill.objects.all()
+                bills = HNonStock.objects.all()
                 return render(request, 'purchases/noninwardsliphistory.html', {"bills": bills})
 
         except:
             error = "yes"
         return render(request, 'purchases/noninwardsliphistory.html', locals())
     else:
-        list = NonPurchaseBill.objects.all()
+        list = HNonStock.objects.all()
         page = request.GET.get('page', 1)
         paginator = Paginator(list,10)
 

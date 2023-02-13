@@ -65,6 +65,10 @@ urlpatterns = [
 
 #Export
     path('export/', views.export_csv, name='stockre'),
+
+    path('hexport/', views.hexport_csv, name='hstockre'),
+    path('hnonexport/', views.hexport_csv, name='hnonstockre'),
+
     path('nonexport/', views.nonexport_csv, name='nonstockre'),
     path('outwardexport_csv/', views.outwardexport_csv, name='outwardexport_csv'),
     path('outwardnonexport_csv/', views.outwardnonexport_csv, name='outwardnonexport_csv'),
@@ -117,8 +121,8 @@ urlpatterns = [
     path("noninwardhistory",views.noninwardHistory),
     path("inwardhistory/<billno>", views.HStockBillView.as_view(), name='hinward-bill'),
     path("noninwardhistory/<billno>", views.NONHStockBillView.as_view(), name='nonhinward-bill'),
-    path("inwardhistory", views.inwardsliphistory, name='inwardhistory'),
-    path("noninwardhistory", views.noninwardsliphistory, name='noninwardhistory'),
+    path("inwardsliphistory", views.inwardsliphistory, name='inwardhistory'),
+    path("noninwardsliphistory", views.noninwardsliphistory, name='noninwardhistory'),
 
 ]
 
