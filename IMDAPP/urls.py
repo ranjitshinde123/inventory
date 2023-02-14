@@ -57,21 +57,28 @@ urlpatterns = [
 #Slips(Inward,Outward)
     path('outwardslip/', views.outwardslip, name='outwardslip'),
     path('nonoutwardslip/', views.nonoutwardslip, name='nonoutwardslip'),
-    path('nonoutwardslip/', views.nonoutwardslip, name='nonoutwardslip'),
+
+    # path('nonoutwardslip/', views.nonoutwardslip, name='nonoutwardslip'),
     # path('stockinwardslip/', views.inwardstock, name='stockinwardslip'),
-    path('inwardslip/', views.inwardslip, name='inwardslip'),
     # path('stocknoninwardslip/', views.noninwardstock, name='stocknoninwardslip'),
+
+    path('inwardslip/', views.inwardslip, name='inwardslip'),
     path('noninwardslip/', views.noninwardslip, name='noninwardslip'),
 
-#Export
+#ExportAddStockSlip
+
     path('export/', views.export_csv, name='stockre'),
+    path('nonexport/', views.nonexport_csv, name='nonstockre'),
+
+# ExportOurtwardSlip
+
+    path('outwardexport_csv/', views.outwardexport_csv, name='outwardexport_csv'),
+    path('outwardnonexport_csv/', views.outwardnonexport_csv, name='outwardnonexport_csv'),
+
+# ExportInwardSlip
 
     path('hexport/', views.hexport_csv, name='hstockre'),
     path('hnonexport/', views.hexport_csv, name='hnonstockre'),
-
-    path('nonexport/', views.nonexport_csv, name='nonstockre'),
-    path('outwardexport_csv/', views.outwardexport_csv, name='outwardexport_csv'),
-    path('outwardnonexport_csv/', views.outwardnonexport_csv, name='outwardnonexport_csv'),
 
 #Sales (Consumable)
 
@@ -81,6 +88,7 @@ urlpatterns = [
     path("sales/<billno>", views.SaleBillView.as_view(), name="sale-bill"),
 
 #Sales (NonConsumable)
+
     path('nonsales/', views.NonSaleView.as_view(), name='nonsales-list'),
     path('nonsales/new', views.NonSaleCreateView.as_view(), name='new-nonsale'),
     path('nonsales/<pk>/delete', views.NonSaleDeleteView.as_view(), name='delete-nonsale'),
@@ -105,8 +113,7 @@ urlpatterns = [
     path('nonsubcategorys', views.nonsubcategorys, name="nonsubcategorys"),
     path('nondescriptions', views.nondescriptions, name="nondescriptions"),
 
-    #History
-    path('historypage/', views.get_trs, name="trs"),
+
 
 #Gstin verify
     path('verify',views.my_form,name="gstin"),
@@ -119,10 +126,17 @@ urlpatterns = [
 #inward History
     path("inwardhistory",views.inwardHistory),
     path("noninwardhistory",views.noninwardHistory),
+
+# InwardHistoryBill
     path("inwardhistory/<billno>", views.HStockBillView.as_view(), name='hinward-bill'),
     path("noninwardhistory/<billno>", views.NONHStockBillView.as_view(), name='nonhinward-bill'),
+
+# inwardSlipHistory
     path("inwardsliphistory", views.inwardsliphistory, name='inwardhistory'),
     path("noninwardsliphistory", views.noninwardsliphistory, name='noninwardhistory'),
+
+#History
+    path('historypage/', views.get_trs, name="trs"),
 
 ]
 

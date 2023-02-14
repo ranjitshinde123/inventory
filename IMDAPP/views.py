@@ -179,11 +179,8 @@ class ConsumerView(View):
 
 
 
-
-
-
-
 #supplier List
+
 @method_decorator(login_required, name='dispatch')
 
 class SupplierListView(ListView):
@@ -219,7 +216,7 @@ class SupplierCreateView(SuccessMessageMixin, CreateView):
 
 
 
-    # used to update a supplier's info
+# used to update a supplier's info
 
 @method_decorator(login_required, name='dispatch')
 
@@ -292,9 +289,6 @@ class PurchaseView(ListView):
     ordering = ['time']
     paginate_by = 10
 
-
-
-
 # used to select the supplier
 
 @method_decorator(login_required, name='dispatch')
@@ -314,8 +308,6 @@ class SelectConsumerView(View):
             consumer = get_object_or_404(Consumer, id=consumerid)
             return redirect('new-purchase', consumer.pk)
         return render(request, self.template_name, {'form': form})
-#
-
 
 
 
@@ -495,263 +487,6 @@ class NonPurchaseDeleteView(SuccessMessageMixin, DeleteView):
                 nonstock.save()
         messages.success(self.request, " Bill deleted successfully.")
         return super(NonPurchaseDeleteView, self).delete(*args, **kwargs)
-
-#OutwardSlip(consumable,Non-consumable)
-
-# @method_decorator(login_required, name='dispatch')
-
-@login_required(login_url='login')
-
-def outwardslip(request):
-    if request.method == "POST":
-        try:
-            error = "no"
-            if request.method == "POST":
-                fromdate = datetime.datetime.strptime(request.POST.get('fromdate'), '%Y-%m-%d')
-                todate = datetime.datetime.strptime(request.POST.get('todate'), '%Y-%m-%d')
-                bills = SaleBill.objects.filter(Q(time__gte=fromdate) & Q(time__lte=todate))
-                return render(request, 'sales/outwardslip.html', {"bills": bills})
-            else:
-                error = "yes"
-                bills = SaleBill.objects.all()
-                return render(request,'sales/outwardslip.html', {"bills": bills})
-
-        except:
-            error = "yes"
-        return render(request, 'sales/outwardslip.html', locals())
-    else:
-        list = SaleBill.objects.all()
-        page = request.GET.get('page', 1)
-        paginator = Paginator(list, 10)
-
-        try:
-            bills = paginator.page(page)
-        except PageNotAnInteger:
-            bills = paginator.page(1)
-        except EmptyPage:
-            bills = paginator.page(paginator.num_pages)
-
-        context = {
-            'bills': bills,
-        }
-        return render(request,'sales/outwardslip.html', context)
-
-# @method_decorator(login_required, name='dispatch')
-@login_required(login_url='login')
-
-def nonoutwardslip(request):
-    if request.method == "POST":
-        try:
-            error = "no"
-            if request.method == "POST":
-                fromdate = datetime.datetime.strptime(request.POST.get('fromdate'), '%Y-%m-%d')
-                todate = datetime.datetime.strptime(request.POST.get('todate'), '%Y-%m-%d')
-                bills = NonSaleBill.objects.filter(Q(time__gte=fromdate) & Q(time__lte=todate))
-                return render(request, 'sales/nonoutward_slip.html', {"bills": bills})
-            else:
-                error = "yes"
-                bills = NonSaleBill.objects.all()
-                return render(request, 'sales/nonoutward_slip.html', {"bills": bills})
-
-        except:
-            error = "yes"
-        return render(request, 'sales/nonoutward_slip.html', locals())
-    else:
-        list = NonSaleBill.objects.all()
-        page = request.GET.get('page', 1)
-        paginator = Paginator(list, 10)
-
-        try:
-            bills = paginator.page(page)
-        except PageNotAnInteger:
-            bills = paginator.page(1)
-        except EmptyPage:
-            bills = paginator.page(paginator.num_pages)
-
-        context = {
-            'bills': bills,
-        }
-        return render(request, 'sales/nonoutward_slip.html', context)
-
-
-
-
-
-#inward Slip(consumable,Non-Consumable)
-
-
-
-#InwardSlip Consumable and Non-Consumable
-
-@login_required(login_url='login')
-
-def inwardslip(request):
-    if request.method =="POST":
-        try:
-            error = "no"
-            if request.method == "POST":
-                fromdate = datetime.datetime.strptime(request.POST.get('fromdate'), '%Y-%m-%d')
-                todate = datetime.datetime.strptime(request.POST.get('todate'), '%Y-%m-%d')
-                bills = PurchaseBill.objects.filter(Q(time__gte=fromdate) & Q(time__lte=todate))
-                return render(request, 'purchases/inwardslip.html', {"bills": bills})
-            else:
-                error = "yes"
-                bills = PurchaseBill.objects.all()
-                return render(request, 'purchases/inwardslip.html', {"bills": bills})
-
-        except:
-            error = "yes"
-        return render(request, 'purchases/inwardslip.html', locals())
-    else:
-        list = PurchaseBill.objects.all()
-        page = request.GET.get('page', 1)
-        paginator = Paginator(list,10)
-
-        try:
-            bills = paginator.page(page)
-        except PageNotAnInteger:
-            bills = paginator.page(1)
-        except EmptyPage:
-            bills = paginator.page(paginator.num_pages)
-
-        context = {
-            'bills': bills,
-        }
-        return render(request, 'purchases/inwardslip.html', context)
-
-@login_required(login_url='login')
-
-def noninwardslip(request):
-    if request.method =="POST":
-        try:
-            error = "no"
-            if request.method == "POST":
-                fromdate = datetime.datetime.strptime(request.POST.get('fromdate'), '%Y-%m-%d')
-                todate = datetime.datetime.strptime(request.POST.get('todate'), '%Y-%m-%d')
-                bills = NonPurchaseBill.objects.filter(Q(time__gte=fromdate) & Q(time__lte=todate))
-                return render(request, 'purchases/noninwardslip.html', {"bills": bills})
-            else:
-                error = "yes"
-                bills = NonPurchaseBill.objects.all()
-                return render(request, 'purchases/noninwardslip.html', {"bills": bills})
-
-        except:
-            error = "yes"
-        return render(request, 'purchases/noninwardslip.html', locals())
-    else:
-        list = NonPurchaseBill.objects.all()
-        page = request.GET.get('page', 1)
-        paginator = Paginator(list,10)
-
-        try:
-            bills = paginator.page(page)
-        except PageNotAnInteger:
-            bills = paginator.page(1)
-        except EmptyPage:
-            bills = paginator.page(paginator.num_pages)
-
-        context = {
-            'bills': bills,
-        }
-        return render(request, 'purchases/noninwardslip.html', context)
-
-
-
-@login_required(login_url='login')
-
-def export_csv(request):
-    response = HttpResponse(content_type='text/csv')
-    response['Content-Disposition'] = 'attachment; filename=Expenses' +str(datetime.datetime.now()) + '.csv'
-    writer = csv.writer(response)
-    writer.writerow(['Billno', 'Date', 'From Whom Received','Item Name', 'Description Of Store', 'Quantity', 'Recd.By','Condition'])
-
-    expenses = PurchaseItem.objects.all()
-
-    for x in expenses:
-        writer.writerow([x.billno.billno, x.billno.time,x.stock.name, x.stock.subcategory, x.stock.description,x.quantity, x.stock.Mode_of_delivery, x.stock.condition ])
-    return response
-
-# @method_decorator(login_required, name='dispatch')
-
-
-def hexport_csv(request):
-    response = HttpResponse(content_type='text/csv')
-    response['Content-Disposition'] = 'attachment; filename=Expenses' +str(datetime.datetime.now()) + '.csv'
-    writer = csv.writer(response)
-    writer.writerow(['Billno', 'Date', 'From Whom Received','Item Name', 'Description Of Store', 'Quantity', 'Recd.By','Condition'])
-
-    expenses = History.objects.all()
-
-    for x in expenses:
-        writer.writerow([x.billno, x.time,x.name, x.subcategory, x.description,x.quantity, x.Mode_of_delivery, x.condition ])
-    return response
-
-
-def hnonexport_csv(request):
-    response = HttpResponse(content_type='text/csv')
-    response['Content-Disposition'] = 'attachment; filename=Expenses' +str(datetime.datetime.now()) + '.csv'
-    writer = csv.writer(response)
-    writer.writerow(['Billno', 'Date', 'From Whom Received','Item Name', 'Description Of Store', 'Quantity', 'Recd.By','Condition'])
-
-    expenses = HNonStock.objects.all()
-
-    for x in expenses:
-        writer.writerow([x.billno, x.time,x.name, x.subcategory, x.description,x.quantity, x.Mode_of_delivery, x.condition ])
-    return response
-@login_required(login_url='login')
-
-#Inward Non-consumable csv file
-
-def nonexport_csv(request):
-    response = HttpResponse(content_type='text/csv')
-    response['Content-Disposition'] = 'attachment; filename=Expenses' +str(datetime.datetime.now()) + '.csv'
-    writer = csv.writer(response)
-    writer.writerow(['Billno', 'Date', 'From Whom Received','Item Name', 'Description Of Store', 'Quantity', 'Recd.By','Condition'])
-
-    expenses = NonSaleItem.objects.all()
-
-    for x in expenses:
-        writer.writerow([x.billno.billno, x.billno.time,x.nonstock.name, x.nonstock.subcategory, x.nonstock.description,x.nonstock.quantity, x.nonstock.Mode_of_delivery, x.nonstock.condition ])
-    return response
-
-#
-# #outward
-#
-# @method_decorator(login_required, name='dispatch')
-
-@login_required(login_url='login')
-
-#Outward Consumable csv file
-
-def outwardexport_csv(request):
-    response = HttpResponse(content_type='text/csv')
-    response['Content-Disposition'] = 'attachment; filename=Expenses' +str(datetime.datetime.now()) + '.csv'
-    writer = csv.writer(response)
-    writer.writerow(['Billno', 'Customer','Item name','Description','Issued To','Quantity Sold', 'Date'])
-
-    expenses = SaleItem.objects.all()
-
-    for x in expenses:
-        writer.writerow([x.billno.billno, x.billno.name, x.stock,x.stock.description,x.billno.issued_to, x.quantity, x.billno.time])
-    return response
-
-# @method_decorator(login_required, name='dispatch')
-
-@login_required(login_url='login')
-
-#outward Non-Consumable csv File
-
-def outwardnonexport_csv(request):
-    response = HttpResponse(content_type='text/csv')
-    response['Content-Disposition'] = 'attachment; filename=Expenses' +str(datetime.datetime.now()) + '.csv'
-    writer = csv.writer(response)
-    writer.writerow(['Billno', 'Customer','Item name','Description','Issued To','Quantity Sold', 'Date'])
-
-    expenses = NonSaleItem.objects.all()
-
-    for x in expenses:
-        writer.writerow([x.billno.billno, x.billno.name, x.nonstock,x.nonstock.description,x.billno.issued_to, x.quantity,  x.billno.time])
-    return response
 
 
 
@@ -1133,106 +868,13 @@ class NonPurchaseBillView(View):
 
 @method_decorator(login_required, name='dispatch')
 
-# Consumable List
+# Inward Consumable List
 
 class StockListView(FilterView):
     filterset_class = StockFilter
     queryset = Stock.objects.filter(is_deleted=False).order_by('-quantity')
     template_name = 'inventory/inventory.html'
     paginate_by = 10
-
-
-
-# class StockCreateView(SuccessMessageMixin, CreateView):
-#     model = Stock
-#     form_class = StockForm
-#     template_name = "inventory/edit_stock.html"
-#     success_url = '/inventory'
-#     success_message = "Stock added successfully"
-#
-#     def get_context_data(self, **kwargs):  # used to send additional context
-#         context = super().get_context_data(**kwargs)
-#         context["title"] = 'New Stock'
-#         context["savebtn"] = 'Add To Stock'
-#
-#         return context
-@method_decorator(login_required, name='dispatch')
-
-# class StockCreateView(View):
-#     model = Stock
-#     form_class = StockForm
-#     template_name = "inventory/edit_stock.html"
-#     # success_url = 'inward-bill'
-#     # success_message = "Stock has been created successfully"
-#
-#     def get(self, request):
-#         form = StockForm(request.GET or None)
-#         # formset = InwardItemFormset(request.GET or None)  # renders an empty formset
-#         stocks = Stock.objects.filter(is_deleted=False)
-#
-#         # purch/stocks = Purchase/Stock.objects.filter(is_deleted=False)
-#         context = {
-#             'form': form,
-#             # 'formset': formset,
-#             'stocks': stocks
-#         }
-#         return render(request, self.template_name, context)
-#
-#     def post(self, request, *args, **kwargs):
-#         form = StockForm(request.POST)
-#         # formset = InwardItemFormset(request.POST)
-#         # gets the supplier object
-#
-#         # recieves a post method for the formset
-#         if form.is_valid() :
-#             form = StockForm(request.POST)
-#             # billdetailsobj = PurchaseBillDetails.objects.get(billno=billno)
-#
-#             # saves bill
-#             billobj = form.save(commit=False)
-#             billobj.save()
-#             # create bill details object
-#             billdetailsobj = InwardBillDetails(billno=billobj)
-#             billdetailsobj.save()
-#             try:
-#                 for form in form:
-#
-#                     form = StockForm(request.POST)
-#
-#                     billitem = form.save(commit=False)
-#
-#                     billitem.billno = billobj  # links the bill object to the items
-#                     # gets the stock item
-#                     stock = get_object_or_404(Stock, name=billitem.name)##change
-#                     # print(request.GET)
-#                     # stock = get_object_or_404(Stock, name=billitem.stock.subcategory)
-#                     # stock.quantity += billitem.quantity
-#
-#                     totalprice = billitem.perprice * billitem.quantity
-#                     # print(billitem.totalprice)
-#                     # # updates quantity in stock db
-#
-#                     # saves bill item and stock
-#
-#                     # stock.save()
-#                     # billitem.save()
-#
-#             except (ObjectDoesNotExist, MultipleObjectsReturned):
-#                 pass
-#
-#             messages.success(request, "Received item successfully")
-#             return redirect('inward-bill', billno=billobj.billno)
-#         form = StockForm(request.GET or None)
-#         inwarditems = InwardBillDetails(request.GET or None)
-#
-#         # formset = InwardItemFormset(request.GET or None)
-#         context = {
-#             'form': form,
-#             'inwarditems':inwarditems,
-#             # 'formset': formset,
-#         }
-#         return render(request, self.template_name, context, locals())
-#
 
 #add new stock in inventory
 
@@ -1598,6 +1240,270 @@ class NonStockView(View):
 
 
 
+
+
+
+#OutwardSlip(consumable,Non-consumable)
+
+# @method_decorator(login_required, name='dispatch')
+
+@login_required(login_url='login')
+
+def outwardslip(request):
+    if request.method == "POST":
+        try:
+            error = "no"
+            if request.method == "POST":
+                fromdate = datetime.datetime.strptime(request.POST.get('fromdate'), '%Y-%m-%d')
+                todate = datetime.datetime.strptime(request.POST.get('todate'), '%Y-%m-%d')
+                bills = SaleBill.objects.filter(Q(time__gte=fromdate) & Q(time__lte=todate))
+                return render(request, 'sales/outwardslip.html', {"bills": bills})
+            else:
+                error = "yes"
+                bills = SaleBill.objects.all()
+                return render(request,'sales/outwardslip.html', {"bills": bills})
+
+        except:
+            error = "yes"
+        return render(request, 'sales/outwardslip.html', locals())
+    else:
+        list = SaleBill.objects.all()
+        page = request.GET.get('page', 1)
+        paginator = Paginator(list, 10)
+
+        try:
+            bills = paginator.page(page)
+        except PageNotAnInteger:
+            bills = paginator.page(1)
+        except EmptyPage:
+            bills = paginator.page(paginator.num_pages)
+
+        context = {
+            'bills': bills,
+        }
+        return render(request,'sales/outwardslip.html', context)
+
+# @method_decorator(login_required, name='dispatch')
+@login_required(login_url='login')
+
+def nonoutwardslip(request):
+    if request.method == "POST":
+        try:
+            error = "no"
+            if request.method == "POST":
+                fromdate = datetime.datetime.strptime(request.POST.get('fromdate'), '%Y-%m-%d')
+                todate = datetime.datetime.strptime(request.POST.get('todate'), '%Y-%m-%d')
+                bills = NonSaleBill.objects.filter(Q(time__gte=fromdate) & Q(time__lte=todate))
+                return render(request, 'sales/nonoutward_slip.html', {"bills": bills})
+            else:
+                error = "yes"
+                bills = NonSaleBill.objects.all()
+                return render(request, 'sales/nonoutward_slip.html', {"bills": bills})
+
+        except:
+            error = "yes"
+        return render(request, 'sales/nonoutward_slip.html', locals())
+    else:
+        list = NonSaleBill.objects.all()
+        page = request.GET.get('page', 1)
+        paginator = Paginator(list, 10)
+
+        try:
+            bills = paginator.page(page)
+        except PageNotAnInteger:
+            bills = paginator.page(1)
+        except EmptyPage:
+            bills = paginator.page(paginator.num_pages)
+
+        context = {
+            'bills': bills,
+        }
+        return render(request, 'sales/nonoutward_slip.html', context)
+
+
+
+
+
+
+
+#InwardSlip Consumable and Non-Consumable
+
+@login_required(login_url='login')
+
+def inwardslip(request):
+    if request.method =="POST":
+        try:
+            error = "no"
+            if request.method == "POST":
+                fromdate = datetime.datetime.strptime(request.POST.get('fromdate'), '%Y-%m-%d')
+                todate = datetime.datetime.strptime(request.POST.get('todate'), '%Y-%m-%d')
+                bills = PurchaseBill.objects.filter(Q(time__gte=fromdate) & Q(time__lte=todate))
+                return render(request, 'purchases/inwardslip.html', {"bills": bills})
+            else:
+                error = "yes"
+                bills = PurchaseBill.objects.all()
+                return render(request, 'purchases/inwardslip.html', {"bills": bills})
+
+        except:
+            error = "yes"
+        return render(request, 'purchases/inwardslip.html', locals())
+    else:
+        list = PurchaseBill.objects.all()
+        page = request.GET.get('page', 1)
+        paginator = Paginator(list,10)
+
+        try:
+            bills = paginator.page(page)
+        except PageNotAnInteger:
+            bills = paginator.page(1)
+        except EmptyPage:
+            bills = paginator.page(paginator.num_pages)
+
+        context = {
+            'bills': bills,
+        }
+        return render(request, 'purchases/inwardslip.html', context)
+
+@login_required(login_url='login')
+
+def noninwardslip(request):
+    if request.method =="POST":
+        try:
+            error = "no"
+            if request.method == "POST":
+                fromdate = datetime.datetime.strptime(request.POST.get('fromdate'), '%Y-%m-%d')
+                todate = datetime.datetime.strptime(request.POST.get('todate'), '%Y-%m-%d')
+                bills = NonPurchaseBill.objects.filter(Q(time__gte=fromdate) & Q(time__lte=todate))
+                return render(request, 'purchases/noninwardslip.html', {"bills": bills})
+            else:
+                error = "yes"
+                bills = NonPurchaseBill.objects.all()
+                return render(request, 'purchases/noninwardslip.html', {"bills": bills})
+
+        except:
+            error = "yes"
+        return render(request, 'purchases/noninwardslip.html', locals())
+    else:
+        list = NonPurchaseBill.objects.all()
+        page = request.GET.get('page', 1)
+        paginator = Paginator(list,10)
+
+        try:
+            bills = paginator.page(page)
+        except PageNotAnInteger:
+            bills = paginator.page(1)
+        except EmptyPage:
+            bills = paginator.page(paginator.num_pages)
+
+        context = {
+            'bills': bills,
+        }
+        return render(request, 'purchases/noninwardslip.html', context)
+
+
+
+@login_required(login_url='login')
+
+def export_csv(request):
+    response = HttpResponse(content_type='text/csv')
+    response['Content-Disposition'] = 'attachment; filename=Expenses' +str(datetime.datetime.now()) + '.csv'
+    writer = csv.writer(response)
+    writer.writerow(['Billno', 'Date', 'From Whom Received','Item Name', 'Description Of Store', 'Quantity', 'Recd.By','Condition'])
+
+    expenses = PurchaseItem.objects.all()
+
+    for x in expenses:
+        writer.writerow([x.billno.billno, x.billno.time,x.stock.name, x.stock.subcategory, x.stock.description,x.quantity, x.stock.Mode_of_delivery, x.stock.condition ])
+    return response
+
+
+
+# Export  consumable inwardslip History
+@login_required(login_url='login')
+def hexport_csv(request):
+    response = HttpResponse(content_type='text/csv')
+    response['Content-Disposition'] = 'attachment; filename=Expenses' +str(datetime.datetime.now()) + '.csv'
+    writer = csv.writer(response)
+    writer.writerow(['Billno', 'Date', 'From Whom Received','Item Name', 'Description Of Store', 'Quantity', 'Recd.By','Condition'])
+
+    expenses = History.objects.all()
+
+    for x in expenses:
+        writer.writerow([x.billno, x.time,x.name, x.subcategory, x.description,x.quantity, x.Mode_of_delivery, x.condition ])
+    return response
+
+# Export non-consumable Inwardslip History
+@login_required(login_url='login')
+def hnonexport_csv(request):
+    response = HttpResponse(content_type='text/csv')
+    response['Content-Disposition'] = 'attachment; filename=Expenses' +str(datetime.datetime.now()) + '.csv'
+    writer = csv.writer(response)
+    writer.writerow(['Billno', 'Date', 'From Whom Received','Item Name', 'Description Of Store', 'Quantity', 'Recd.By','Condition'])
+
+    expenses = HNonStock.objects.all()
+
+    for x in expenses:
+        writer.writerow([x.billno, x.time,x.name, x.subcategory, x.description,x.quantity, x.Mode_of_delivery, x.condition ])
+    return response
+
+@login_required(login_url='login')
+
+#Inward Non-consumable csv file
+
+def nonexport_csv(request):
+    response = HttpResponse(content_type='text/csv')
+    response['Content-Disposition'] = 'attachment; filename=Expenses' +str(datetime.datetime.now()) + '.csv'
+    writer = csv.writer(response)
+    writer.writerow(['Billno', 'Date', 'From Whom Received','Item Name', 'Description Of Store', 'Quantity', 'Recd.By','Condition'])
+
+    expenses = NonSaleItem.objects.all()
+
+    for x in expenses:
+        writer.writerow([x.billno.billno, x.billno.time,x.nonstock.name, x.nonstock.subcategory, x.nonstock.description,x.nonstock.quantity, x.nonstock.Mode_of_delivery, x.nonstock.condition ])
+    return response
+
+#
+# #outward
+#
+# @method_decorator(login_required, name='dispatch')
+
+@login_required(login_url='login')
+
+#Outward Consumable csv file
+
+def outwardexport_csv(request):
+    response = HttpResponse(content_type='text/csv')
+    response['Content-Disposition'] = 'attachment; filename=Expenses' +str(datetime.datetime.now()) + '.csv'
+    writer = csv.writer(response)
+    writer.writerow(['Billno', 'Customer','Item name','Description','Issued To','Quantity Sold', 'Date'])
+
+    expenses = SaleItem.objects.all()
+
+    for x in expenses:
+        writer.writerow([x.billno.billno, x.billno.name, x.stock,x.stock.description,x.billno.issued_to, x.quantity, x.billno.time])
+    return response
+
+# @method_decorator(login_required, name='dispatch')
+
+@login_required(login_url='login')
+
+#outward Non-Consumable csv File
+
+def outwardnonexport_csv(request):
+    response = HttpResponse(content_type='text/csv')
+    response['Content-Disposition'] = 'attachment; filename=Expenses' +str(datetime.datetime.now()) + '.csv'
+    writer = csv.writer(response)
+    writer.writerow(['Billno', 'Customer','Item name','Description','Issued To','Quantity Sold', 'Date'])
+
+    expenses = NonSaleItem.objects.all()
+
+    for x in expenses:
+        writer.writerow([x.billno.billno, x.billno.name, x.nonstock,x.nonstock.description,x.billno.issued_to, x.quantity,  x.billno.time])
+    return response
+
+
+
+
 # @method_decorator(login_required, name='dispatch')
 @login_required(login_url='login')
 
@@ -1797,11 +1703,10 @@ def nondescriptions(request):
 
 
 
-
-# #History
-# @method_decorator(login_required, name='dispatch')
 @login_required(login_url='login')
+
 # Display History Page
+
 def get_trs(request):
     object_list=trs.objects.all()
     page = request.GET.get('page', 1)
@@ -1817,6 +1722,8 @@ def get_trs(request):
         'object_list': object_list,
     }
     return render(request, 'History/trs_list.html', context)
+
+# GSTIN Verify
 
 import requests
     # import pandas as pd
@@ -1854,6 +1761,7 @@ def my_form(request):
   return render(request,'suppliers/edit_consumer.html', {'form': form})
 
 
+# GET GSTIN DETAILS for consumable supplier
 @login_required(login_url='login')
 
 def gstverify(request):
@@ -1885,6 +1793,7 @@ def gstverify(request):
 
 
 
+# GET GSTIN DETAILS for non-consumable supplier
 
 @login_required(login_url='login')
 
@@ -1920,6 +1829,8 @@ def gstverify1(request):
 
 @login_required(login_url='login')
 
+# Verify gstin for consumer
+
 def gst(request):
         b = a['data']['lgnm']
         c = a['data']['pradr']['adr']
@@ -1940,6 +1851,8 @@ def gst(request):
 
 @login_required(login_url='login')
 
+# verify gstin for supplier
+
 def gst1(request):
     b = a['data']['lgnm']
     c = a['data']['pradr']['adr']
@@ -1958,7 +1871,10 @@ def gst1(request):
             return redirect('suppliers-list')
     return render(request, 'suppliers/demo.html', {'b': b, 'c': c, 'd': body})
 
+# Inward Slip History
+
 @login_required(login_url='login')
+
 def inwardsliphistory(request):
     if request.method =="POST":
         try:
@@ -1992,7 +1908,11 @@ def inwardsliphistory(request):
             'bills': bills,
         }
         return render(request, 'purchases/inwardsliphistory.html', context)
+
+# Inward Slip Non-consumable History
+
 @login_required(login_url='login')
+
 def noninwardsliphistory(request):
     if request.method =="POST":
         try:
@@ -2027,9 +1947,13 @@ def noninwardsliphistory(request):
         }
         return render(request, 'purchases/noninwardsliphistory.html', context)
 
+# In Inward consumable Stock table details store in History page
+
 def inwardHistory(request):
     obj = History.objects.all()
     return render(request, 'purchases/inwardsliphistory.html', {'bills': obj})
+
+# In Inward non-consumable Stock table details store in HNOnStock page
 
 def noninwardHistory(request):
     obj = HNonStock.objects.all()

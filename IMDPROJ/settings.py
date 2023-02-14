@@ -86,25 +86,7 @@ TEMPLATES = [
 
 WSGI_APPLICATION = 'IMDPROJ.wsgi.application'
 
-#
-# DATABASES = {
-#         'default': dj_database_url.parse(os.environ.get(bytes+"DATABASE_URL"))
-# }
 
-#
-#
-# DATABASES = {
-#
-#     'default': {
-#
-#         'ENGINE': 'django.db.backends.sqlite3',
-#
-#         'NAME': BASE_DIR / 'db.sqlite3',
-#
-#     }
-#
-# }
-#
 DATABASES = {
     'default': {
         'ENGINE': 'django.db.backends.postgresql_psycopg2',
@@ -117,19 +99,6 @@ DATABASES = {
 }
 
 
-#
-# DATABASES = {
-#     'default': {
-#         'ENGINE': 'django.db.backends.postgresql_psycopg2',
-#         'NAME': 'testdb_61y7',
-#         'USER': 'testdb_61y7_user',
-#         'PASSWORD': '5VNtiw0CkM9zqo99fuKrHwt7fGiiybSD',
-#         'HOST':'postgres://testdb_61y7_user:5VNtiw0CkM9zqo99fuKrHwt7fGiiybSD@dpg-cfeals6n6mpu0uc3io9g-a.oregon-postgres.render.com/testdb_61y7',
-#         'PORT':'5432',
-#     }
-# }
-# Password validation
-# https://docs.djangoproject.com/en/4.1/ref/settings/#auth-password-validators
 
 AUTH_PASSWORD_VALIDATORS = [
     {

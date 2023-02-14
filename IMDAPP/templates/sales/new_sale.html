@@ -112,7 +112,11 @@
                                     <label class="panel-body-text">Stock:</label>
                                     {{ iform.stock }}
                                 </div>
-                                <div class="form-group col-md-4">
+                                <div class="form-group col-md-2">
+                     <label for="id_st" class="panel-body-text">Available Stock:</label>
+                    <input type="text" value=""  name="st" class="form-control textinput" id="quant" readonly>
+                    </div>
+                                <div class="form-group col-md-2">
                                     {{ iform.quantity.errors }}
                                     <label class="panel-body-text">Quantity:</label>
                                     {{ iform.quantity }}
@@ -214,7 +218,6 @@
             return false;
         });
 
-
         //stores pk and quantity of all stocks into a js object 'stocks'
         var stocks = [
             {% for stock in stocks %}
@@ -241,9 +244,11 @@
                 var pk = stocks[i].pk;
                 var squantity = stocks[i].quantity;
                 if(stock == pk) {
+                    quanti = squantity ;
+                    quant.value=quanti;
                     //checks if ordered stock is more than available stock
                     if(quantity > squantity){
-                        quantity = quantity - 1;
+                        quantity = quantity ;
                         if(quantity <= 1){
                             //no stocks are available. Attempts to delete field
 <!--                            custom_alert.render('Stocks are currently unavailable. Field will be removed;');-->
@@ -252,8 +257,8 @@
                             deleteForm('form', element);
                         }
                          else {
-                            element.parents('.form-row').find('.quantity').val(squantity-1);
-                            quantity = squantity - 1;
+                            element.parents('.form-row').find('.quantity').val(squantity);
+                            quantity = squantity ;
                             custom_alert.render('Stocks are currently unavailable.');
                         }
                     }
