@@ -197,12 +197,16 @@ class SupplierForm(forms.ModelForm):
         fields = ['name', 'phone', 'address', 'email','gstin']
         widgets = {
             'address': forms.Textarea(
-                attrs={
+                attrs={'readonly': 'readonly',
                     'class': 'textinput form-control',
                     'rows': '1'
                 }
-            )
+            ),
+            'name': forms.TextInput(attrs={'readonly': 'readonly'}),
+
+            'gstin': forms.TextInput(attrs={'readonly': 'readonly'}),
         }
+
 
 
 
@@ -220,11 +224,13 @@ class ConsumerForm(forms.ModelForm):
         fields = ['name', 'phone', 'address', 'email','gstin']
         widgets = {
             'address': forms.Textarea(
-                attrs={
+                attrs={'readonly': 'readonly',
                     'class': 'textinput form-control',
                     'rows': '1'
                 }
-            )
+            ),
+            'name': forms.TextInput(attrs={'readonly': 'readonly'}),
+            'gstin': forms.TextInput(attrs={'readonly': 'readonly'}),
         }
 
 

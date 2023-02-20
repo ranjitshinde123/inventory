@@ -1727,7 +1727,7 @@ def get_trs(request):
     try:
         object_list = paginator.page(page)
     except PageNotAnInteger:
-        object_list = paginator.page(1)
+        object_list = paginator.page(all)
     except EmptyPage:
         object_list = paginator.page(paginator.num_pages)
     context = {
