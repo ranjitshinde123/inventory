@@ -31,7 +31,7 @@
 
 }
 </style>
- <table class="table table-css table-bordered table-hover" style="font-family:'Alkalami'" id="myTable" onkeyup="myFunction()">
+ <table class="table table-css table-bordered table-hover" style="font-family:'Alkalami'"  onkeyup="myFunction()">
             
         <thead class="thead-dark align-middle">
             <tr >
@@ -52,7 +52,7 @@
 
 {% if bills %}
 
-        <tbody>
+        <tbody id="myTable">
             {% for sale in bills %}
             <tr><!-- Log on to codeastro.com for more projects -->
                 <td class="align-middle"> <p>{{ sale.billno }}</p> </td>

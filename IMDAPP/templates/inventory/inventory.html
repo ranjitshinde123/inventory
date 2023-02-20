@@ -35,7 +35,7 @@
 }
 </style>
 
-    <table class=" table table-css table-bordered table-hover" style="font-family:'Alkalami'" id="myTable" onkeyup="myFunction()">
+    <table class=" table table-css table-bordered table-hover" style="font-family:'Alkalami'"  onkeyup="myFunction()">
         <br>
 
         <thead class="thead-dark align-middle">
@@ -55,7 +55,7 @@
 
 {% if object_list %}
 
-        <tbody>     <!-- Log on to codeastro.com for more projects -->
+        <tbody id="myTable">     <!-- Log on to codeastro.com for more projects -->
             {% for stock in object_list %}
         <tr>
 

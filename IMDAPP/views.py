@@ -1255,8 +1255,11 @@ def outwardslip(request):
             error = "no"
             if request.method == "POST":
                 fromdate = datetime.datetime.strptime(request.POST.get('fromdate'), '%Y-%m-%d')
+                fromdate1 = fromdate - datetime.timedelta(days=1)
+
                 todate = datetime.datetime.strptime(request.POST.get('todate'), '%Y-%m-%d')
-                bills = SaleBill.objects.filter(Q(time__gte=fromdate) & Q(time__lte=todate))
+                todate1 = todate + datetime.timedelta(days=1)
+                bills = SaleBill.objects.filter(Q(time__gte=fromdate1) & Q(time__lte=todate1))
                 return render(request, 'sales/outwardslip.html', {"bills": bills})
             else:
                 error = "yes"
@@ -1292,8 +1295,11 @@ def nonoutwardslip(request):
             error = "no"
             if request.method == "POST":
                 fromdate = datetime.datetime.strptime(request.POST.get('fromdate'), '%Y-%m-%d')
+                fromdate1 = fromdate - datetime.timedelta(days=1)
+
                 todate = datetime.datetime.strptime(request.POST.get('todate'), '%Y-%m-%d')
-                bills = NonSaleBill.objects.filter(Q(time__gte=fromdate) & Q(time__lte=todate))
+                todate1 = todate + datetime.timedelta(days=1)
+                bills = NonSaleBill.objects.filter(Q(time__gte=fromdate1) & Q(time__lte=todate1))
                 return render(request, 'sales/nonoutward_slip.html', {"bills": bills})
             else:
                 error = "yes"
@@ -1336,8 +1342,11 @@ def inwardslip(request):
             error = "no"
             if request.method == "POST":
                 fromdate = datetime.datetime.strptime(request.POST.get('fromdate'), '%Y-%m-%d')
+                fromdate1 = fromdate - datetime.timedelta(days=1)
+
                 todate = datetime.datetime.strptime(request.POST.get('todate'), '%Y-%m-%d')
-                bills = PurchaseBill.objects.filter(Q(time__gte=fromdate) & Q(time__lte=todate))
+                todate1 = todate + datetime.timedelta(days=1)
+                bills = PurchaseBill.objects.filter(Q(time__gte=fromdate1) & Q(time__lte=todate1))
                 return render(request, 'purchases/inwardslip.html', {"bills": bills})
             else:
                 error = "yes"
@@ -1372,8 +1381,11 @@ def noninwardslip(request):
             error = "no"
             if request.method == "POST":
                 fromdate = datetime.datetime.strptime(request.POST.get('fromdate'), '%Y-%m-%d')
+                fromdate1 = fromdate - datetime.timedelta(days=1)
+
                 todate = datetime.datetime.strptime(request.POST.get('todate'), '%Y-%m-%d')
-                bills = NonPurchaseBill.objects.filter(Q(time__gte=fromdate) & Q(time__lte=todate))
+                todate1 = todate + datetime.timedelta(days=1)
+                bills = NonPurchaseBill.objects.filter(Q(time__gte=fromdate1) & Q(time__lte=todate1))
                 return render(request, 'purchases/noninwardslip.html', {"bills": bills})
             else:
                 error = "yes"
@@ -1881,8 +1893,11 @@ def inwardsliphistory(request):
             error = "no"
             if request.method == "POST":
                 fromdate = datetime.datetime.strptime(request.POST.get('fromdate'), '%Y-%m-%d')
+                fromdate1 = fromdate - datetime.timedelta(days=1)
+
                 todate = datetime.datetime.strptime(request.POST.get('todate'), '%Y-%m-%d')
-                bills = History.objects.filter(Q(time__gte=fromdate) & Q(time__lte=todate))
+                todate1 = todate + datetime.timedelta(days=1)
+                bills = History.objects.filter(Q(time__gte=fromdate1) & Q(time__lte=todate1))
                 return render(request, 'purchases/inwardsliphistory.html', {"bills": bills})
             else:
                 error = "yes"
@@ -1919,8 +1934,11 @@ def noninwardsliphistory(request):
             error = "no"
             if request.method == "POST":
                 fromdate = datetime.datetime.strptime(request.POST.get('fromdate'), '%Y-%m-%d')
+                fromdate1 = fromdate - datetime.timedelta(days=1)
+
                 todate = datetime.datetime.strptime(request.POST.get('todate'), '%Y-%m-%d')
-                bills = HNonStock.objects.filter(Q(time__gte=fromdate) & Q(time__lte=todate))
+                todate1 = todate + datetime.timedelta(days=1)
+                bills = HNonStock.objects.filter(Q(time__gte=fromdate1) & Q(time__lte=todate1))
                 return render(request, 'purchases/noninwardsliphistory.html', {"bills": bills})
             else:
                 error = "yes"

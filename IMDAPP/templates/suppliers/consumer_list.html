@@ -23,7 +23,7 @@
     </div>
 
 
- <table class="table table-css table-bordered table-hover" style="font-family:'Alkalami'"  id="myTable" onkeyup="myFunction()">
+ <table class="table table-css table-bordered table-hover" style="font-family:'Alkalami'"   onkeyup="myFunction()">
         
         <thead class="thead-dark align-middle">
             <tr>
@@ -37,7 +37,7 @@
 
 {% if object_list %}
 
-        <tbody>
+        <tbody id="myTable">
             {% for consumer in object_list %}
             <tr>
                 <td class="align-middle"> {{ consumer.name }} </td>
