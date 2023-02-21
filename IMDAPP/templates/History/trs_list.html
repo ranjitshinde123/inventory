@@ -159,5 +159,15 @@ $(document).ready(function(){
   });
 });
 </script>
+<script>
+$(document).ready(function(){
+  $("#hInput").on("keyup", function() {
+    var value = $(this).val().toLowerCase();
+    $("#hTable tr").filter(function() {
+      $(this).toggle($(this).text().toLowerCase().indexOf(value) > -1)
+    });
+  });
+});
+</script>
 
 {% endblock content %}
