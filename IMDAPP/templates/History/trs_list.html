@@ -40,9 +40,20 @@
 
 }
 </style>
+    <style>
+#hTable th {
+  padding-top: 12px;
+  padding-bottom: 12px;
+  text-align: middle;
+  background-color: #343a40;
+  color: white;
+  border-color:black;
+
+}
+</style>
 
 
- <table class="table-bordered table-hover" style="font-family:'Alkalami'"  onkeyup="myFunction()">
+ <table class="table-bordered table-hover" style="font-family:'Alkalami'" id="hTable" onkeyup="myFunction()">
         <br>
 
         <thead class="thead-dark align-middle">
@@ -62,7 +73,7 @@
 
 {% if object_list %}
 
-        <tbody id="myTable">
+        <tbody style="border-color:black;" id="myTable">
             {% for stock in object_list %}
         <tr>
 
