@@ -1721,15 +1721,15 @@ def nondescriptions(request):
 
 def get_trs(request):
     object_list=trs.objects.all()
-    page = request.GET.get('page', 1)
-    paginator = Paginator(object_list,500)
-
-    try:
-        object_list = paginator.page(page)
-    except PageNotAnInteger:
-        object_list = paginator.page(all)
-    except EmptyPage:
-        object_list = paginator.page(paginator.num_pages)
+    # page = request.GET.get('page', 1)
+    # paginator = Paginator(object_list,500)
+    #
+    # try:
+    #     object_list = paginator.page(page)
+    # except PageNotAnInteger:
+    #     object_list = paginator.page(all)
+    # except EmptyPage:
+    #     object_list = paginator.page(paginator.num_pages)
     context = {
         'object_list': object_list,
     }
