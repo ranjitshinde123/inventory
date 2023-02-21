@@ -30,18 +30,7 @@
 
 <div style="overflow-y:auto; overflow-x:auto; font-family:'Alkalami'" >
     <style>
-#myTable th {
-  padding-top: 12px;
-  padding-bottom: 12px;
-  text-align: middle;
-  background-color: #343a40;
-  color: white;
-  border-color:black;
-
-}
-</style>
-    <style>
-#hTable th {
+#myTablecolor th {
   padding-top: 12px;
   padding-bottom: 12px;
   text-align: middle;
@@ -53,10 +42,11 @@
 </style>
 
 
- <table class="table-bordered table-hover" style="font-family:'Alkalami'" id="hTable" onkeyup="myFunction()">
+
+ <table class="table-bordered table-hover" style="font-family:'Alkalami'" onkeyup="myFunction()">
         <br>
 
-        <thead class="thead-dark align-middle">
+        <thead class="thead-dark align-middle" id="myTablecolor">
             <tr>
                 <th width="27%">KDNO</th>
                 <th width="20%">Sors_sink</th>
@@ -73,7 +63,7 @@
 
 {% if object_list %}
 
-        <tbody style="border-color:black;" id="myTable">
+        <tbody id="myTable">
             {% for stock in object_list %}
         <tr>
 
@@ -159,15 +149,6 @@ $(document).ready(function(){
   });
 });
 </script>
-<script>
-$(document).ready(function(){
-  $("#hInput").on("keyup", function() {
-    var value = $(this).val().toLowerCase();
-    $("#hTable tr").filter(function() {
-      $(this).toggle($(this).text().toLowerCase().indexOf(value) > -1)
-    });
-  });
-});
-</script>
+
 
 {% endblock content %}
